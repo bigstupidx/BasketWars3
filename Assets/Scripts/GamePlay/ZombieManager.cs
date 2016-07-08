@@ -23,6 +23,9 @@ public class ZombieManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        Physics2D.IgnoreLayerCollision(14, 14);
+        Physics2D.IgnoreLayerCollision(0, 14);
+
         wave_number = 1;
         timer = 0f;
         in_wave_timer = 0f;

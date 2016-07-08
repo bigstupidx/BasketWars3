@@ -10,14 +10,14 @@ public class ZombieController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        walk = true;
+        GetComponent<Rigidbody2D>().velocity = new Vector2(-0.1f*zombie_speed, 0);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (walk)
-            transform.position += new Vector3(-0.001f * zombie_speed, 0, 0);
+  
     }
 
     public void DestroyZombie()

@@ -509,7 +509,7 @@ public class GameManager : MonoBehaviour
             zombie.GetComponent<Transform>().position += new Vector3(1, 0.8f);
             zombie.GetComponent<Animator>().Play("Explode");
             zombie.GetComponent<PolygonCollider2D>().enabled = false;
-            zombie.GetComponent<ZombieController>().walk = false;
+            zombie.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
         }
     }
 

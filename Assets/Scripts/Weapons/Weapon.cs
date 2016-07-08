@@ -32,15 +32,14 @@ public class Weapon : MonoBehaviour
 	}
 	protected virtual void  OnTriggerEnter2D (Collider2D c) 
 	{
-        Debug.Log("Hello");
         if (c.gameObject.tag == "Zombie")
         {
             ZombieController temp = c.GetComponent<ZombieController>();
             if (temp.health == 1)
             {
+                c.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 c.GetComponent<Animator>().Play("Shot");
                 c.GetComponent<PolygonCollider2D>().enabled = false;
-                temp.walk = false;
                 
             } else
             {

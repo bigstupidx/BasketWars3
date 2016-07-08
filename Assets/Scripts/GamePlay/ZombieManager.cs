@@ -45,13 +45,12 @@ public class ZombieManager : MonoBehaviour {
         {
             wave_text.SetActive(false);
         }
-	    if ((current_zombies >= max_zombies && GameObject.FindGameObjectsWithTag("Zombie").Length == 0))
+	    if ((current_zombies >= max_zombies && GameObject.FindGameObjectsWithTag("Zombie").Length == 0) || timer > 15f)
         {
-            if (wave_number == 5)
+            if (wave_number == 5 && GameObject.FindGameObjectsWithTag("Zombie").Length == 0)
             {
                 GameManager.s_Inst.FinishedLevel();
-            }
-            else
+            } else if (wave_number != 5)
             {
                 wave_number++;
                 timer = 0f;
@@ -104,8 +103,7 @@ public class ZombieManager : MonoBehaviour {
     {
         if (previous_pivot == 0)
             Zombie.GetComponent<SpriteRenderer>().sortingLayerName = "Play Area";
-        else
-            Zombie.GetComponent<SpriteRenderer>().sortingOrder = pivot_points.Length - previous_pivot;
+        Zombie.GetComponent<SpriteRenderer>().sortingOrder = pivot_points.Length - previous_pivot;
     }
 
     private void scale_zombies(GameObject Zombie)

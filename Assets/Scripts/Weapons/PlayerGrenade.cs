@@ -6,7 +6,6 @@ public class PlayerGrenade : Weapon{
 	public GameObject m_explosion;
 
 	protected override void Awake(){
-		m_bullet_cost = 1;
 		base.Awake();
 	}
 	protected override void OnTriggerEnter2D(Collider2D c){

@@ -9,7 +9,6 @@ public class Weapon : MonoBehaviour
 	public float m_speed;
 	public Vector3 mouse;
 	public GameObject m_spark;
-	protected int m_bullet_cost = 2;
 	protected GameManager m_game_manager;
 	// Use this for initialization
 	protected virtual void Awake ()
@@ -33,6 +32,7 @@ public class Weapon : MonoBehaviour
 	}
 	protected virtual void  OnTriggerEnter2D (Collider2D c) 
 	{
+        Debug.Log("Hello");
         if (c.gameObject.tag == "Zombie")
         {
             ZombieController temp = c.GetComponent<ZombieController>();

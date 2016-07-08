@@ -449,7 +449,7 @@ public class GameManager : MonoBehaviour
                 #if UNITY_EDITOR
                 CheckMouseFire();
 #endif
-                CheckMouseFire();
+                CheckTouchesFire();
             }
         }
 	}
@@ -775,7 +775,7 @@ public class GameManager : MonoBehaviour
 
 	void CheckMouseFire(){
 		//Set Arm of Soldier and Fire gun
-		if(Input.GetMouseButtonDown(0)){
+		if(Input.GetMouseButtonUp(0)){
 			m_soldier.ShootGun();
 		}
 	}

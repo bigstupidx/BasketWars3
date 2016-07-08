@@ -329,6 +329,7 @@
     <Compile Include="Assets\Scripts\Managment\TutorialManager.cs" />
     <Compile Include="Assets\Scripts\Powerups\AlignJeepStop.cs" />
     <Compile Include="Assets\Scripts\Powerups\Reenforcments.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Destroyexplosion.cs" />
     <Compile Include="Assets\Scripts\Weapons\MachineGunbullet.cs" />
     <Compile Include="Assets\Scripts\Weapons\PistolBullet.cs" />
     <Compile Include="Assets\Scripts\Weapons\PlayerGrenade.cs" />

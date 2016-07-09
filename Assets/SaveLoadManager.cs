@@ -38,7 +38,6 @@ public class SaveLoadManager : MonoBehaviour {
 			s_inst = GameObject.Find("GameManagment").GetComponent<SaveLoadManager>();
 		}
 		m_save_file_path =	Application.persistentDataPath + "/Save.bwf";
-		Debug.Log (Application.persistentDataPath + "/Save.bwf");
 		LoadSaveFile();
 	}
 	

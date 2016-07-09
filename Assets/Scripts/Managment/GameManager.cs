@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
 	[HideInInspector]
 	public bool m_marked_for_destroy = false;
 	public enum CurrentLevel{
+        Mission_1,
 		Britain,
 		Stalingrad,
 		Kursk,

@@ -1,17 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-#if false
-using KiiCorp.Cloud.Storage;
-using KiiCorp.Cloud.Unity;
 
-/// <summary>
-/// To be used on the individual map objects for each stage. This controls when and which icons appear for each stage.
-/// </summary>
 
 public class MapController : MonoBehaviour{
 	public enum Level_Name{
-		Britain = 1,
+		Mission_1,
 		Stalingrad,
 		Kursk,
 		Normandy,
@@ -62,20 +56,15 @@ public class MapController : MonoBehaviour{
 	}
 
 	int GetStageNumber(){
-		if(m_level_name == Level_Name.Britain)
-			return stage_unlocker.m_britain_current_stage;
+		if(m_level_name == Level_Name.Mission_1)
+			return stage_unlocker.m_mission1_current_stage;
 		else if(m_level_name == Level_Name.Stalingrad)
 			return stage_unlocker.m_stalingrad_current_stage;
 		else if(m_level_name == Level_Name.Kursk)
 			return stage_unlocker.m_kursk_current_stage;
 		else if(m_level_name == Level_Name.Normandy)
 			return stage_unlocker.m_normandy_current_stage;
-		/*else if(m_level_name == Level_Name.Midway)
-			return PlayerPrefs.GetInt(StageUnlocker.m_Midway_level_string);
-		else if(m_level_name == Level_Name.Bulge)
-			return PlayerPrefs.GetInt(StageUnlocker.m_Bulge_level_string);*/
 		else
 			return -1;
 	}
 }
-#endif

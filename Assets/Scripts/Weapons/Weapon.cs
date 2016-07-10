@@ -37,9 +37,9 @@ public class Weapon : MonoBehaviour
             ZombieController temp = c.GetComponent<ZombieController>();
             if (temp.health == 1)
             {
-                c.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 c.GetComponent<Animator>().Play("Shot");
                 c.GetComponent<PolygonCollider2D>().enabled = false;
+                GameManager.s_Inst.removeZombie(c.gameObject);
                 
             } else
             {

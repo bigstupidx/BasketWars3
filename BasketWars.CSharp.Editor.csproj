@@ -103,9 +103,6 @@
     <Reference Include="AdjustUnityWS">
       <HintPath>Assets\Plugins\AdjustUnityWS.dll</HintPath>
     </Reference>
-    <Reference Include="P31RestKit">
-      <HintPath>Assets\Plugins\P31RestKit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="BasketWars.CSharp.Plugins.csproj">

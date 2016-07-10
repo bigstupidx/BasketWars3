@@ -7,6 +7,8 @@ public class ZombieManager : MonoBehaviour {
     public GameObject small_zombie;
     public GameObject large_zombie;
 
+    private GameManager game_manager;
+
     private int wave_number;
 
     private float timer;
@@ -23,6 +25,7 @@ public class ZombieManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        game_manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         Physics2D.IgnoreLayerCollision(14, 14);
         Physics2D.IgnoreLayerCollision(0, 14);
 
@@ -81,6 +84,7 @@ public class ZombieManager : MonoBehaviour {
             speed_zombies(go);
             sorting_order_zombie(go);
             scale_zombies(go);
+            game_manager.addZombie(go);
         }
     }
 

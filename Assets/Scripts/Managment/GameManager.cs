@@ -206,10 +206,12 @@ public class GameManager : MonoBehaviour
 	public bool m_unlimited_stamina = false;
 	public bool m_first_init = false;
 	public Powerup m_boss_reward;
+    private List<GameObject> zombies;
+    private GUIEnableDisable GUIMANAGER;
 	// Use this for initialization
 	void Awake () 
 	{
-		if(s_Inst != null && s_Inst != this){ // If a GameManager exsists, Kill this one
+        if (s_Inst != null && s_Inst != this){ // If a GameManager exsists, Kill this one
 			Destroy(this.gameObject);
 		}
 		if(s_Inst == null){
@@ -234,7 +236,7 @@ public class GameManager : MonoBehaviour
 			m_is_paused = true;
 			Time.timeScale = 0;
 		}
-        OnLevelWasLoaded(); //Only for testing purposes
+        zombies = new List<GameObject>();
 	}
 	
 /*	public void AddCoins(int coins){
@@ -347,6 +349,7 @@ public class GameManager : MonoBehaviour
 			m_baskets_made = 0;
 			m_first_loss = true;
 			m_balls = GameObject.FindGameObjectsWithTag("Ball");
+            GUIMANAGER = GameObject.Find("GUIRoot (2D)").GetComponent<GUIEnableDisable>();
 			//GetComponent<StarManager>().ResetBools();
             UpdateAmmoLabel();
 			m_ball_has_been_thrown = false;
@@ -504,14 +507,24 @@ public class GameManager : MonoBehaviour
 
     public void explodeZombies()
     {
-        GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
-        foreach(GameObject zombie in zombies)
+        for (int i = 0; i < zombies.Count;)
         {
-            zombie.GetComponent<Transform>().position += new Vector3(1, 0.8f);
-            zombie.GetComponent<Animator>().Play("Explode");
-            zombie.GetComponent<PolygonCollider2D>().enabled = false;
-            zombie.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+            zombies[i].GetComponent<Transform>().position += new Vector3(1, 0.8f);
+            zombies[i].GetComponent<Animator>().Play("Explode");
+            zombies[i].GetComponent<PolygonCollider2D>().enabled = false;
+            zombies[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+            zombies.RemoveAt(i);
         }
+    }
+
+    public void addZombie(GameObject zombie)
+    {
+        zombies.Add(zombie);
+    }
+    
+    public void removeZombie(GameObject zombie)
+    {
+        zombies.Remove(zombie);
     }
 
 	public void AddScore(int score){
@@ -549,10 +562,10 @@ public class GameManager : MonoBehaviour
 			}
 			GetComponent<AudioSource>().clip = m_passed_clip;
 			GetComponent<AudioSource>().Play();
-			//if(m_baskets_made > GetHighScore(Application.loadedLevelName))
-				//LeaderboardManager.s_inst.SubmitScore(m_baskets_made,Application.loadedLevelName);
-			//else
-				//LeaderboardManager.s_inst.RetrieveScoresWithName(Application.loadedLevelName);
+            //if(m_baskets_made > GetHighScore(Application.loadedLevelName))
+            //LeaderboardManager.s_inst.SubmitScore(m_baskets_made,Application.loadedLevelName);
+            //else
+            //LeaderboardManager.s_inst.RetrieveScoresWithName(Application.loadedLevelName);
 			UpdateLevelCompletePanel();
 		//	GetComponent<StageUnlocker>().UnlockNextLevel(Application.loadedLevelName,m_current_stage);
 		}
@@ -782,6 +795,7 @@ public class GameManager : MonoBehaviour
 	}
 	
 	public void MoveInMenu(string menu_name){
+        Debug.Log(menu_name);
 		foreach(TweenPosition t in m_menus){
 			if(t.gameObject.name == menu_name){
 				if(menu_name == "LevelComplete")
@@ -796,6 +810,20 @@ public class GameManager : MonoBehaviour
 			}
 		}
 	}
+
+    public void MoveInMenu(GameObject menu)
+    {
+        TweenPosition t = menu.GetComponent<TweenPosition>();
+        if (menu.name == "LevelComplete")
+            Invoke("CallInBlackout", 1.5f);
+        else
+            CallInBlackout();
+        t.enabled = true;
+        t.PlayForward();
+        t.onFinishedForward.Clear();
+        m_is_paused = true;
+        return;
+    }
 
 	void CallInBlackout(){
 		if(Application.loadedLevelName != "MainMenu" && Application.loadedLevelName != "LevelLoader"){
@@ -1038,8 +1066,8 @@ public class GameManager : MonoBehaviour
 
 	public void UpdateLevelCompletePanel(){
 		if(m_current_game_state == GameState.Gameplay){
+            GUIMANAGER.MoveLevelCompleteIn();
 			m_level_complete = true;
-			MoveInMenu("LevelComplete");
             /*			if(Application.loadedLevelName == gameObject.GetComponent<StageUnlocker>().m_highest_level)
                             PlayerPrefs.SetInt("FailedCount",0); */
             //Check the star count

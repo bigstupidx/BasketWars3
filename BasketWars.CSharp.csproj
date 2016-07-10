@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>iOS:9</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -74,9 +72,6 @@
     </Reference>
     <Reference Include="AdjustUnityWS">
       <HintPath>Assets\Plugins\AdjustUnityWS.dll</HintPath>
-    </Reference>
-    <Reference Include="P31RestKit">
-      <HintPath>Assets\Plugins\P31RestKit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -281,12 +276,14 @@
     <Compile Include="Assets\Scripts\GUIScripts\DrawTrajectory.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\EnableAndDisableOnClick.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\EnableWithToggle.cs" />
+    <Compile Include="Assets\Scripts\GUIScripts\GUIEnableDisable.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\GameplayMenus.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\HandleTweens.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\LevelSelect.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\MapController.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\ParticleSystemLayerFix.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\PauseGame.cs" />
+    <Compile Include="Assets\Scripts\GUIScripts\PerserveUIROOT.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\PowerUpButton.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\PowerupEquipper.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\PowerupPageHandler.cs" />

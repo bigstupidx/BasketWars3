@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 using System;
 
@@ -16,7 +16,6 @@ public class BattleStartButton : MonoBehaviour
           //  transform.parent.FindChild("Ball Selection").GetComponent<CharacterSelect>().SetRank();
         if (panel != null)
             panel.SetPanelContents(name);
-        //BackButtonStack.PushStack(new EventDelegate(this,"MoveOutPanel"));
         int level_num = Convert.ToInt32(Regex.Match(name, @"\d+").Value);
         if (panel != null)
             panel.SetLevel(level_num);
@@ -67,7 +66,8 @@ public class BattleStartButton : MonoBehaviour
             {
                 GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().DecreaseStamina(1);
                 GameManager.s_Inst.m_current_game_state = GameManager.GameState.Gameplay;
-                Application.LoadLevel("LevelLoader");
+               // GameObject.Find("UI Root(2D)").SetActive(false);
+                SceneManager.LoadScene("LevelLoader");
             }
             else
             {

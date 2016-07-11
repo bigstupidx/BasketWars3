@@ -67,23 +67,8 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="AdjustUnityWP">
-      <HintPath>Assets\Plugins\AdjustUnityWP.dll</HintPath>
-    </Reference>
-    <Reference Include="AdjustUnityWS">
-      <HintPath>Assets\Plugins\AdjustUnityWS.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Plugins\AdjustUtil.cs" />
-    <Compile Include="Assets\Plugins\AndroidTrialpayIntegration.cs" />
-    <Compile Include="Assets\Plugins\IAdjust.cs" />
-    <Compile Include="Assets\Plugins\ITrialpayIntegration.cs" />
-    <Compile Include="Assets\Plugins\IosTrialpayIntegration.cs" />
-    <Compile Include="Assets\Plugins\MiniJSON.cs" />
-    <Compile Include="Assets\Plugins\ResponseData.cs" />
-    <Compile Include="Assets\Plugins\SimpleJSON.cs" />
-    <Compile Include="Assets\Plugins\iOS\AdjustIOS.cs" />
     <Compile Include="Assets\Plugins\iPhoneSpeaker\iPhoneSpeaker.cs" />
   </ItemGroup>
   <ItemGroup>

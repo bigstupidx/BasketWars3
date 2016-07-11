@@ -26,7 +26,6 @@ public class BattleStartButton : MonoBehaviour
         SaveLoadManager.s_inst.SaveFile();
         GameManager.s_Inst.m_level_name_to_load = m_level_name;
         int level_num = Convert.ToInt32(Regex.Match(m_level_name, @"\d+").Value);
-        Debug.Log("level_num");
         if (level_num < 12)
         {
             if (level_num == 11)

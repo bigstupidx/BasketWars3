@@ -29,7 +29,7 @@ public class ZombieController : MonoBehaviour
     {
         if (c.gameObject.tag == "Finish")
         {
-            GameManager.s_Inst.FailedLevel();
+            GameManager.s_Inst.OnZombieReachBase(gameObject);
         }
     }
 }

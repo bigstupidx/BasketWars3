@@ -59,8 +59,9 @@ public class LevelInitializer : MonoBehaviour
 		GameManager.s_Inst.m_bullets = m_ammo_given;
         GameManager.s_Inst.max_m_bullets = m_max_ammo;
         GameManager.s_Inst.UpdateAmmoLabel();
-		if(GameObject.Find("AmmoCounter") != null && m_ammo_given != -1)
-			GameObject.Find("AmmoCounter").GetComponent<UILabel>().text = m_ammo_given.ToString();
+        GameManager.s_Inst.m_lives = m_lives_given;
+        GameManager.s_Inst.m_max_lives = m_lives_given;
+        GameManager.s_Inst.UpdateLivesLabel();
 		GameManager.s_Inst.m_3_star_coins = m_3_star_coins;
 		GameManager.s_Inst.m_2_star_coins = m_2_star_coins;
 		GameManager.s_Inst.m_1_star_coins = m_1_star_coins;

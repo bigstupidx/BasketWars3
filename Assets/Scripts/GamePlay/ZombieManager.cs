@@ -22,6 +22,17 @@ public class ZombieManager : MonoBehaviour {
     private GameObject[] pivot_points;
     private int previous_pivot;
 
+    public float small_in_wave_timer;
+    public float large_in_wave_timer;
+
+    public enum nextZombie
+    {
+        Small_Zombie,
+        Large_Zombie
+    }
+
+    public nextZombie nextSpawn;
+
     // Use this for initialization
     void Start()
     {
@@ -51,9 +62,9 @@ public class ZombieManager : MonoBehaviour {
         {
             wave_text.SetActive(false);
         }
-	    if ((current_zombies >= max_zombies && GameObject.FindGameObjectsWithTag("Zombie").Length == 0) || timer > 15f)
+	    if (timer >= 15f || (current_zombies == max_zombies && game_manager.noZombie()))
         {
-            if (wave_number == 5 && GameObject.FindGameObjectsWithTag("Zombie").Length == 0)
+            if (wave_number == 5 && game_manager.noZombie())
             {
                 GameManager.s_Inst.FinishedLevel();
             } else if (wave_number != 5)
@@ -75,12 +86,22 @@ public class ZombieManager : MonoBehaviour {
 
     private void wave_management()
     {
-        GameObject go;
-        if (in_wave_timer > 1.05 && UnityEngine.Random.Range(0,10) > 8)
+        if (nextSpawn == nextZombie.Small_Zombie && in_wave_timer > small_in_wave_timer)
         {
+            GameObject go;
             current_zombies++;
             in_wave_timer = 0;
-            go = Create_zombie();
+            go = Create_zombie(small_zombie);
+            speed_zombies(go);
+            sorting_order_zombie(go);
+            scale_zombies(go);
+            game_manager.addZombie(go);
+        } else if (nextSpawn == nextZombie.Large_Zombie && in_wave_timer > large_in_wave_timer)
+        {
+            GameObject go;
+            current_zombies++;
+            in_wave_timer = 0;
+            go = Create_zombie(large_zombie);
             speed_zombies(go);
             sorting_order_zombie(go);
             scale_zombies(go);
@@ -88,7 +109,7 @@ public class ZombieManager : MonoBehaviour {
         }
     }
 
-    private GameObject Create_zombie()
+    private GameObject Create_zombie(GameObject type )
     {
         int temp = UnityEngine.Random.Range(0, pivot_points.Length);
         if (pivot_points.Length > 1)
@@ -99,11 +120,7 @@ public class ZombieManager : MonoBehaviour {
             }
         }
         previous_pivot = temp;
-        if (UnityEngine.Random.Range(0, 6) == wave_number)
-            return (GameObject)Instantiate(large_zombie, transform.position + new Vector3(0, previous_pivot + 0.4f), Quaternion.identity);
-
-        else
-            return (GameObject)Instantiate(small_zombie, transform.position + new Vector3(0,previous_pivot), Quaternion.identity);
+        return (GameObject)Instantiate(type, transform.position + new Vector3(0,previous_pivot), Quaternion.identity);
     }
 
     private void sorting_order_zombie(GameObject Zombie)
@@ -123,7 +140,7 @@ public class ZombieManager : MonoBehaviour {
         if (UnityEngine.Random.Range(0, 10) > 8)
             Zombie.GetComponent<ZombieController>().zombie_speed = 8;
         else 
-            Zombie.GetComponent<ZombieController>().zombie_speed = 3 + 0.01f * (UnityEngine.Random.Range(0, 100));
+            Zombie.GetComponent<ZombieController>().zombie_speed = 3;
     }
 
     private int CompareNames(GameObject a, GameObject b)

@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
 	//public int m_characters_unlocked = 3;
 	[HideInInspector]
 	public int m_bullets;
+    public int m_lives;
+    public int m_max_lives;
     public int max_m_bullets;
 	public static int m_baskets_made = 0;
 	[HideInInspector]
@@ -310,8 +312,35 @@ public class GameManager : MonoBehaviour
         if (GameObject.Find("AmmoLeftBar") != null)
             GameObject.Find("AmmoLeftBar").GetComponent<UIProgressBar>().value = (float)m_bullets  / (float)max_m_bullets;
     }
-	
-	void OnLevelWasLoaded(){
+
+    public void UpdateLivesLabel()
+    {
+        if (GameObject.Find("Life Left") != null)
+            GameObject.Find("Life Left").GetComponent<UILabel>().text = m_lives.ToString() + "/" + m_max_lives.ToString();
+        if (GameObject.Find("BaseLifeLeftBar") != null)
+            GameObject.Find("BaseLifeLeftBar").GetComponent<UIProgressBar>().value = (float)m_lives / (float)m_max_lives;
+    }
+
+    public void OnZombieReachBase(GameObject zombie)
+    {
+        zombie.GetComponent<Transform>().position += new Vector3(1, 0.8f);
+        zombie.GetComponent<Animator>().Play("Explode");
+        zombie.GetComponent<PolygonCollider2D>().enabled = false;
+        zombie.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        zombies.Remove(zombie);
+        m_lives--;
+        if (m_lives == 0)
+        {
+            FailedLevel();
+        } else
+        {
+            UpdateLivesLabel();
+            GameObject.Find("HPSlider").GetComponent<TweenAlpha>().PlayForward();
+        }
+
+    }
+
+    void OnLevelWasLoaded(){
 		if(s_Inst != null && s_Inst != this){	
 			Destroy(this.gameObject);
 			return;
@@ -527,6 +556,11 @@ public class GameManager : MonoBehaviour
         zombies.Remove(zombie);
     }
 
+    public bool noZombie()
+    {
+        return zombies.Count == 0;
+    }
+
 	public void AddScore(int score){
 		if(score > 0){
 			m_hits_till_next_multiplyer++;
@@ -643,8 +677,8 @@ public class GameManager : MonoBehaviour
 				a.Stop();
 			}
 			Time.timeScale = 0;
-			MoveInMenu("FailedPanel");
-		}
+            GUIMANAGER.MoveLevelFailedIn();
+        }
 	}
 	
 	#region Touch Controls for shooting the ball.

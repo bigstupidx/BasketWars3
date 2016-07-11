@@ -82,11 +82,10 @@ public class SaveLoadManager : MonoBehaviour {
 		//GameManager.s_Inst.m_current_focus = m_save_info.m_focus_powerup;
 		//GameManager.s_Inst.m_current_guide = m_save_info.m_guide_powerup;
 		PowerupEquipper.Init();
-		//level info
-		/*StageUnlocker stage_unlocker = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>();
+		StageUnlocker stage_unlocker = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>();
 		stage_unlocker.Init(m_save_info.m_britain_progress,m_save_info.m_stalingrad_progress,m_save_info.m_kursk_progress,0);
 		stage_unlocker.m_Stalingrad_purchased = m_save_info.m_stalingrad_unlocked;
-		stage_unlocker.m_Kursk_purchased = m_save_info.m_kursk_unlocked;*/
+		stage_unlocker.m_Kursk_purchased = m_save_info.m_kursk_unlocked;
 		GameManager.s_Inst.m_britain_high_scores = m_save_info.m_britain_high_scores;
 		GameManager.s_Inst.m_stalingrad_high_scores = m_save_info.m_stalingrad_high_scores;
 		GameManager.s_Inst.m_kursk_high_scores = m_save_info.m_kursk_high_scores;

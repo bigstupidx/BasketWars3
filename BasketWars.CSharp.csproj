@@ -67,12 +67,6 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="AdjustUnityWP">
-      <HintPath>Assets\Plugins\AdjustUnityWP.dll</HintPath>
-    </Reference>
-    <Reference Include="AdjustUnityWS">
-      <HintPath>Assets\Plugins\AdjustUnityWS.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="BasketWars.CSharp.Plugins.csproj">
@@ -218,7 +212,6 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\SaveLoadManager.cs" />
-    <Compile Include="Assets\Scripts\Adjust.cs" />
     <Compile Include="Assets\Scripts\Audio\FadeMusic.cs" />
     <Compile Include="Assets\Scripts\Audio\MuteSound.cs" />
     <Compile Include="Assets\Scripts\Audio\PlayAudioClip.cs" />
@@ -340,7 +333,6 @@
     <Compile Include="Assets\Scripts\Weapons\Rocket.cs" />
     <Compile Include="Assets\Scripts\Weapons\SoldierBullet.cs" />
     <Compile Include="Assets\Scripts\Weapons\Weapon.cs" />
-    <Compile Include="Assets\Scripts\_Demo\TextInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Art\Fonts\Acme.fnt" />

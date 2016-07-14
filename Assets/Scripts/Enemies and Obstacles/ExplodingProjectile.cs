@@ -20,11 +20,11 @@ public class ExplodingProjectile : MonoBehaviour
 		m_random_explode = Random.Range(0.25f,1.5f);
 		m_start_pos = transform.position;
 		GetComponent<Collider2D>().enabled = false;		
-		currentScale = 0.2f;
-		maxScale = 1;
+		currentScale = 0.8f;
+		maxScale = 1.5f;
 		deltaScale = 0.05f;
 		anim = GetComponent<Animator>(); // This script must be attached to the sprite to work.
-		transform.localScale =  new Vector3(0.2f, 0.2f, 1);
+		transform.localScale =  new Vector3(0.8f, 0.8f, 1);
 		InvokeRepeating ("increaseSize", 0.1f, 0.1f);
 		GetComponent<Rigidbody2D>().gravityScale = 2.5f;			
 	}
@@ -77,8 +77,8 @@ public class ExplodingProjectile : MonoBehaviour
 	}
 
 	void OnCollisionEnter2D(Collision2D coll){
-		if(coll.gameObject.tag == "Ball"){
-			coll.gameObject.GetComponent<BallController>().KillBall();
+		if(coll.gameObject.tag == "Zombie"){
+			coll.gameObject.GetComponent<Animator>().Play("Explode");
 		}
 		Explode();
 	}

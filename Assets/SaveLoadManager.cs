@@ -33,7 +33,7 @@ public class SaveLoadManager : MonoBehaviour {
 	string m_save_file_path;
 	// Use this for initialization
 	void Awake () {
-		System.Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
+	//	System.Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 		if(s_inst == null){
 			s_inst = GameObject.Find("GameManagment").GetComponent<SaveLoadManager>();
 		}

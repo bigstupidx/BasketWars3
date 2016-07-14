@@ -303,6 +303,7 @@ public class StageButton : MonoBehaviour
                 loadName = stageName + "13";
                 break;
         }
+        Debug.Log(loadName);
         if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11) // Normal levels.
             GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(loadName);
         else if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel > 11)

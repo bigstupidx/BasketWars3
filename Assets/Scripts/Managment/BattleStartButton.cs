@@ -16,7 +16,8 @@ public class BattleStartButton : MonoBehaviour
           //  transform.parent.FindChild("Ball Selection").GetComponent<CharacterSelect>().SetRank();
         if (panel != null)
             panel.SetPanelContents(name);
-        int level_num = Convert.ToInt32(Regex.Match(name, @"\d+").Value);
+        int level_num = Convert.ToInt32(name.Substring(name.Length - 2));
+        Debug.Log(level_num);
         if (panel != null)
             panel.SetLevel(level_num);
     }

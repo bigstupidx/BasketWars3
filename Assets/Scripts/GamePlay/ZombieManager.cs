@@ -22,16 +22,8 @@ public class ZombieManager : MonoBehaviour {
     private GameObject[] pivot_points;
     private int previous_pivot;
 
-    public float small_in_wave_timer;
-    public float large_in_wave_timer;
+    public float zombie_timer;
 
-    public enum nextZombie
-    {
-        Small_Zombie,
-        Large_Zombie
-    }
-
-    public nextZombie nextSpawn;
 
     // Use this for initialization
     void Start()
@@ -86,25 +78,18 @@ public class ZombieManager : MonoBehaviour {
 
     private void wave_management()
     {
-        if (nextSpawn == nextZombie.Small_Zombie && in_wave_timer > small_in_wave_timer)
+        if (in_wave_timer > zombie_timer)
         {
             GameObject go;
             current_zombies++;
             in_wave_timer = 0;
-            go = Create_zombie(small_zombie);
+            if (current_zombies % 10 == 0)
+                go = Create_zombie(large_zombie);
+            else
+                go = Create_zombie(small_zombie);
             speed_zombies(go);
             sorting_order_zombie(go);
-            scale_zombies(go);
-            game_manager.addZombie(go);
-        } else if (nextSpawn == nextZombie.Large_Zombie && in_wave_timer > large_in_wave_timer)
-        {
-            GameObject go;
-            current_zombies++;
-            in_wave_timer = 0;
-            go = Create_zombie(large_zombie);
-            speed_zombies(go);
-            sorting_order_zombie(go);
-            scale_zombies(go);
+            //scale_zombies(go);
             game_manager.addZombie(go);
         }
     }

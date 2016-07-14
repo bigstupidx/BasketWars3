@@ -12,9 +12,13 @@ public class GameManager : MonoBehaviour
 	public GameObject m_nuke_prefab;
 	[HideInInspector]
 	public bool m_did_drag;
-	[HideInInspector]
+    [HideInInspector]
+    public bool m_drag_shooting;
+    [HideInInspector]
 	public Rect m_drag_area;
-	[HideInInspector]
+    [HideInInspector]
+    public Rect m_shooting_area;
+    [HideInInspector]
 	public Transform m_tap_point;
 	Vector2 m_shoot_direction;
 	[HideInInspector]
@@ -467,25 +471,19 @@ public class GameManager : MonoBehaviour
 			}
 		}
 	}
-	
-	// Update is called once per frame
-	void Update (){
-		if((m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Tutorial) 
-		   && SceneManager.GetActiveScene().name != "LevelLoader"){
-			#if UNITY_EDITOR    
-			CheckMouse();
-#endif
-            CheckTouches();
 
-            if (m_soldier.isShooting())
-            {
-                #if UNITY_EDITOR
-                CheckMouseFire();
+    // Update is called once per frame
+    void Update()
+    {
+        if ((m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Tutorial)
+           && SceneManager.GetActiveScene().name != "LevelLoader")
+        {
+#if UNITY_EDITOR
+            CheckMouse();
 #endif
-                CheckTouchesFire();
-            }
+          //  CheckTouches();
         }
-	}
+    }
 
 	public void FinishedLevel(){
 		if(m_current_game_state == GameState.Gameplay){
@@ -765,11 +763,16 @@ public class GameManager : MonoBehaviour
 			}
 			i++;
 		}
-		if(m_level_complete || m_is_paused || m_building_shake || !freeball) // Lets not try to throw if its not time to.
+		if(m_level_complete || m_is_paused || m_building_shake) // Lets not try to throw if its not time to.
 			return;
 		if (Input.GetMouseButtonDown(0)){
 			Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -8)); // Grab the point that where we click
-			if (m_drag_area.Contains(p)){ //if the area we defined contains the point p
+            if (m_shooting_area.Contains(p))
+            {
+                m_tap_point.position = new Vector3(p.x, p.y, -8);
+                m_drag_shooting = true;
+            }
+			else if (freeball && m_drag_area.Contains(p)){ //if the area we defined contains the point p
 				m_tap_point.position = new Vector3(p.x, p.y, -8); // move the tap point icon here
                 DrawTrajectory.drawPath = true;
 				m_did_drag = true; // and start the drag functionality
@@ -796,17 +799,25 @@ public class GameManager : MonoBehaviour
 		}
 
 		if (Input.GetMouseButtonUp(0) && freeball && m_did_drag){
-			if(Application.loadedLevelName == "Tutorial2"){
-				if(TutorialManager.s_Inst.m_current_progress == TutorialManager.TutorialProgress.Tutorial2BeforeShot){
-					TutorialManager.s_Inst.Tutorial2NextStep();
-				}
-			}
 			m_did_drag = false;
 			PullArrow.doShoot = true;
 			DrawTrajectory.drawPath = false;
 			m_balls[m_ball_index].GetComponent<BallController>().Throw(m_shoot_direction);
 			m_tap_point.position = new Vector3(0,0,5);
 			m_soldier.FinishThrow(); // Finish the throwing animation
+        }
+        if (Input.GetMouseButtonUp(0) && m_drag_shooting)
+        {
+            Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -8));
+            if (m_tap_point.position.y - p.y > 0.4f)
+            {
+                //Move Soldier if more pivot points
+            }
+            else
+            {
+                m_soldier.ShootGun();
+            }
+            m_drag_shooting = false;
         }
 	}	
 	#endregion
@@ -1175,6 +1186,11 @@ public class GameManager : MonoBehaviour
 		m_drag_area.y = TL.y;
 		m_drag_area.width = (Camera.main.transform.position.x - TL.x) * 1.6f;
 		m_drag_area.height = (Camera.main.transform.position.y - TL.y) * 1.6f;
+
+        m_shooting_area.x = 6.8f;
+        m_shooting_area.y = 9.1f;
+        m_shooting_area.width = 0.8f;
+        m_shooting_area.height = 0.7f; 
 	}
 }
 

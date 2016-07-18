@@ -13,11 +13,7 @@ public class GameManager : MonoBehaviour
 	[HideInInspector]
 	public bool m_did_drag;
     [HideInInspector]
-    public bool m_drag_shooting;
-    [HideInInspector]
 	public Rect m_drag_area;
-    [HideInInspector]
-    public Rect m_shooting_area;
     [HideInInspector]
 	public Transform m_tap_point;
 	Vector2 m_shoot_direction;
@@ -214,6 +210,7 @@ public class GameManager : MonoBehaviour
 	public Powerup m_boss_reward;
     private List<GameObject> zombies;
     private GUIEnableDisable GUIMANAGER;
+    public int soldier_position = 2;
 	// Use this for initialization
 	void Awake () 
 	{
@@ -476,13 +473,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if ((m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Tutorial)
-           && SceneManager.GetActiveScene().name != "LevelLoader")
-        {
-#if UNITY_EDITOR
+           && SceneManager.GetActiveScene().name != "LevelLoader")  
             CheckMouse();
-#endif
-          //  CheckTouches();
-        }
     }
 
 	public void FinishedLevel(){
@@ -536,7 +528,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < zombies.Count;)
         {
-            zombies[i].GetComponent<Transform>().position += new Vector3(1, 0.8f);
+            zombies[i].GetComponent<Transform>().position += new Vector3(0.8f, 0.4f);
             zombies[i].GetComponent<Animator>().Play("Explode");
             zombies[i].GetComponent<PolygonCollider2D>().enabled = false;
             zombies[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
@@ -763,16 +755,11 @@ public class GameManager : MonoBehaviour
 			}
 			i++;
 		}
-		if(m_level_complete || m_is_paused || m_building_shake) // Lets not try to throw if its not time to.
+		if(m_level_complete || m_is_paused || m_building_shake || !freeball) // Lets not try to throw if its not time to.
 			return;
 		if (Input.GetMouseButtonDown(0)){
 			Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -8)); // Grab the point that where we click
-            if (m_shooting_area.Contains(p))
-            {
-                m_tap_point.position = new Vector3(p.x, p.y, -8);
-                m_drag_shooting = true;
-            }
-			else if (freeball && m_drag_area.Contains(p)){ //if the area we defined contains the point p
+			if (m_drag_area.Contains(p)){ //if the area we defined contains the point p
 				m_tap_point.position = new Vector3(p.x, p.y, -8); // move the tap point icon here
                 DrawTrajectory.drawPath = true;
 				m_did_drag = true; // and start the drag functionality
@@ -798,26 +785,13 @@ public class GameManager : MonoBehaviour
 			DrawTrajectory.drawPath = true;	
 		}
 
-		if (Input.GetMouseButtonUp(0) && freeball && m_did_drag){
+		if (Input.GetMouseButtonUp(0) && m_did_drag){
 			m_did_drag = false;
 			PullArrow.doShoot = true;
 			DrawTrajectory.drawPath = false;
 			m_balls[m_ball_index].GetComponent<BallController>().Throw(m_shoot_direction);
 			m_tap_point.position = new Vector3(0,0,5);
 			m_soldier.FinishThrow(); // Finish the throwing animation
-        }
-        if (Input.GetMouseButtonUp(0) && m_drag_shooting)
-        {
-            Vector3 p = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -8));
-            if (m_tap_point.position.y - p.y > 0.4f)
-            {
-                //Move Soldier if more pivot points
-            }
-            else
-            {
-                m_soldier.ShootGun();
-            }
-            m_drag_shooting = false;
         }
 	}	
 	#endregion
@@ -832,11 +806,8 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	void CheckMouseFire(){
-		//Set Arm of Soldier and Fire gun
-		if(Input.GetMouseButtonUp(0)){
+	public void SoldierFire(){
 			m_soldier.ShootGun();
-		}
 	}
 	
 	public void MoveInMenu(string menu_name){
@@ -1182,15 +1153,10 @@ public class GameManager : MonoBehaviour
 
 	public void SetCameraRect(){
 		Vector3 TL = Camera.main.ViewportToWorldPoint(new Vector3(0,0,Camera.main.nearClipPlane));
-		m_drag_area.x = TL.x + 1;
-		m_drag_area.y = TL.y;
+		m_drag_area.x = TL.x + 2;
+		m_drag_area.y = TL.y + 1;
 		m_drag_area.width = (Camera.main.transform.position.x - TL.x) * 1.6f;
 		m_drag_area.height = (Camera.main.transform.position.y - TL.y) * 1.6f;
-
-        m_shooting_area.x = 6.8f;
-        m_shooting_area.y = 9.1f;
-        m_shooting_area.width = 0.8f;
-        m_shooting_area.height = 0.7f; 
 	}
 }
 

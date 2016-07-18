@@ -12,16 +12,13 @@ public class ZombieManager : MonoBehaviour {
     private int wave_number;
 
     private float timer;
-    private float in_wave_timer;
 
     public float max_zombies;
 
     private int current_zombies;
     public GameObject wave_text;
 
-    private GameObject[] pivot_points;
-    private int previous_pivot;
-
+    public int pivot_points;
     public float zombie_timer;
 
 
@@ -32,104 +29,80 @@ public class ZombieManager : MonoBehaviour {
         Physics2D.IgnoreLayerCollision(14, 14);
         Physics2D.IgnoreLayerCollision(0, 14);
 
-        wave_number = 1;
-        timer = 0f;
-        in_wave_timer = 0f;
-        current_zombies = 0;
-        previous_pivot = 0;
-
-        //Wave Text
-        wave_text.SetActive(true);
-        wave_text.GetComponent<UILabel>().text = "Wave 1";
-
-        pivot_points = GameObject.FindGameObjectsWithTag("Pivot");
-        Array.Sort(pivot_points, CompareNames);
+        StartCoroutine(waves());
     }
 
     // Update is called once per frame
     void Update () {
-        timer += Time.deltaTime;
-        in_wave_timer += Time.deltaTime;
+        timer += Time.deltaTime;  
         if (wave_text.activeSelf && timer > 2.5f)
         {
             wave_text.SetActive(false);
         }
-	    if (timer >= 15f || (current_zombies == max_zombies && game_manager.noZombie()))
-        {
-            if (wave_number == 5 && game_manager.noZombie())
-            {
-                GameManager.s_Inst.FinishedLevel();
-            } else if (wave_number != 5)
-            {
-                wave_number++;
-                timer = 0f;
-                in_wave_timer = 0f;
-                wave_text.SetActive(true);
-                wave_text.GetComponent<UILabel>().text = "Wave " + wave_number;
-                current_zombies = 0;
-                max_zombies = max_zombies * 1.2f;
-            }
-        }
-        if (current_zombies < max_zombies)
-        {
-            wave_management();
-        }
 	}
 
-    private void wave_management()
+    private void Create_zombie(GameObject type )
     {
-        if (in_wave_timer > zombie_timer)
+        for (int i = 0; i < pivot_points; i++)
         {
             GameObject go;
-            current_zombies++;
-            in_wave_timer = 0;
-            if (current_zombies % 10 == 0)
-                go = Create_zombie(large_zombie);
+            if (type == large_zombie)
+                go = (GameObject)Instantiate(type, transform.position + new Vector3(0, i + 0.24f), Quaternion.identity);
             else
-                go = Create_zombie(small_zombie);
-            speed_zombies(go);
-            sorting_order_zombie(go);
-            //scale_zombies(go);
+                go = (GameObject)Instantiate(type, transform.position + new Vector3(0,i), Quaternion.identity);
             game_manager.addZombie(go);
+            sorting_order_zombie(go, i);
+            speed_zombies(go);
         }
     }
 
-    private GameObject Create_zombie(GameObject type )
+    private void sorting_order_zombie(GameObject Zombie, int pivot_position)
     {
-        int temp = UnityEngine.Random.Range(0, pivot_points.Length);
-        if (pivot_points.Length > 1)
-        {
-            while (previous_pivot == temp)
-            {
-                temp = UnityEngine.Random.Range(0, pivot_points.Length);
-            }
-        }
-        previous_pivot = temp;
-        return (GameObject)Instantiate(type, transform.position + new Vector3(0,previous_pivot), Quaternion.identity);
-    }
-
-    private void sorting_order_zombie(GameObject Zombie)
-    {
-        if (previous_pivot == 0)
+        if (pivot_position == 0)
             Zombie.GetComponent<SpriteRenderer>().sortingLayerName = "Play Area";
-        Zombie.GetComponent<SpriteRenderer>().sortingOrder = pivot_points.Length - previous_pivot;
+        Zombie.GetComponent<SpriteRenderer>().sortingOrder = pivot_points - pivot_position;
     }
 
-    private void scale_zombies(GameObject Zombie)
-    { 
-        Zombie.GetComponent<Transform>().localScale -= new Vector3( .0014f*(previous_pivot), .0014f*(previous_pivot));
-    }
     
     private void speed_zombies(GameObject Zombie)
     {
         if (UnityEngine.Random.Range(0, 10) > 8)
             Zombie.GetComponent<ZombieController>().zombie_speed = 8;
         else 
-            Zombie.GetComponent<ZombieController>().zombie_speed = 3;
+            Zombie.GetComponent<ZombieController>().zombie_speed = 3 + wave_number*0.02f;
     }
 
     private int CompareNames(GameObject a, GameObject b)
     {
         return a.name.CompareTo(b.name);
+    }
+
+    public void shoot_zombies()
+    {
+        game_manager.SoldierFire();
+    }
+
+    private IEnumerator waves()
+    {
+        for (wave_number = 1; wave_number < 6; wave_number++)
+        {
+            timer = 0;
+            wave_text.SetActive(true);
+            wave_text.GetComponent<UILabel>().text = "Wave " + wave_number;
+            for (current_zombies = 0; current_zombies < max_zombies; current_zombies++)
+            {
+                if ((current_zombies + 1) % 4 == 0)
+                    Create_zombie(large_zombie);
+                else
+                    Create_zombie(small_zombie);
+                yield return new WaitForSeconds(zombie_timer);
+            }
+            yield return new WaitForSeconds(5f);
+            current_zombies = 0;
+            max_zombies = max_zombies * 1.2f;
+        }
+        while (!game_manager.noZombie())
+            yield return new WaitForSeconds(0.4f);
+        game_manager.FinishedLevel();
     }
 }

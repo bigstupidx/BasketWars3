@@ -291,6 +291,7 @@
     <Compile Include="Assets\Scripts\GUIScripts\StageButton.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\StaminaAnimation.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\StaminaRefillPanel.cs" />
+    <Compile Include="Assets\Scripts\GUIScripts\TextSortingLayer.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\ToggleEnableState.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\TopMenuButtons.cs" />
     <Compile Include="Assets\Scripts\GUIScripts\TutorialLayerSwitcher.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Assets\Scripts\GamePlay\ExplodePost.cs" />
     <Compile Include="Assets\Scripts\GamePlay\ExplosiveCrate.cs" />
     <Compile Include="Assets\Scripts\GamePlay\FocusBar.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\SoliderMovement.cs" />
     <Compile Include="Assets\Scripts\GamePlay\ZombieController.cs" />
     <Compile Include="Assets\Scripts\GamePlay\ZombieManager.cs" />
     <Compile Include="Assets\Scripts\GamePlay\loadlevelForBoss.cs" />

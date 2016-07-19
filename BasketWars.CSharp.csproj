@@ -305,6 +305,7 @@
     <Compile Include="Assets\Scripts\GamePlay\BasketTrigger.cs" />
     <Compile Include="Assets\Scripts\GamePlay\BlimpSpawner.cs" />
     <Compile Include="Assets\Scripts\GamePlay\BuildingFalling.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\BulletController.cs" />
     <Compile Include="Assets\Scripts\GamePlay\CrateSpawner.cs" />
     <Compile Include="Assets\Scripts\GamePlay\ExplodePost.cs" />
     <Compile Include="Assets\Scripts\GamePlay\ExplosiveCrate.cs" />

@@ -99,10 +99,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="BasketWars.CSharp.Plugins.csproj">
-      <Project>{9B442ED5-C8CC-1A60-5B35-C5786B5C5D96}</Project>
-      <Name>BasketWars.CSharp.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="BasketWars.CSharp.csproj">
       <Project>{C89C9CD2-1386-0AE3-CDAA-5576D694C61B}</Project>
       <Name>BasketWars.CSharp</Name>

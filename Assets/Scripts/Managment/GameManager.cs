@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour
             s_Inst = this;
         }
         GameObject.DontDestroyOnLoad(this.gameObject);
-        iPhoneSpeaker.ForceToSpeaker(); //work around for iPhone audio
+
                                         //Grab some data from play prefs
         m_character_chosen = PlayerPrefs.GetInt("CharacterChosen", 0);
         int temp = PlayerPrefs.GetInt("LastLevel", -1);

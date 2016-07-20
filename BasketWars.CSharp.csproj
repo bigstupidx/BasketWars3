@@ -69,12 +69,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="BasketWars.CSharp.Plugins.csproj">
-      <Project>{9B442ED5-C8CC-1A60-5B35-C5786B5C5D96}</Project>
-      <Name>BasketWars.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Assets\DebugText.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\EnvelopContent.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\Other\OpenURLOnClick.cs" />

@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour
 
 	public virtual void Fire(Vector3 dir)
 	{
+        Debug.Log("Help me");
 		m_dir = dir;
 		transform.right = m_dir;
 		if(m_game_manager == null)

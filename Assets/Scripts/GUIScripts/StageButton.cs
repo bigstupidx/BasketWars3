@@ -58,6 +58,7 @@ public class StageButton : MonoBehaviour
 
     public void OnClick()
     {
+        Debug.Log("Whats going on");
         string loadName = "";
         string stageName = "";
         if (m_level_manager == null)

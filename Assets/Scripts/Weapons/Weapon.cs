@@ -52,8 +52,7 @@ public class Weapon : MonoBehaviour
 	}
 
 	public void DestroyBullet(){
-		Instantiate(m_spark,gameObject.transform.position,Quaternion.identity);
-		Destroy(gameObject);
+        Destroy(gameObject);
 	}
 	
 }

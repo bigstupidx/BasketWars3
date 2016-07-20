@@ -29,7 +29,13 @@ public class ZombieController : MonoBehaviour
     {
         if (c.gameObject.tag == "Finish")
         {
-            GameManager.s_Inst.OnZombieReachBase(gameObject);
+            if (c.gameObject.name == "ZombieNearFinish")
+            {
+                this.GetComponent<SpriteRenderer>().sortingLayerName = "Zombie Wave";
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), (Collider2D)GameObject.Find("ZombieNearFinish").GetComponent<BoxCollider2D>());
+            }
+            else
+                GameManager.s_Inst.OnZombieReachBase(gameObject);
         }
     }
 }

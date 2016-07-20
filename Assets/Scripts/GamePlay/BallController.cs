@@ -30,6 +30,8 @@ public class BallController : MonoBehaviour
 	void Start () 
 	{
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), (Collider2D) GameObject.Find("Zombie Endpoint").GetComponent<BoxCollider2D>());
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), (Collider2D)GameObject.Find("ZombieNearFinish").GetComponent<BoxCollider2D>());
+
         m_animator = gameObject.GetComponent<Animator>();
 		m_current_character = GameManager.m_character_chosen;
 		if(m_current_character == 0)

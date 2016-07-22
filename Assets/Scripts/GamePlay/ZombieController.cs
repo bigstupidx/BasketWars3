@@ -33,6 +33,7 @@ public class ZombieController : MonoBehaviour
             {
                 this.GetComponent<SpriteRenderer>().sortingLayerName = "Zombie Wave";
                 Physics2D.IgnoreCollision(GetComponent<Collider2D>(), (Collider2D)GameObject.Find("ZombieNearFinish").GetComponent<BoxCollider2D>());
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), (Collider2D)GameObject.Find("Ace").GetComponent<BoxCollider2D>());
             }
             else
                 GameManager.s_Inst.OnZombieReachBase(gameObject);

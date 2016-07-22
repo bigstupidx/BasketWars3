@@ -4,7 +4,8 @@ using System.Collections;
 public class PowerUpButton : MonoBehaviour 
 {
     public GameObject m_ace_powerup;
-    public int current_x_position;
+    private float m_ace_y_angle;
+    private float m_ace_x_angle;
 
 	// Use this for initialization
 	void Start () {
@@ -33,11 +34,17 @@ public class PowerUpButton : MonoBehaviour
 
     private IEnumerator AcePowerUp()
     {
-        for (var f = 1.0; f >= 0; f -= 0.1)
+        m_ace_y_angle = 4;
+        m_ace_x_angle = 1;
+        GetComponent<AudioSource>().Play();
+        for (var f = 2.0; f >= 0; f -= 0.1)
         {
-            Instantiate(m_ace_powerup, new Vector3(current_x_position, 16), Quaternion.identity);
-            current_x_position++;
-            yield return new WaitForSeconds(0.5f);
+            GameObject go = (GameObject) Instantiate(m_ace_powerup, new Vector3(7, 16.4f), Quaternion.identity);
+            go.GetComponent<PistolBullet>().Fire(new Vector3(m_ace_x_angle,-m_ace_y_angle,0));
+            m_ace_y_angle -= 0.16f;
+            m_ace_x_angle += 0.04f;
+            yield return new WaitForSeconds(0.1f);
         }
+        m_ace_y_angle = 4;
     }
 }

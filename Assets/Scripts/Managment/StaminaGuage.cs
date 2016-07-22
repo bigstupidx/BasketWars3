@@ -215,7 +215,7 @@ public class StaminaGuage : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		if(GameManager.s_Inst != null && !GameManager.s_Inst.m_unlimited_stamina){
+		if(GameManager.s_Inst != null && !GameManager.s_Inst.m_unlimited_stamina && GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu){
 			if(m_stamina < m_max_stamina)
 			{
 				if(GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && m_timer_sprite != null)
@@ -241,7 +241,7 @@ public class StaminaGuage : MonoBehaviour
 					m_timer_sprite.color = new Color(1,1,1,0);
 				}
 			}
-		}else if(GameManager.s_Inst.m_unlimited_stamina && Application.loadedLevelName == "MainMenu"){
+    
 			m_stamaina_slider = GameObject.Find("StaminaBar").GetComponent<UIProgressBar>();
 			m_stamina_counter = m_stamaina_slider.transform.FindChild("Label").GetComponent<UILabel>();
 			if(m_stamina_counter != null && m_timer_sprite != null){

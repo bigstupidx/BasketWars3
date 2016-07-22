@@ -58,7 +58,6 @@ public class StageButton : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("Whats going on");
         string loadName = "";
         string stageName = "";
         if (m_level_manager == null)
@@ -82,6 +81,7 @@ public class StageButton : MonoBehaviour
             GameManager.s_Inst.m_last_level_name = Application.loadedLevelName;
             GameManager.s_Inst.m_level_name_to_load = "MainMenu";
             Application.LoadLevel("LevelLoader");
+            return;
         }
         /*if(m_level_manager.GetComponent<StaminaGuage>().m_stamina <= 0){
 			if(m_level_manager.GetComponent<GameManager>().m_current_game_state == GameManager.GameState.MainMenu){
@@ -247,10 +247,10 @@ public class StageButton : MonoBehaviour
                 PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
             }
         }
-        if (false == m_level_manager.GetComponent<StageUnlocker>().IsLevelUnlocked(stageName, stageLevel))
+    /*    if (false == m_level_manager.GetComponent<StageUnlocker>().IsLevelUnlocked(stageName, stageLevel))
         {
             return;
-        }
+        }*/
         switch (stageLevel)
         {
             case 1:
@@ -304,7 +304,6 @@ public class StageButton : MonoBehaviour
                 loadName = stageName + "13";
                 break;
         }
-        Debug.Log(loadName);
         if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11) // Normal levels.
             GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(loadName);
         else if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel > 11)
@@ -324,9 +323,6 @@ public class StageButton : MonoBehaviour
         {
             GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().DecreaseStamina(1);
             GameManager.s_Inst.m_current_game_state = GameManager.GameState.Gameplay;
-#if UNITY_IPHONE
-            //FlurryBinding.logEvent("Entered: " + loadName,false);
-#endif
             GameObject.Find("Loading Screen").GetComponent<TweenPosition>().PlayForward();
             GameManager.s_Inst.SaveIAPItems();
             GameManager.s_Inst.m_level_name_to_load = loadName;

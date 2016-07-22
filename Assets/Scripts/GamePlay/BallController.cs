@@ -163,15 +163,12 @@ public class BallController : MonoBehaviour
 		}
 		if(c.gameObject.tag == "Wall"){
 			ResetBall();
-		}   
-		if(c.gameObject.tag == "Ground" ){
-			m_ground_bounce++;
-			m_is_past_trigger_1 = false;
-        if (c.gameObject.tag == "Zombie")
-            {
-                m_ground_bounce++;
-            }
 		}
+        if (c.gameObject.tag == "Ground" || c.gameObject.tag == "Zombie")
+        {
+            m_ground_bounce++;
+            m_is_past_trigger_1 = false;
+        }
 		if(c.gameObject.tag == "Obstacle"){
 			m_is_past_trigger_1 = false;
 		}

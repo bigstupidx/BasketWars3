@@ -17,7 +17,6 @@ public class BattleStartButton : MonoBehaviour
         if (panel != null)
             panel.SetPanelContents(name);
         int level_num = Convert.ToInt32(name.Substring(name.Length - 2));
-        Debug.Log(level_num);
         if (panel != null)
             panel.SetLevel(level_num);
     }

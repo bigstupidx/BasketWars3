@@ -39,11 +39,12 @@ public class SoldierController: MonoBehaviour
 			m_arm_pivot = transform.FindChild("PivotShotgun");
 		}
 		DisableHeadAndArm();
-	}
+
+    }
 	
 	// Update is called once per frame
-	void Update (){
-	}
+	void Update (){ 
+    }
 
 	public void ShootGun(){
         //Check Bullets

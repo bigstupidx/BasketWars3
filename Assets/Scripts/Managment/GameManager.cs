@@ -1326,7 +1326,7 @@ public class GameManager : MonoBehaviour
     {
         Vector3 TL = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane));
         m_drag_area.x = TL.x + 2;
-        m_drag_area.y = TL.y + 1;
+        m_drag_area.y = TL.y + 1.29f;
         m_drag_area.width = (Camera.main.transform.position.x - TL.x) * 1.6f;
         m_drag_area.height = (Camera.main.transform.position.y - TL.y) * 1.6f;
     }

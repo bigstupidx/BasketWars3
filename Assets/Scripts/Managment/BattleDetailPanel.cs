@@ -99,9 +99,9 @@ public class BattleDetailPanel : MonoBehaviour
 
     public void SetLabels()
     {
-        if (m_level_string.Contains("Britain"))
+        if (m_level_string.Contains("Mission_1"))
         {
-            m_stage_name.text = "STAGE 1-";
+            m_stage_name.text = "Battle 1-";
             m_boss_name = "THE GRENADIER";
             if (m_level_num == 12)
             {

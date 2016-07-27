@@ -164,7 +164,7 @@ public class BallController : MonoBehaviour
 		if(c.gameObject.tag == "Wall"){
 			ResetBall();
 		}
-        if (c.gameObject.tag == "Ground" || c.gameObject.tag == "Zombie")
+        if (c.gameObject.tag == "Ground" || c.gameObject.tag == "Zombie" || c.gameObject.tag == "ZombieLarge")
         {
             m_ground_bounce++;
             m_is_past_trigger_1 = false;

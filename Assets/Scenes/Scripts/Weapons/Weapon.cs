@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour
 	}
 	protected virtual void  OnTriggerEnter2D (Collider2D c) 
 	{
-        if (c.gameObject.tag == "Zombie")
+        if (c.gameObject.tag == "Zombie" || c.gameObject.tag == "ZombieLarge")
         {
             ZombieController temp = c.GetComponent<ZombieController>();
             if (temp.health == 1)

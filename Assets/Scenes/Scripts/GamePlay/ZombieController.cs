@@ -5,15 +5,12 @@ public class ZombieController : MonoBehaviour
 {
     public float zombie_speed;
     public bool walk;
-    public int health; 
+    public int health;
 
     // Use this for initialization
     void Start()
     {
-
         GetComponent<Rigidbody2D>().velocity = new Vector2(-0.1f*zombie_speed, 0);
-
-
     }
 
     // Update is called once per frame
@@ -27,16 +24,15 @@ public class ZombieController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D c)
+    void OnTriggerEnter2D(Collider2D c)
     {
         if (c.gameObject.tag == "Finish")
         {
             if (c.gameObject.name == "ZombieNearFinish")
             {
                 this.GetComponent<SpriteRenderer>().sortingLayerName = "Zombie Wave";
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), (Collider2D)GameObject.Find("ZombieNearFinish").GetComponent<BoxCollider2D>());
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), (Collider2D)GameObject.Find("Ace").GetComponent<BoxCollider2D>());
-            }
+                Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Ball").GetComponent<Collider2D>(), this.GetComponent<Collider2D>());
+                }
             else
                 GameManager.s_Inst.OnZombieReachBase(gameObject);
         }

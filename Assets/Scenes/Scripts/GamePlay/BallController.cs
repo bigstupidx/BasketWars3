@@ -69,7 +69,7 @@ public class BallController : MonoBehaviour
 		}
 		if(transform.position != m_start_pos)
 		{
-			if( (GetComponent<Rigidbody2D>().velocity.magnitude < m_min_velocity && transform.position.y < m_start_pos.y - 1) || m_throw_time > 10)
+			if( (GetComponent<Rigidbody2D>().velocity.magnitude < m_min_velocity && transform.position.y < m_start_pos.y - 1) || m_throw_time > 3)
 				ResetBall();
 		}
 		if(m_level_finished){

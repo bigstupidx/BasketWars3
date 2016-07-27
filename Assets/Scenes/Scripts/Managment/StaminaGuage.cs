@@ -124,14 +124,14 @@ public class StaminaGuage : MonoBehaviour
 		if(paused){
 			m_paused_time = DateTime.Now.Ticks;
 			if(m_stamina < m_max_stamina){
-				UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
+				//UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
 				float m_full_time;
 				/*if(GameManager.s_Inst.m_IS_LITE_MODE){
 					m_full_time = (m_max_stamina - m_stamina) * min_time_LITE + m_timer;
 				}else{*/
 					m_full_time = (m_max_stamina - m_stamina) * min_time + m_timer;
 				//}
-				SetLocalNotification(m_full_time,"Stamina Meter Full!","Your stamina has fully refilled!",1);
+				//SetLocalNotification(m_full_time,"Stamina Meter Full!","Your stamina has fully refilled!",1);
 			}
 		}
 		if(!paused){
@@ -290,16 +290,16 @@ public class StaminaGuage : MonoBehaviour
 		}
 	}
 
-	public void SetLocalNotification(float _time, string _title, string _body, int _badge_number){
-		UnityEngine.iOS.LocalNotification m_note = new UnityEngine.iOS.LocalNotification();
-		m_note.fireDate = DateTime.Now.AddSeconds(_time);
-		m_note.alertAction = _title;
-		m_note.alertBody = _body;
-		m_note.applicationIconBadgeNumber = _badge_number;
-		m_note.hasAction = true;//?
-		m_note.repeatCalendar = UnityEngine.iOS.CalendarIdentifier.GregorianCalendar;
-		m_note.repeatInterval = UnityEngine.iOS.CalendarUnit.Era;
-		m_note.soundName = UnityEngine.iOS.LocalNotification.defaultSoundName;
-		UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(m_note);
-	}
+	//public void SetLocalNotification(float _time, string _title, string _body, int _badge_number){
+	//	UnityEngine.iOS.LocalNotification m_note = new UnityEngine.iOS.LocalNotification();
+	//	m_note.fireDate = DateTime.Now.AddSeconds(_time);
+	//	m_note.alertAction = _title;
+	//	m_note.alertBody = _body;
+	//	m_note.applicationIconBadgeNumber = _badge_number;
+	//	m_note.hasAction = true;//?
+	//	m_note.repeatCalendar = UnityEngine.iOS.CalendarIdentifier.GregorianCalendar;
+	//	m_note.repeatInterval = UnityEngine.iOS.CalendarUnit.Era;
+	//	m_note.soundName = UnityEngine.iOS.LocalNotification.defaultSoundName;
+	//	UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(m_note);
+	//}
 }

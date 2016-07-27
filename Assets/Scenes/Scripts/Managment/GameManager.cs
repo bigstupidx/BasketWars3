@@ -211,6 +211,7 @@ public class GameManager : MonoBehaviour
     public bool m_first_init = false;
     public Powerup m_boss_reward;
     private List<GameObject> zombies;
+    private List<int> dead;
     private GUIEnableDisable GUIMANAGER;
     public int soldier_position = 2;
     // Use this for initialization
@@ -248,6 +249,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0;
         }
         zombies = new List<GameObject>();
+        dead = new List<int>();
     }
 
     /*	public void AddCoins(int coins){
@@ -579,14 +581,33 @@ public class GameManager : MonoBehaviour
 
     public void explodeZombies()
     {
-        for (int i = 0; i < zombies.Count;)
+
+        int count = 0;
+        for (int i = 0; i < zombies.Count; i++)
         {
-            zombies[i].GetComponent<Transform>().position += new Vector3(0.8f, 0.4f);
-            zombies[i].GetComponent<Animator>().Play("Explode");
-            zombies[i].GetComponent<PolygonCollider2D>().enabled = false;
-            zombies[i].GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            zombies.RemoveAt(i);
+            if (zombies[i].GetComponent<ZombieController>().health == 1)
+            {
+                dead.Add(i);
+                count++;
+            }
+            else
+            {
+                zombies[i].GetComponent<ZombieController>().health -= 1;
+
+            }
         }
+        for (int j = dead.Count-1; j >= 0; j--)
+        {
+                zombies[dead[j]].GetComponent<Transform>().position += new Vector3(0.8f, 0.4f);
+                zombies[dead[j]].GetComponent<Animator>().Play("Explode");
+                zombies[dead[j]].GetComponent<PolygonCollider2D>().enabled = false;
+                zombies[dead[j]].GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                zombies.RemoveAt(dead[j]);
+
+        }
+        
+        dead.Clear();
+
     }
 
     public void addZombie(GameObject zombie)

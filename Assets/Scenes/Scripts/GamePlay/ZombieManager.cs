@@ -68,8 +68,10 @@ public class ZombieManager : MonoBehaviour {
     {
         if (UnityEngine.Random.Range(0, 10) > 8)
             Zombie.GetComponent<ZombieController>().zombie_speed = 8;
-        else 
-            Zombie.GetComponent<ZombieController>().zombie_speed = 3 + wave_number*0.02f;
+        else
+            Zombie.GetComponent<ZombieController>().zombie_speed = 3 + wave_number * 0.02f;
+        if (Zombie.tag == "ZombieLarge")
+            Zombie.GetComponent<ZombieController>().zombie_speed -= 1;
     }
 
     private int CompareNames(GameObject a, GameObject b)

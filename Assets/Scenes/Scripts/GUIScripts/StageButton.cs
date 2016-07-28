@@ -338,10 +338,6 @@ public class StageButton : MonoBehaviour
             {
                 m_stars = transform.FindChild("Stars").gameObject;
             }
-            else
-            {
-
-            }
         }
         if (m_stars != null)
         {

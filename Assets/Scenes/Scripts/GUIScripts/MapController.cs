@@ -44,9 +44,6 @@ public class MapController : MonoBehaviour{
 					g.transform.FindChild("Lock").gameObject.SetActive(true);
 				}
 			}
-			if(stage_unlocker.m_highest_level.Contains(m_level_name.ToString())){
-				
-			}
 		}
 	}
 
@@ -56,15 +53,11 @@ public class MapController : MonoBehaviour{
 	}
 
 	int GetStageNumber(){
-		if(m_level_name == Level_Name.Mission_1)
-			return stage_unlocker.m_mission1_current_stage;
-		else if(m_level_name == Level_Name.Stalingrad)
-			return stage_unlocker.m_stalingrad_current_stage;
-		else if(m_level_name == Level_Name.Kursk)
-			return stage_unlocker.m_kursk_current_stage;
-		else if(m_level_name == Level_Name.Normandy)
-			return stage_unlocker.m_normandy_current_stage;
-		else
-			return -1;
+        if (m_level_name == Level_Name.Mission_1)
+        {
+            return stage_unlocker.m_mission1_current_stage;
+        } 
+        else
+            return -1;
 	}
 }

@@ -37,7 +37,7 @@ public class Weapon : MonoBehaviour
             } else
             {
                 c.GetComponent<Animator>().Play("Health_Shot");
-                temp.zombie_speed -= 1;
+                temp.zombie_speed -= 0.2f;
                 temp.health -= 1;
             }
         }

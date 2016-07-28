@@ -45,26 +45,6 @@ public class BattleDetailPanel : MonoBehaviour
         {
             m_unlocked_level = stage_unlocker.m_mission1_current_stage;
         }
-        else if (level.Contains("Stalingrad"))
-        {
-            stageLevel += 12;
-            m_unlocked_level = stage_unlocker.m_stalingrad_current_stage;
-        }
-        else if (level.Contains("Kursk"))
-        {
-            stageLevel += 24;
-            if (!m_texture_box2.enabled)
-            {
-                m_texture_box.enabled = false;
-                m_texture_box2.enabled = true;
-            }
-            m_unlocked_level = stage_unlocker.m_kursk_current_stage;
-        }
-        else if (level.Contains("Normandy"))
-        {
-            stageLevel += 36;
-            m_unlocked_level = stage_unlocker.m_normandy_current_stage;
-        }
         stageLevel -= 1; //Covert to 0 based start;
         if (m_texture_box.enabled)
             m_texture_box.spriteName = m_image_name[stageLevel];

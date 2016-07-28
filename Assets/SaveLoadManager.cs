@@ -14,7 +14,7 @@ public class SaveLoadManager : MonoBehaviour {
 		public int m_armor_powerup;
 		public int m_focus_powerup;
 		public int m_guide_powerup;
-		public int m_britain_progress;
+		public int m_mission_1_progress;
 		public int m_stalingrad_progress;
 		public int m_kursk_progress;
 		public int m_times_played;
@@ -33,12 +33,12 @@ public class SaveLoadManager : MonoBehaviour {
 	string m_save_file_path;
 	// Use this for initialization
 	void Awake () {
-	//	System.Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 		if(s_inst == null){
 			s_inst = GameObject.Find("GameManagment").GetComponent<SaveLoadManager>();
 		}
-		m_save_file_path =	Application.persistentDataPath + "/Save.bwf";
+		m_save_file_path =	Application.persistentDataPath + "/Save1.bwf";
 		LoadSaveFile();
+        UnlockAll();
 	}
 	
 	void InitNewSaveData(){
@@ -48,7 +48,7 @@ public class SaveLoadManager : MonoBehaviour {
 		m_save_info.m_armor_powerup = 0;
 		m_save_info.m_focus_powerup = 0;
 		m_save_info.m_guide_powerup = 0;
-		m_save_info.m_britain_progress = 0;
+		m_save_info.m_mission_1_progress = 0;
 		m_save_info.m_stalingrad_progress = 0;
 		m_save_info.m_kursk_progress = 0;
 		m_save_info.m_times_played = 0;
@@ -74,18 +74,9 @@ public class SaveLoadManager : MonoBehaviour {
 		//chracters
 		//GameManager.s_Inst.m_characters_unlocked = m_save_info.m_characters;
 		GameManager.s_Inst.LoadRanksAndXP(m_save_info.m_rank_per_character,m_save_info.m_rank_xp_per_character);
-		//coins
-		//GameManager.s_Inst.m_current_coins = m_save_info.m_coins;
-		//powerups
-		//GameManager.s_Inst.m_current_nuke = m_save_info.m_nuke_powerup;
-		//GameManager.s_Inst.m_current_shield = m_save_info.m_armor_powerup;
-		//GameManager.s_Inst.m_current_focus = m_save_info.m_focus_powerup;
-		//GameManager.s_Inst.m_current_guide = m_save_info.m_guide_powerup;
 		PowerupEquipper.Init();
 		StageUnlocker stage_unlocker = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>();
-		stage_unlocker.Init(m_save_info.m_britain_progress,m_save_info.m_stalingrad_progress,m_save_info.m_kursk_progress,0);
-		stage_unlocker.m_Stalingrad_purchased = m_save_info.m_stalingrad_unlocked;
-		stage_unlocker.m_Kursk_purchased = m_save_info.m_kursk_unlocked;
+		stage_unlocker.Init(m_save_info.m_mission_1_progress);
 		GameManager.s_Inst.m_britain_high_scores = m_save_info.m_britain_high_scores;
 		GameManager.s_Inst.m_stalingrad_high_scores = m_save_info.m_stalingrad_high_scores;
 		GameManager.s_Inst.m_kursk_high_scores = m_save_info.m_kursk_high_scores;
@@ -99,7 +90,7 @@ public class SaveLoadManager : MonoBehaviour {
 	}
 
 	public void UnlockAll(){
-		m_save_info.m_britain_progress = 4194303;
+		m_save_info.m_mission_1_progress = 4194303;
 		m_save_info.m_stalingrad_progress = 4194303;
 		m_save_info.m_kursk_progress = 4194303;
 		SaveFile();

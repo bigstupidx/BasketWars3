@@ -33,15 +33,13 @@ public class DrawTrajectory : MonoBehaviour {
 		drawPath = false;
 		vx = m_shoot_direction.x;
 		vy = m_shoot_direction.y;
-		//m_l_renderer = gameObject.GetComponent<LineRenderer>();
 		GameObject ball = GameObject.Find("BallSpawnPoint");
 		if(ball != null)
 			ballPosition = ball.transform.position;
 		
 		pathCount = (int)(maximumTime / deltaTime); 
 		pathPoint = new Transform[(int) pathCount];
-	//	previousPathPoint = new Transform[(int) pathCount];
-		//m_l_renderer.SetVertexCount((int)pathCount);
+
 		
 		for (int i = 0 ; i < pathPoint.Length ; i++) 
 		{
@@ -54,13 +52,9 @@ public class DrawTrajectory : MonoBehaviour {
 				pathPoint[i] = (Transform) Instantiate(point, new Vector3(-100,-100,100), Quaternion.identity);
 			}
 			
-		//	previousPathPoint[i] = (Transform) Instantiate(previousPoint, new Vector3(ballPosition.x, ballPosition.y, 0.05f), Quaternion.identity);
 			
 			pathPoint[i].parent = transform;
-		//	previousPathPoint[i].parent = transform;
 		}
-		
-		//PlotTrajectory(ballPosition, new Vector3(vx, vy, 0f), deltaTime, maximumTime);
 		
 		ballPosition = Vector3.zero;
 	}
@@ -79,11 +73,8 @@ public class DrawTrajectory : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {		
 		if (drawPath) {
-			if (ballPosition == Vector3.zero) {
-				GameObject ball = GameObject.Find("BallSpawnPoint");
-				ballPosition = ball.transform.position;
-			}
-			
+			GameObject ball = GameObject.Find("BallSpawnPoint");
+		    ballPosition = ball.transform.position;
 			transform.position = new Vector3(transform.position.x, transform.position.y, -1.0f);
 			
 			vx = m_shoot_direction.x;

@@ -205,4 +205,10 @@ public class BallController : MonoBehaviour
     {
         Physics2D.IgnoreLayerCollision(10, 14, enabled);
     }
+
+    public void MoveBallToPivot()
+    {
+        if (!m_is_in_flight)
+            transform.position = m_ball_spawn_point.position;
+    }
 }

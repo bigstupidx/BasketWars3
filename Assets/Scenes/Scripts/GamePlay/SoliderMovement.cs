@@ -6,9 +6,10 @@ public class SoliderMovement : MonoBehaviour {
     public int position;
     private BallController ball;
 
-    void Awake()
+    void Start()
     {
         ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<BallController>();
+        ball.MoveBallToPivot();
     }
 
     public void OnClick()

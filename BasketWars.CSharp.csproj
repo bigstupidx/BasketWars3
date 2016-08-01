@@ -258,6 +258,7 @@
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\ChangeNumberWithBaskets.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\ChangeRank.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\CharacterDisplay.cs" />
+    <Compile Include="Assets\Scenes\Scripts\GUIScripts\CharacterSelect.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\CoinBounce.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\DrawPath.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\DrawTrajectory.cs" />

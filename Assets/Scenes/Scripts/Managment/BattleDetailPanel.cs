@@ -16,7 +16,7 @@ public class BattleDetailPanel : MonoBehaviour
     StageUnlocker stage_unlocker;
     int m_unlocked_level;
     public bool m_is_locked = false;
-    //public CharacterSelect m_char_select;
+    public CharacterSelect m_char_select;
     public UILabel m_high_score;
     public string[] m_image_name;
     public UIAtlas[] m_atlas;

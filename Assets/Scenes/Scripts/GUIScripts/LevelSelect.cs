@@ -128,7 +128,7 @@ public class LevelSelect : MonoBehaviour
 
     public void MoveCharacterSelectOutBO()
     {
-       // GameManager.m_character_chosen = CharacterSelect.m_selected_character;
+        GameManager.m_character_chosen = CharacterSelect.m_selected_character;
         m_character_left.PlayReverse();
         m_character_right.PlayReverse();
         m_character_top.PlayReverse();

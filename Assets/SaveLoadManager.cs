@@ -38,7 +38,7 @@ public class SaveLoadManager : MonoBehaviour {
 		}
 		m_save_file_path =	Application.persistentDataPath + "/Save1.bwf";
 		LoadSaveFile();
-        UnlockAll();
+        GameManager.s_Inst.UpdateLabels();
 	}
 	
 	void InitNewSaveData(){
@@ -62,17 +62,16 @@ public class SaveLoadManager : MonoBehaviour {
 	}
 
 	public void LoadSaveFile(){
-		if(File.Exists(m_save_file_path)){ //do we have a save?
+        if (File.Exists(m_save_file_path)){ //do we have a save?
 			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open(m_save_file_path,FileMode.Open);
+            FileStream file = File.Open(m_save_file_path,FileMode.Open);
 			m_save_info = (SaveInfo)bf.Deserialize(file);
-			file.Close();
+            m_save_info.m_coins += 1000;
+            file.Close();
 		}else{ //create a new file
 			InitNewSaveData();
 			SaveFile();
 		}
-		//chracters
-		//GameManager.s_Inst.m_characters_unlocked = m_save_info.m_characters;
 		GameManager.s_Inst.LoadRanksAndXP(m_save_info.m_rank_per_character,m_save_info.m_rank_xp_per_character);
 		PowerupEquipper.Init();
 		StageUnlocker stage_unlocker = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>();
@@ -80,9 +79,9 @@ public class SaveLoadManager : MonoBehaviour {
 		GameManager.s_Inst.m_britain_high_scores = m_save_info.m_britain_high_scores;
 		GameManager.s_Inst.m_stalingrad_high_scores = m_save_info.m_stalingrad_high_scores;
 		GameManager.s_Inst.m_kursk_high_scores = m_save_info.m_kursk_high_scores;
-	}
+    }
 
-	public void SaveFile(){
+    public void SaveFile(){
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream file = File.Create(m_save_file_path);
 		bf.Serialize(file,m_save_info);

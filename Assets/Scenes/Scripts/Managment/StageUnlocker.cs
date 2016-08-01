@@ -53,10 +53,10 @@ public class StageUnlocker : MonoBehaviour
 
         map_controllers = GameObject.FindGameObjectsWithTag("MapController");
         GameManager.s_Inst.m_first_init = true;
-        foreach (GameObject g in map_controllers)
+      /*  foreach (GameObject g in map_controllers)
         {
             g.GetComponent<MapController>().Init();
-        }
+        }*/
     }
 
     int GetTotalStars()

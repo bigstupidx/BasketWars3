@@ -237,13 +237,7 @@ public class GameManager : MonoBehaviour
         }
         m_current_level_played = (CurrentLevel)PlayerPrefs.GetInt("LastLevel", -1);
         //Don't do these in the Tutorial
-        if (m_current_game_state != GameState.Tutorial)
-        {
-            //GameCenterBinding.authenticateLocalPlayer();
-            UpdateLabels();
-        }
-        else
-        {
+        if (m_current_game_state == GameState.Gameplay) { 
             m_soldier = GameObject.FindGameObjectWithTag("Player").GetComponent<SoldierController>();
             m_is_paused = true;
             Time.timeScale = 0;
@@ -1051,11 +1045,9 @@ public class GameManager : MonoBehaviour
             {
                 if (SaveLoadManager.m_save_info.m_coins >= 1000)
                 {
-                    //gameObject.GetComponent<ShopMenu>().WithdrawCoins();
                     RemoveCoins(1000);
                     SaveLoadManager.m_save_info.m_characters = SaveLoadManager.m_save_info.m_characters | 1 << character;
                     SaveLoadManager.s_inst.SaveFile();
-                    //gameObject.GetComponent<KiiBucketManager>().SaveWeaponObject();
                     return true;
                 }
             }
@@ -1063,11 +1055,9 @@ public class GameManager : MonoBehaviour
             {
                 if (SaveLoadManager.m_save_info.m_coins >= 2250)
                 {
-                    //gameObject.GetComponent<ShopMenu>().WithdrawCoins();
                     RemoveCoins(2250);
                     SaveLoadManager.m_save_info.m_characters = SaveLoadManager.m_save_info.m_characters | 1 << character;
                     SaveLoadManager.s_inst.SaveFile();
-                    //gameObject.GetComponent<KiiBucketManager>().SaveWeaponObject();
                     return true;
                 }
             }
@@ -1076,10 +1066,8 @@ public class GameManager : MonoBehaviour
                 if (SaveLoadManager.m_save_info.m_coins >= 2750)
                 {
                     RemoveCoins(2750);
-                    //gameObject.GetComponent<ShopMenu>().WithdrawCoins();
                     SaveLoadManager.m_save_info.m_characters = SaveLoadManager.m_save_info.m_characters | 1 << character;
                     SaveLoadManager.s_inst.SaveFile();
-                    //gameObject.GetComponent<KiiBucketManager>().SaveWeaponObject();
                     return true;
                 }
             }

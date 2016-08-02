@@ -80,12 +80,6 @@ public class LevelSelect : MonoBehaviour
             m_level_to_load = LevelNames.Mode_Select;
             m_map_panel.gameObject.GetComponent<TweenPosition>().onFinishedForward.Clear();
         }
-        else
-        {
-            /*if(KiiManager.s_inst.m_login_panel_is_down == false){
-				KiiManager.LoginWithToken();
-			}*/
-        }
     }
 
     public void MoveInStartPanel()
@@ -98,6 +92,14 @@ public class LevelSelect : MonoBehaviour
     }
 
     //Mode Select
+
+    public void ReEnableMapButtons()
+    {
+        if (m_level_to_load == LevelNames.Britain)
+        {
+            m_misson_1.GetComponent<MapController>().enableButtons();
+        }
+    }
 
     public void MapToStart()
     {

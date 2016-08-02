@@ -268,6 +268,7 @@
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\GameplayMenus.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\HandleTweens.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\LevelSelect.cs" />
+    <Compile Include="Assets\Scenes\Scripts\GUIScripts\MainMenuEnableDisable.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\MapController.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\ParticleSystemLayerFix.cs" />
     <Compile Include="Assets\Scenes\Scripts\GUIScripts\PauseGame.cs" />

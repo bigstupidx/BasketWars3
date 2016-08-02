@@ -27,7 +27,6 @@ public class GUIEnableDisable : MonoBehaviour {
     public void MovePauseMenuOut()
     {
         NGUITools.SetActive(pause_menu, false);
-
     }
 
     public void MoveLevelCompleteIn()

@@ -41,7 +41,7 @@ public class StageButton : MonoBehaviour
                     Debug.Log("Stars were not found on " + gameObject.name);
                 };
 
-            }		
+            }
         }
     }
 
@@ -83,15 +83,6 @@ public class StageButton : MonoBehaviour
             Application.LoadLevel("LevelLoader");
             return;
         }
-        /*if(m_level_manager.GetComponent<StaminaGuage>().m_stamina <= 0){
-			if(m_level_manager.GetComponent<GameManager>().m_current_game_state == GameManager.GameState.MainMenu){
-				m_level_manager.GetComponent<ShopMenu>().MoveInStaminaPanel();
-			}
-			else if(m_level_manager.GetComponent<GameManager>().m_current_game_state == GameManager.GameState.Gameplay){
-				m_level_manager.GetComponent<GameManager>().MoveInMenu("StaminaPanel");
-			}
-			return;
-		}*/
         else if (stage == StageName.Reset)
         {
             if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Tutorial)
@@ -112,25 +103,6 @@ public class StageButton : MonoBehaviour
                 GameManager.s_Inst.m_waiting_for_stamina_refill = true;
                 GameObject.Find("StaminaPanel").GetComponent<TweenPosition>().PlayForward();
                 GameObject.Find("BlackoutPanel").GetComponent<BlackoutPanel>().MoveIn();
-            }
-        }
-        else if (stage == StageName.Britain)
-        {
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Britain;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-                GameManager.s_Inst.m_current_game_state = GameManager.GameState.MainMenu;
-                GameManager.s_Inst.m_go_to_map = true;
-                GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-                Application.LoadLevel("LevelLoader");
-                return;
-            }
-            else
-            {
-                stageName = "Britain";
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Britain;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
             }
         }
         else if (stage == StageName.Mission_1)
@@ -247,10 +219,6 @@ public class StageButton : MonoBehaviour
                 PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
             }
         }
-    /*    if (false == m_level_manager.GetComponent<StageUnlocker>().IsLevelUnlocked(stageName, stageLevel))
-        {
-            return;
-        }*/
         switch (stageLevel)
         {
             case 1:
@@ -304,20 +272,10 @@ public class StageButton : MonoBehaviour
                 loadName = stageName + "13";
                 break;
         }
-        if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11) // Normal levels.
+        if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11)
+        {
+            GameObject.Find("Anchor - C").GetComponent<MainMenuEnableDisable>().MoveBattleDetailPanelIn();
             GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(loadName);
-        else if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel > 11)
-        { //bonus stages
-          //TODO: If we don't have enough coins we need to pop up with coin shop.
-            if (stageLevel == 12 && SaveLoadManager.m_save_info.m_coins < 50) // if we have less then 50 coins
-                return;
-            else if (stageLevel == 13 && SaveLoadManager.m_save_info.m_coins < 100) // If we have less then 100 coins
-                return;
-            else
-            {
-               // GameObject.Find("BonusStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(loadName);
-                GameObject.Find("Bonus Detail Panel").GetComponent<BonusDetailHandler>().SetDetails(loadName);
-            }
         }
         else
         {
@@ -332,63 +290,32 @@ public class StageButton : MonoBehaviour
 
     public void SetStars()
     {
-        if (m_stars == null)
+        m_stars = transform.FindChild("Stars").gameObject;
+        string stage_name = stage.ToString() + "_";
+        if (stageLevel <= 11)
         {
-            if (transform.FindChild("Stars") != null)
-            {
-                m_stars = transform.FindChild("Stars").gameObject;
-            }
-        }
-        if (m_stars != null)
-        {
-            string stage_name = stage.ToString();
             if (stageLevel < 10)
                 stage_name += "0" + stageLevel.ToString();
             else if (stageLevel >= 10)
                 stage_name += stageLevel.ToString();
-            int stars = 0; // GameManager.s_Inst.gameObject.GetComponent<StarManager>().GetStars(stage_name);
-            if (stars >= 0)
-            { // Stupid fix to stop map init calls before kii is init, breaking the WHOLE GAME
-                if (stageLevel <= 11)
-                {
-                    if (stars == 0)
-                    {
-                        m_stars.SetActive(false);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < stars; i++)
-                        {
-                            m_stars.transform.GetChild(i).GetComponent<UISprite>().enabled = true;
-                        }
-                        for (int i = stars; i < 3; i++)
-                        {
-                            m_stars.transform.GetChild(i).GetComponent<UISprite>().enabled = false;
-                        }
-                    }
-                }
-                else
-                {
-                    bool m_active = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>().IsLevelUnlocked(stage_name, stageLevel);
-                    if (m_active)
-                    {
-                        //m_stars.SetActive(false);
-                        m_stars.transform.FindChild("Star1").gameObject.SetActive(false);
-                        if (m_stars.transform.parent.name == "B1")
-                            m_stars.transform.FindChild("Label").GetComponent<UILabel>().text = "50";
-                        if (m_stars.transform.parent.name == "B2")
-                            m_stars.transform.FindChild("Label").GetComponent<UILabel>().text = "100";
-                    }
-                    else
-                    {
-                        m_stars.transform.FindChild("Coin").gameObject.SetActive(false);
-                    }
-                }
+            int stars = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>().GetStars(stage_name);   
+            if (stars >= 1)
+            {
+                for (int i = 0; i < stars; i++)
+                    m_stars.transform.GetChild(i).GetComponent<UISprite>().enabled = true;
+                for (int i = stars; i < 3; i++)
+                    m_stars.transform.GetChild(i).GetComponent<UISprite>().enabled = false;
             }
+            else
+                m_stars.SetActive(false);
         }
         else
         {
-            Debug.Log(stage + stageLevel + " Failed");
+            bool m_active = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>().IsLevelUnlocked(stage_name, stageLevel);
+            if (m_active)
+                m_stars.transform.FindChild("Star1").gameObject.SetActive(false);
+            else
+                m_stars.transform.FindChild("Coin").gameObject.SetActive(false);
         }
     }
 }

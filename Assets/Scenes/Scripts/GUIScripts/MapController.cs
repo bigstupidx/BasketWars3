@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class MapController : MonoBehaviour{
 	public enum Level_Name{
 		Mission_1,
@@ -60,4 +59,24 @@ public class MapController : MonoBehaviour{
         else
             return -1;
 	}
+
+    public void enableButtons()
+    {
+        foreach (GameObject i in m_stage_buttons)
+        {
+            StageButton sb = i.GetComponent<StageButton>();
+            if (sb.stageLevel <= m_stages_unlocked)
+                i.GetComponent<BoxCollider>().enabled = true;
+        }
+
+        transform.FindChild("Background").FindChild("Close Button").GetComponent<BoxCollider>().enabled = true;
+    }
+
+    public void disableButtons()
+    {
+        foreach (GameObject i in m_stage_buttons)
+            i.GetComponent<BoxCollider>().enabled = false;
+
+        transform.FindChild("Background").FindChild("Close Button").GetComponent<BoxCollider>().enabled = false;
+    }
 }

@@ -12,13 +12,12 @@ public class BattleStartButton : MonoBehaviour
     {
         m_level_name = name;
         transform.parent.GetComponent<TweenPosition>().PlayForward();
-        //if (transform.parent.FindChild("Ball Selection") != null)
-          //  transform.parent.FindChild("Ball Selection").GetComponent<CharacterSelect>().SetRank();
-        if (panel != null)
+        if (transform.parent.FindChild("Ball Selection") != null)
+            transform.parent.FindChild("Ball Selection").GetComponent<CharacterSelect>().SetRank();
+        if (panel != null) {
             panel.SetPanelContents(name);
-        int level_num = Convert.ToInt32(name.Substring(name.Length - 2));
-        if (panel != null)
-            panel.SetLevel(level_num);
+            panel.SetLevel(Convert.ToInt32(name.Substring(name.Length - 2)));
+        }
     }
 
     public void StartBattle()
@@ -28,44 +27,10 @@ public class BattleStartButton : MonoBehaviour
         int level_num = Convert.ToInt32(Regex.Match(m_level_name, @"\d+").Value);
         if (level_num < 12)
         {
-            if (level_num == 11)
-            {
-                if (GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().m_stamina > 0)
-                {
-                    GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().DecreaseStamina(2);
-                    GameManager.s_Inst.m_current_game_state = GameManager.GameState.Gameplay;
-                    if (m_level_name.Contains("Britain"))
-                    {
-                        Application.LoadLevel("BritainBossLoader");
-                        return;
-                    }
-                    if (m_level_name.Contains("Stalingrad"))
-                    {
-                        Application.LoadLevel("StalingradBossLoader");
-                        return;
-                    }
-                    if (m_level_name.Contains("Kursk"))
-                    {
-                        Application.LoadLevel("KurskBossLoader");
-                        return;
-                    }
-                    if (m_level_name.Contains("Normandy"))
-                    {
-                        Application.LoadLevel("NormandyBossLoader");
-                        return;
-                    }
-                }
-                else
-                {
-                    GameObject.Find("Stamina Panel").GetComponent<TweenPosition>().PlayForward();
-                    GameObject.Find("CrateBGPanel").GetComponent<HandleTweens>().PlayForward();
-                }
-            }
             if (GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().m_stamina > 0)
             {
                 GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().DecreaseStamina(1);
                 GameManager.s_Inst.m_current_game_state = GameManager.GameState.Gameplay;
-               // GameObject.Find("UI Root(2D)").SetActive(false);
                 SceneManager.LoadScene("LevelLoader");
             }
             else
@@ -97,7 +62,7 @@ public class BattleStartButton : MonoBehaviour
                 }
             }
             GameManager.s_Inst.m_current_game_state = GameManager.GameState.Bonus_Level;
-            Application.LoadLevel("LevelLoader");
+            SceneManager.LoadScene("LevelLoader");
         }
     }
 

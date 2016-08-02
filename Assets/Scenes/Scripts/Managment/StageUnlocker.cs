@@ -30,12 +30,12 @@ public class StageUnlocker : MonoBehaviour
 
         InitLevels(m_mission1_star_count, m_mission1_stage_progress);
         foreach (int i in m_mission1_star_count)
-        {
-            if (i > 0)
-                m_mission1_current_stage++;
-            else
-                break;
-        }
+         {
+             if (i > 0)
+                 m_mission1_current_stage++;
+             else
+                 break;
+         } 
         m_highest_level = "Mission_1_";
         if (m_highest_level == "Mission_1_")
         {
@@ -53,10 +53,10 @@ public class StageUnlocker : MonoBehaviour
 
         map_controllers = GameObject.FindGameObjectsWithTag("MapController");
         GameManager.s_Inst.m_first_init = true;
-      /*  foreach (GameObject g in map_controllers)
+       foreach (GameObject g in map_controllers)
         {
             g.GetComponent<MapController>().Init();
-        }*/
+        }
     }
 
     int GetTotalStars()
@@ -69,6 +69,14 @@ public class StageUnlocker : MonoBehaviour
             m_total_stars_earned_mission1 += m_mission1_star_count[i];
         }
         return m_total_stars_earned;
+    }
+
+    public int GetStars(string m_level)
+    {
+        int num = System.Convert.ToInt32(m_level.Substring(m_level.Length - 2));
+        if (m_level.Contains("Mission_1"))
+            return m_mission1_star_count[num - 1];
+        return -1;
     }
 
     public void CheckAchievements()

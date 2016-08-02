@@ -23,8 +23,8 @@ public class CharacterSelect : MonoBehaviour
     public GameObject m_unlock_group;
     public UILabel m_cost_label;
     public UIButton m_launch_button;
-    public UILabel m_launch_text;
-    public UISprite m_lock_icon;
+    public GameObject m_launch_text;
+    public GameObject m_lock_icon;
 
     void Start()
     {
@@ -70,6 +70,9 @@ public class CharacterSelect : MonoBehaviour
             m_xp_group.SetActive(true);
             m_unlock_group.SetActive(false);
             UnlockLaunchButton();
+            m_progress_bar.value = GameManager.s_Inst.m_character_xp[m_selected_character] / GameManager.s_Inst.m_character_xp_max[GameManager.s_Inst.m_current_rank[m_selected_character]];
+            m_XP_label.text = GameManager.s_Inst.m_character_xp[m_selected_character] + "/" + GameManager.s_Inst.m_character_xp_max[GameManager.s_Inst.m_current_rank[m_selected_character]];
+            SetRank();
         }
         else
         {
@@ -85,9 +88,6 @@ public class CharacterSelect : MonoBehaviour
         }
         m_character_sprite.spriteName = m_character_array[m_selected_character];
         m_name_label.text = m_names[m_selected_character];
-        m_progress_bar.value = GameManager.s_Inst.m_character_xp[m_selected_character] / GameManager.s_Inst.m_character_xp_max[GameManager.s_Inst.m_current_rank[m_selected_character]];
-        m_XP_label.text = GameManager.s_Inst.m_character_xp[m_selected_character] + "/" + GameManager.s_Inst.m_character_xp_max[GameManager.s_Inst.m_current_rank[m_selected_character]];
-        SetRank();
     }
 
     public void BuyCharacter()
@@ -106,20 +106,15 @@ public class CharacterSelect : MonoBehaviour
 
     public void LockLaunchButton()
     {
-        m_lock_icon.enabled = true;
-        m_launch_text.enabled = false;
+        m_lock_icon.SetActive(true);
+        m_launch_text.SetActive(false);
         m_launch_button.isEnabled = false;
     }
 
     public void UnlockLaunchButton()
     {
-        if (m_detail_panel == null)
-            m_detail_panel = transform.parent.parent.GetComponent<BattleDetailPanel>();
-        if (!m_detail_panel.m_is_locked)
-        {
-            m_lock_icon.enabled = false;
-            m_launch_text.enabled = true;
-            m_launch_button.isEnabled = true;
-        }
+        m_lock_icon.SetActive(false);
+        m_launch_text.SetActive(true);
+        m_launch_button.isEnabled = true;
     }
 }

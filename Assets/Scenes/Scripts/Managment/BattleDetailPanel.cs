@@ -109,7 +109,7 @@ public class BattleDetailPanel : MonoBehaviour
         if (m_level_num < 12)
         {
             m_is_locked = (m_level_num > m_unlocked_level) ? true : false;
-        if (m_is_locked)
+            if (m_is_locked)
                 m_char_select.LockLaunchButton();
             else
                 m_char_select.UnlockLaunchButton();

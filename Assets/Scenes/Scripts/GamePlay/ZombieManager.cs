@@ -47,9 +47,9 @@ public class ZombieManager : MonoBehaviour {
         {
             GameObject go;
             if (type == large_zombie)
-                go = (GameObject)Instantiate(type, transform.position + new Vector3(0, i + 0.24f), Quaternion.identity);
+                go = (GameObject)Instantiate(type, transform.position + new Vector3(0+i*0.4f, i + 0.24f), Quaternion.identity);
             else
-                go = (GameObject)Instantiate(type, transform.position + new Vector3(0,i), Quaternion.identity);
+                go = (GameObject)Instantiate(type, transform.position + new Vector3(0+i*0.4f,i), Quaternion.identity);
             game_manager.addZombie(go);
             sorting_order_zombie(go, i);
             speed_zombies(go);
@@ -67,9 +67,9 @@ public class ZombieManager : MonoBehaviour {
     private void speed_zombies(GameObject Zombie)
     {
         if (UnityEngine.Random.Range(0, 10) > 8)
-            Zombie.GetComponent<ZombieController>().zombie_speed = 8;
+            Zombie.GetComponent<ZombieController>().zombie_speed = 9;
         else
-            Zombie.GetComponent<ZombieController>().zombie_speed = 3 + wave_number * 0.02f;
+            Zombie.GetComponent<ZombieController>().zombie_speed = 4.2f + wave_number * 0.05f;
         if (Zombie.tag == "ZombieLarge")
             Zombie.GetComponent<ZombieController>().zombie_speed -= 1;
     }

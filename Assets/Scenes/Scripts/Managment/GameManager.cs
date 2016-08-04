@@ -333,11 +333,8 @@ public class GameManager : MonoBehaviour
 
     public void OnZombieReachBase(GameObject zombie)
     {
-        zombie.GetComponent<Transform>().position += new Vector3(1, 0.8f);
-        zombie.GetComponent<Animator>().Play("Explode");
-        zombie.GetComponent<PolygonCollider2D>().enabled = false;
-        zombie.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         zombies.Remove(zombie);
+        Destroy(zombie);
         m_lives--;
         if (m_lives == 0)
         {
@@ -587,7 +584,6 @@ public class GameManager : MonoBehaviour
             else
             {
                 zombies[i].GetComponent<ZombieController>().health -= 1;
-
             }
         }
         for (int j = dead.Count-1; j >= 0; j--)

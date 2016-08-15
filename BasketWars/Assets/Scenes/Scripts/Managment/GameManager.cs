@@ -567,6 +567,7 @@ public class GameManager : MonoBehaviour
         add_bullet();
         add_bullet();
         
+        //Level 3, moving hoop
         if (Application.loadedLevel == 4 && Application.loadedLevel != null)
         {
             hoop = GameObject.FindGameObjectWithTag("Hoop");
@@ -574,9 +575,15 @@ public class GameManager : MonoBehaviour
             int x = UnityEngine.Random.Range(15, 20);
             Vector3 temp = new Vector3(x, 11.4303f, 0);
             hoop.transform.position = temp;
-// hoop.transform.position = temp;
-print(pos);
         }
+
+        //if there's a blinking mine
+        if(GameObject.Find("Mine").GetComponent<SpriteRenderer>().sprite.name == "bullseye_lights_green")
+        {
+            explodeZombies();
+        }
+
+
 
     }
 
@@ -595,13 +602,13 @@ print(pos);
 
         int count = 0;
         int zombieKill = 0;
-        if (zombies.Count < 5)
+        if (zombies.Count < 6)
         {
             zombieKill = zombies.Count;
         }
         else
         {
-            zombieKill = 4;
+            zombieKill = 5;
         }
         for (int i = 0; i < zombieKill; i++)
         {

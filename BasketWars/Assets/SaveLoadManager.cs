@@ -26,7 +26,7 @@ public class SaveLoadManager : MonoBehaviour {
 		public string m_rank_per_character;
 		public string m_rank_xp_per_character;
 	};
-
+    
 	public static SaveInfo m_save_info;
 	public static SaveLoadManager s_inst;
 	bool m_save_file_is_open;
@@ -48,7 +48,7 @@ public class SaveLoadManager : MonoBehaviour {
 		m_save_info.m_armor_powerup = 0;
 		m_save_info.m_focus_powerup = 0;
 		m_save_info.m_guide_powerup = 0;
-        m_save_info.m_mission_1_progress = 23; //0;
+        m_save_info.m_mission_1_progress = 87; //0; 5
 		m_save_info.m_stalingrad_progress = 0;
 		m_save_info.m_kursk_progress = 0;
 		m_save_info.m_times_played = 0;

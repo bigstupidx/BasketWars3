@@ -218,6 +218,7 @@
     <Compile Include="Assets\Scenes\Scripts\Enemies and Obstacles\ExplodingProjectile.cs" />
     <Compile Include="Assets\Scenes\Scripts\Enemies and Obstacles\Grenader.cs" />
     <Compile Include="Assets\Scenes\Scripts\Enemies and Obstacles\MachineGun.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Enemies and Obstacles\Mine.cs" />
     <Compile Include="Assets\Scenes\Scripts\Enemies and Obstacles\Missile.cs" />
     <Compile Include="Assets\Scenes\Scripts\Enemies and Obstacles\MissileSpawner.cs" />
     <Compile Include="Assets\Scenes\Scripts\Enemies and Obstacles\Mortar.cs" />

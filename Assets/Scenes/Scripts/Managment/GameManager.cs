@@ -331,21 +331,17 @@ public class GameManager : MonoBehaviour
             GameObject.Find("BaseLifeLeftBar").GetComponent<UIProgressBar>().value = (float)m_lives / (float)m_max_lives;
     }
 
-    public void OnZombieReachBase(GameObject zombie)
+    public void RemoveLife(int damage)
     {
-        zombies.Remove(zombie);
-        Destroy(zombie);
-        m_lives--;
-        if (m_lives == 0)
+        m_lives -= damage;
+        if (m_lives <= 0)
         {
             FailedLevel();
         }
         else
         {
             UpdateLivesLabel();
-            GameObject.Find("HPSlider").GetComponent<TweenAlpha>().PlayForward();
         }
-
     }
 
     void OnLevelWasLoaded()

@@ -1,4 +1,4 @@
 /captures
 .apdisk
-
+*.csproj
 Libary/

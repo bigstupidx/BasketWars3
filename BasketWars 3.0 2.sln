@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketWars 3.0 2.CSharp.Plugins", "BasketWars 3.0 2.CSharp.Plugins.csproj", "{8861A0BD-5552-89EA-57EC-6F576CD7DEF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketWars 3.0 2.CSharp", "BasketWars 3.0 2.CSharp.csproj", "{C7164C0C-0A3E-657A-27A0-EA288EE4F51C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketWars 3.0 2.CSharp.Editor", "BasketWars 3.0 2.CSharp.Editor.csproj", "{FA41A580-4395-502F-68E7-DAAE3560B147}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8861A0BD-5552-89EA-57EC-6F576CD7DEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8861A0BD-5552-89EA-57EC-6F576CD7DEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8861A0BD-5552-89EA-57EC-6F576CD7DEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8861A0BD-5552-89EA-57EC-6F576CD7DEF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7164C0C-0A3E-657A-27A0-EA288EE4F51C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7164C0C-0A3E-657A-27A0-EA288EE4F51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7164C0C-0A3E-657A-27A0-EA288EE4F51C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7164C0C-0A3E-657A-27A0-EA288EE4F51C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA41A580-4395-502F-68E7-DAAE3560B147}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA41A580-4395-502F-68E7-DAAE3560B147}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA41A580-4395-502F-68E7-DAAE3560B147}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA41A580-4395-502F-68E7-DAAE3560B147}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -10,8 +10,8 @@ public class PowerupPageHandler : MonoBehaviour {
 	int m_current_count;
 	public enum PowerupType{
 		Nuke,
-		Shield,
-		Guide,
+		Armor,
+		Ace,
 		Focus
 	}
 	public PowerupType m_type;

@@ -7,7 +7,7 @@ public class PowerupEquipper : MonoBehaviour
     public PowerupPageHandler m_nuke_page;
     public PowerupPageHandler m_armor_page;
     public PowerupPageHandler m_focus_page;
-    public PowerupPageHandler m_guide_page;
+    public PowerupPageHandler m_ace_powerup_page;
     public GameObject m_powerup_button;
     public GameObject m_powerup_equipped_button;
     public UISprite m_powerup_icon;
@@ -24,12 +24,12 @@ public class PowerupEquipper : MonoBehaviour
         s_inst.m_nuke_page.Init(SaveLoadManager.m_save_info.m_nuke_powerup);
         s_inst.m_armor_page.Init(SaveLoadManager.m_save_info.m_armor_powerup);
         s_inst.m_focus_page.Init(SaveLoadManager.m_save_info.m_focus_powerup);
-        s_inst.m_guide_page.Init(SaveLoadManager.m_save_info.m_guide_powerup);
+		s_inst.m_ace_powerup_page.Init(SaveLoadManager.m_save_info.m_ace_powerup);
         if (GameManager.s_Inst.m_equipped_powerup != GameManager.Powerup.None)
         {
             s_inst.m_powerup_button.SetActive(false);
             s_inst.m_powerup_equipped_button.SetActive(true);
-            s_inst.m_powerup_icon.spriteName = "Powerup" + GameManager.s_Inst.m_equipped_powerup.ToString() + "Retina";
+           // s_inst.m_powerup_icon.spriteName = "Powerup" + GameManager.s_Inst.m_equipped_powerup.ToString() + "Retina";
         }
     }
 
@@ -40,10 +40,12 @@ public class PowerupEquipper : MonoBehaviour
 
     public void EquipPowerup(string powerup_name)
     {
-        if (powerup_name == "NUKE")
-        {
-            GameManager.s_Inst.m_equipped_powerup = GameManager.Powerup.AcePowerup;
-        }
+		if (powerup_name == "ACE") {
+			GameManager.s_Inst.m_equipped_powerup = GameManager.Powerup.Ace;
+		} else if (powerup_name == "NUKE")
+			GameManager.s_Inst.m_equipped_powerup = GameManager.Powerup.Nuke;
+		else if (powerup_name == "ARMOR")
+			GameManager.s_Inst.m_equipped_powerup = GameManager.Powerup.Armor;
         Init();
     }
 }

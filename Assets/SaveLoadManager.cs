@@ -13,7 +13,7 @@ public class SaveLoadManager : MonoBehaviour {
 		public int m_nuke_powerup;
 		public int m_armor_powerup;
 		public int m_focus_powerup;
-		public int m_guide_powerup;
+		public int m_ace_powerup;
 		public int m_mission_1_progress;
 		public int m_stalingrad_progress;
 		public int m_kursk_progress;
@@ -44,11 +44,11 @@ public class SaveLoadManager : MonoBehaviour {
 	void InitNewSaveData(){
 		m_save_info.m_characters = 3;
 		m_save_info.m_coins = 10000; //0;
-		m_save_info.m_nuke_powerup = 0;
-		m_save_info.m_armor_powerup = 0;
+		m_save_info.m_nuke_powerup = 10;
+		m_save_info.m_armor_powerup = 10;
 		m_save_info.m_focus_powerup = 0;
-		m_save_info.m_guide_powerup = 0;
-        m_save_info.m_mission_1_progress = 23; //0;
+		m_save_info.m_ace_powerup = 10;
+        m_save_info.m_mission_1_progress = 1397; //0;
 		m_save_info.m_stalingrad_progress = 0;
 		m_save_info.m_kursk_progress = 0;
 		m_save_info.m_times_played = 0;

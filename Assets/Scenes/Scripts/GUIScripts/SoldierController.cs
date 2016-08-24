@@ -13,7 +13,6 @@ public class SoldierController: MonoBehaviour
 	public GameObject m_shotgun_bullet;
 	public GameObject m_rocket;
 	public Transform m_bullet_spawn_point;
-	public Transform m_arm_pivot;
 	public enum WeaponType{
 		Pistol,
 		Shotgun,
@@ -30,14 +29,6 @@ public class SoldierController: MonoBehaviour
 
 	void Start (){
 		m_animator.Play("Idle");
-		if(m_current_weapon == WeaponType.Rocket){
-			m_bullet_spawn_point = GameObject.Find("Rocket spawn").transform;
-			m_arm_pivot = transform.FindChild("PivotRocket");
-		}
-		if(m_current_weapon == WeaponType.Shotgun){
-			m_bullet_spawn_point = GameObject.Find("Shotgun spawn").transform;
-			m_arm_pivot = transform.FindChild("PivotShotgun");
-		}
 		DisableHeadAndArm();
 
     }
@@ -61,11 +52,21 @@ public class SoldierController: MonoBehaviour
         }
 
         //Actual Shooting
-		if(m_current_weapon == WeaponType.Pistol){
-			GameObject go = (GameObject)Instantiate(m_pistol_bullet,m_bullet_spawn_point.position,Quaternion.identity);
+		if (m_current_weapon == WeaponType.Pistol) {
+			GameObject go = (GameObject)Instantiate (m_pistol_bullet, m_bullet_spawn_point.position, Quaternion.identity);
 			go.transform.right = m_bullet_spawn_point.right;
-            go.GetComponent<PistolBullet>().Fire(go.transform.right);
-            m_gun_spark.Play("SoldierGunSpark");
+			go.GetComponent<PistolBullet> ().Fire (go.transform.right);
+			m_gun_spark.Play ("SoldierGunSpark");
+		} else if (m_current_weapon == WeaponType.Shotgun) {
+			GameObject go = (GameObject)Instantiate (m_shotgun_bullet, m_bullet_spawn_point.position, Quaternion.identity);
+			go.transform.right = m_bullet_spawn_point.right;
+			go.GetComponent<PistolBullet> ().Fire (go.transform.right);
+			m_gun_spark.Play ("SoldierGunSpark");
+		} else if (m_current_weapon == WeaponType.Rocket) {
+			GameObject go = (GameObject)Instantiate (m_rocket, m_bullet_spawn_point.position, Quaternion.identity);
+			go.transform.right = m_bullet_spawn_point.right;
+			go.GetComponent<PistolBullet> ().Fire (go.transform.right);
+			m_gun_spark.Play ("SoldierGunSpark");
 		}
 	}
 
@@ -115,28 +116,7 @@ public class SoldierController: MonoBehaviour
 		else
 			m_current_state = SoldierState.Throwing;
 	}
-
-	public void SetArm(Vector3 pos){
-		if(m_arm_pivot != null){
-			if((pos - m_arm_pivot.position).x > 0){
-				if(transform.localScale.x < 0)
-					transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x),transform.localScale.y,transform.localScale.z);
-				Vector3 temp = (pos - m_arm_pivot.position).normalized;
-				m_arm_pivot.right = temp;			
-				m_bullet_spawn_point.right = temp;
-			}
-			if((pos - m_arm_pivot.position).x < 0){
-				if(transform.localScale.x > 0)
-					transform.localScale = new Vector3(-transform.localScale.x,transform.localScale.y,transform.localScale.z);
-				Vector3 temp = (pos - m_arm_pivot.position).normalized;
-				temp.x *= -1;
-				m_arm_pivot.right = temp;
-				temp.x *= -1;
-				m_bullet_spawn_point.right = temp;
-			}
-		}
-	}
-
+		
 	public void SwitchToGun(){
         if (m_current_weapon == WeaponType.Pistol)
 			m_animator.Play("DrawWeapon");

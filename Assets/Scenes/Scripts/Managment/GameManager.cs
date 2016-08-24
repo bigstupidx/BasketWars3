@@ -72,9 +72,10 @@ public class GameManager : MonoBehaviour
     //public int m_characters_unlocked = 3;
     [HideInInspector]
     public int m_bullets;
+	public int max_m_bullets;
     public int m_lives;
     public int m_max_lives;
-    public int max_m_bullets;
+	public int m_armor = 0;
     public static int m_baskets_made = 0;
     [HideInInspector]
     public UILabel m_basket_counter_label;
@@ -164,7 +165,9 @@ public class GameManager : MonoBehaviour
     public enum Powerup
     {
         None,
-        AcePowerup
+        Ace,
+		Armor,
+		Nuke
     }
     public Powerup m_equipped_powerup;
     public static GameManager s_Inst;
@@ -331,21 +334,34 @@ public class GameManager : MonoBehaviour
             GameObject.Find("BaseLifeLeftBar").GetComponent<UIProgressBar>().value = (float)m_lives / (float)m_max_lives;
     }
 
-    public void OnZombieReachBase(GameObject zombie)
+	public void UpdateArmorLabel()
+	{
+		if (m_armor == 0 && GameObject.Find ("ArmorPowerup") != null)
+			GameObject.Find ("ArmorPowerup").SetActive (false);
+		else if (GameObject.Find ("Armor Left") != null)
+			GameObject.Find ("Armor Left").GetComponent<UILabel> ().text = m_armor.ToString ();
+	}
+
+    public void RemoveLife(int damage)
     {
-        zombies.Remove(zombie);
-        Destroy(zombie);
-        m_lives--;
-        if (m_lives == 0)
+		if (m_armor > 0) {
+			m_armor -= damage;
+			if (m_armor < 0) {
+				m_lives += m_armor;
+				m_armor = 0;
+			}
+			UpdateArmorLabel ();
+		} else
+			m_lives -= damage;
+
+        if (m_lives <= 0)
         {
             FailedLevel();
         }
         else
         {
             UpdateLivesLabel();
-            GameObject.Find("HPSlider").GetComponent<TweenAlpha>().PlayForward();
         }
-
     }
 
     void OnLevelWasLoaded()

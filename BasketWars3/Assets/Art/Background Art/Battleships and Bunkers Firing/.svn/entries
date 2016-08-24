@@ -1,0 +1,194 @@
+10
+
+dir
+12
+https://irvingliao@powerhousec.svn.cloudforge.com/basketwars/trunk/Basket%20War/Assets/Resource/Background%20Art/Battleships%20and%20Bunkers%20Firing
+https://irvingliao@powerhousec.svn.cloudforge.com/basketwars
+
+
+
+2013-08-12T22:08:41.011031Z
+2
+irvingliao
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+da1f80e8-fd62-4269-80c8-1226646298af
+
+Ship Middle Right PNG Sequences
+dir
+
+bunker_fire_placement.swf
+file
+
+
+
+
+2013-10-28T21:50:36.000000Z
+14f41e7926a92e1c5640a439c60bb538
+2013-08-12T22:08:41.011031Z
+2
+irvingliao
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+106810
+
+ShipFireSpriteCollection Data
+dir
+
+Bunker01 PNG Sequences
+dir
+
+Ship Front Left PNG Sequences
+dir
+
+Bunker02 PNG Sequences
+dir
+
+Bunker03 PNG Sequences
+dir
+
+ShipFireSpriteCollection.prefab
+file
+
+
+
+
+2013-10-28T21:50:36.000000Z
+10a855f72a85ca6681a7712dcdfac54b
+2013-08-12T22:08:41.011031Z
+2
+irvingliao
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+32424
+
+battleship_fire_placement.swf
+file
+
+
+
+
+2013-10-28T21:50:36.000000Z
+eb7518f6d0c9dd0bcbb7bb26db66ff25
+2013-08-12T22:08:41.011031Z
+2
+irvingliao
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+124577
+
+Bunker04 PNG Sequences
+dir
+
+Ship Front Right PNG Sequences
+dir
+
+Ship Back All PNG Sequences
+dir
+
+Ship Middle Left PNG Sequences
+dir
+
+ShipFireSpriteAnimation.prefab
+file
+
+
+
+
+2013-10-28T21:50:36.000000Z
+35521964c3435632681d35d1ad59a164
+2013-08-12T22:08:41.011031Z
+2
+irvingliao
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9472
+

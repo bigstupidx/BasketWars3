@@ -215,8 +215,12 @@ public class GameManager : MonoBehaviour
     public Powerup m_boss_reward;
     private List<GameObject> zombies;
     private List<int> dead;
+	private GameObject hoop;
+	private Transform hoopTrans;
     private GUIEnableDisable GUIMANAGER;
     public int soldier_position = 2;
+ 	private Vector3 pos;
+    public GameObject mine;
     // Use this for initialization
     void Awake()
     {
@@ -575,7 +579,36 @@ public class GameManager : MonoBehaviour
     {
         m_baskets_made++;
         explodeZombies();
+        add_bullet();
+        add_bullet();
+        
+        //Level 3, moving hoop
+        if (Application.loadedLevel == 4 && Application.loadedLevel != null)
+        {
+            hoop = GameObject.FindGameObjectWithTag("Hoop");
+
+            int x = UnityEngine.Random.Range(15, 20);
+            Vector3 temp = new Vector3(x, 11.4303f, 0);
+            hoop.transform.position = temp;
+        }
+
+        //if there's a blinking mine
+        if(GameObject.Find("MineLight").GetComponent<SpriteRenderer>().sprite.name == "bullseye_lights_green")
+        {
+            //explodeZombies();
+            dropMine();
+        }
     }
+
+    public void dropMine()
+    {
+        int mine_x = UnityEngine.Random.Range(7, 18);
+        Vector3 mine_position = new Vector3(mine_x, 13);
+        print(mine_x);
+        GameObject go = (GameObject)Instantiate(mine, mine_position, Quaternion.identity);
+
+    }
+
 
     public void add_bullet()
     {
@@ -588,9 +621,17 @@ public class GameManager : MonoBehaviour
 
     public void explodeZombies()
     {
-
         int count = 0;
-        for (int i = 0; i < zombies.Count; i++)
+        int zombieKill = 0;
+        if (zombies.Count < 6)
+        {
+            zombieKill = zombies.Count;
+        }
+        else
+        {
+            zombieKill = 5;
+        }
+        for (int i = 0; i < zombieKill; i++)
         {
             if (zombies[i].GetComponent<ZombieController>().health == 1)
             {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text.RegularExpressions;
 using System;
 
@@ -9,8 +10,8 @@ public class GameManager : MonoBehaviour
     public bool m_alt_throwing;
     public Vector2 m_alt_distance;
     public bool m_more_levels_unlocked;
-    public GameObject m_nuke_prefab;
-    [HideInInspector]
+	static public bool m_nuke_explosion = false;
+	[HideInInspector]
     public bool m_did_drag;
     [HideInInspector]
     public Rect m_drag_area;
@@ -31,7 +32,6 @@ public class GameManager : MonoBehaviour
     public List<Vector3> m_clicks = new List<Vector3>();
     static public bool m_ball_has_been_thrown = false;
     static public bool m_level_complete = false;
-    static public bool m_nuke_explosion = false;
     [HideInInspector]
     public Vector3 GrenadeThrowDirection;
     [HideInInspector]
@@ -360,7 +360,7 @@ public class GameManager : MonoBehaviour
 
         if (m_lives <= 0)
         {
-            FailedLevel();
+			StartCoroutine(FailedLevel());
         }
         else
         {
@@ -657,6 +657,24 @@ public class GameManager : MonoBehaviour
 
     }
 
+	public void killAllZombies()
+	{
+		int count = 0;
+		//Instantly kills all no matter health
+		for (int i = 0; i < zombies.Count; i++) {
+			dead.Add (i);
+			count++;
+		}
+		for (int j = dead.Count - 1; j >= 0; j--) {
+			zombies[dead[j]].GetComponent<Transform>().position += new Vector3(0.8f, 0.4f);
+			zombies[dead[j]].GetComponent<Animator>().Play("Explode");
+			zombies[dead[j]].GetComponent<PolygonCollider2D>().enabled = false;
+			zombies[dead[j]].GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+			zombies.RemoveAt(dead[j]);
+		}
+		dead.Clear ();
+	}
+
     public void addZombie(GameObject zombie)
     {
         zombies.Add(zombie);
@@ -796,13 +814,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void FailedLevel()
+	public IEnumerator FailedLevel()
     {
         if (!m_level_complete)
         {
-            /*	if(Application.loadedLevelName == gameObject.GetComponent<StageUnlocker>().m_highest_level){
+            /*	if(Appl	ication.loadedLevelName == gameObject.GetComponent<StageUnlocker>().m_highest_level){
                     PlayerPrefs.SetInt("FailedCount",(PlayerPrefs.GetInt("FailedCount",0) + 1));
                 }*/
+			GameObject.Find ("DeathScreen").GetComponent<Animator>().Play("GroundExplosion");
+			GameObject.Find ("Zombie Endpoint").SetActive (false);
+			yield return new WaitForSeconds (2);
             m_failed_level = true;
             GetComponent<AudioSource>().clip = m_failed_clip;
             GetComponent<AudioSource>().Play();

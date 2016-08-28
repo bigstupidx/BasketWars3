@@ -84,7 +84,7 @@ public class BossBunker : MonoBehaviour {
 	}
 	
 	void doRotate () {
-		if (GameManager.m_level_complete || GameManager.m_nuke_explosion)
+		if (GameManager.m_level_complete)
 			return;
 		
 		if (rotateUp) {
@@ -100,7 +100,7 @@ public class BossBunker : MonoBehaviour {
 	}
 	
 	void shootBullet () {
-		if (GameManager.m_level_complete || GameManager.m_nuke_explosion)
+		if (GameManager.m_level_complete)
 			return;
 		
 		float speed = -30f;

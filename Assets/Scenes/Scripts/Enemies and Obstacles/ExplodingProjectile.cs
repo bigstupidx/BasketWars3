@@ -43,7 +43,7 @@ public class ExplodingProjectile : MonoBehaviour
 		}
 		if (!isExploded)
 		{
-			if (GameManager.m_level_complete || GameManager.m_nuke_explosion) 
+			if (GameManager.m_level_complete) 
 			{
 				CancelInvoke("increaseSize");
 				CancelInvoke("doExplosion");

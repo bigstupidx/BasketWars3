@@ -16,7 +16,7 @@ public class BRGrenade : MonoBehaviour {
 	void Update () {
 		if (!isExploded)
 		{
-			if (GameManager.m_level_complete || GameManager.m_nuke_explosion) {
+			if (GameManager.m_level_complete) {
 				CancelInvoke("doExplosion");
 				doExplosion ();				
 			}

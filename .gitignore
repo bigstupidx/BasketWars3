@@ -1,4 +1,5 @@
 /captures
 .apdisk
 *.csproj
-Libary
+Library/
+Temp/

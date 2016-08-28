@@ -31,7 +31,7 @@ public class Grenader : MonoBehaviour {
 	}
 	
 	public void doThrow (){
-		if (GameManager.m_level_complete || GameManager.m_nuke_explosion)
+		if (GameManager.m_level_complete)
 			return;
 		didExplode = false;
 		anim.Play("GrenadierThrow");
@@ -39,7 +39,7 @@ public class Grenader : MonoBehaviour {
 	}
 	
 	void generateGrenade (){
-		if (GameManager.m_level_complete || GameManager.m_nuke_explosion)
+		if (GameManager.m_level_complete)
 			return;
 		GameObject go = (GameObject)Instantiate(grenade, spawnPoint.position, Quaternion.identity);
 		go.transform.GetComponent<Rigidbody2D>().AddForce (m_dir_grenade);

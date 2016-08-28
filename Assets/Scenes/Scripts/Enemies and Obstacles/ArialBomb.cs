@@ -30,7 +30,7 @@ public class ArialBomb : MonoBehaviour
 		if(m_can_drop){
 			if (!isExploded)
 			{
-				if (GameManager.m_level_complete || GameManager.m_nuke_explosion) 
+				if (GameManager.m_level_complete) 
 				{
 					doExplosion();
 					GetComponent<Renderer>().enabled = false;
@@ -38,7 +38,7 @@ public class ArialBomb : MonoBehaviour
 			}		
 			else
 			{
-				if(!GameManager.m_nuke_explosion){
+				if(!false){
 					m_drop_timer += Time.deltaTime;
 				}
 				if(m_drop_timer >= m_drop_time){

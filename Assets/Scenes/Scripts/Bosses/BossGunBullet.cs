@@ -23,7 +23,7 @@ public class BossGunBullet : MonoBehaviour {
 	void Update () {
 		if (!didExplode) 
 		{
-			if (GameManager.m_level_complete || GameManager.m_nuke_explosion) {
+			if (GameManager.m_level_complete) {
 				didExplode = true;
 				Instantiate(m_explosion,transform.position,Quaternion.identity);
 				transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero;	

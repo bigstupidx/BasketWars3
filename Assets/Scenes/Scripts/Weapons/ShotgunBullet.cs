@@ -1,8 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
-public class PistolBullet : Weapon 
-{
+public class ShotgunBullet : Weapon {
+
 	protected override void  OnTriggerEnter2D (Collider2D c) 
 	{
 		if (c.gameObject.tag == "Zombie" || c.gameObject.tag == "ZombieLarge")
@@ -23,5 +23,4 @@ public class PistolBullet : Weapon
 		} else 
 			DestroyBullet();
 	}
-
 }

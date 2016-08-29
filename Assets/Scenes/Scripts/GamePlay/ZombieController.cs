@@ -7,6 +7,8 @@ public class ZombieController : MonoBehaviour
     public bool at_endpoint = false;
     public int health;
 
+	private int pivot_row;
+
     // Use this for initialization
     void Start()
     {
@@ -49,4 +51,14 @@ public class ZombieController : MonoBehaviour
 			GameManager.s_Inst.RemoveLife(health);
         }
     }
+
+	public void set_pivot_row(int x)
+	{
+		pivot_row = x;
+	}
+
+	public int get_pivot_row()
+	{
+		return pivot_row;
+	}
 }

@@ -1,10 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/Scripts/GUIScripts/PowerUpButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/Scripts/Managment/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scenes/Scripts/GamePlay/ZombieController.cs" Line="4" Column="1" />
-      <File FileName="Assets/Scenes/Scripts/GUIScripts/PowerUpButton.cs" Line="70" Column="3" />
-      <File FileName="Assets/SaveLoadManager.cs" Line="7" Column="1" />
+      <File FileName="Assets/Scenes/Scripts/GUIScripts/PowerUpButton.cs" Line="73" Column="4" />
+      <File FileName="Assets/Scenes/Scripts/Managment/GameManager.cs" Line="810" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

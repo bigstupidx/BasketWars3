@@ -31,8 +31,7 @@ public class Weapon : MonoBehaviour
             if (temp.health == 1)
             {
                 c.GetComponent<Animator>().Play("Shot");
-                c.GetComponent<PolygonCollider2D>().enabled = false;
-                GameManager.s_Inst.removeZombie(c.gameObject);
+				temp.prep_DestoryZombie ();
                 
             } else
             {

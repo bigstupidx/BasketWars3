@@ -9,6 +9,10 @@ public class GUIEnableDisable : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+		//set ShootButton
+		UIButton what = transform.Find("Camera/ShootGunButton").GetComponent<UIButton>();
+		EventDelegate.Set( what.onClick, GameManager.s_Inst.SoldierFire);  
+
         NGUITools.SetActive(level_complete, false);
         NGUITools.SetActive(pause_menu, false);
         NGUITools.SetActive(failed_level, false);

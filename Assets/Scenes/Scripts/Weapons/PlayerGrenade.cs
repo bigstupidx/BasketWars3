@@ -5,9 +5,6 @@ public class PlayerGrenade : Weapon{
 
 	public GameObject m_explosion;
 
-	protected override void Awake(){
-		base.Awake();
-	}
 	protected override void OnTriggerEnter2D(Collider2D c){
 		if(c.gameObject.tag != "Ball"){
 			Explode();
@@ -15,11 +12,6 @@ public class PlayerGrenade : Weapon{
 		if(c.gameObject.tag == "Obstacle"){
 			Destroy(c.gameObject);
 		}
-	}
-
-	protected override void Update()
-	{
-
 	}
 
     public void Explode(){

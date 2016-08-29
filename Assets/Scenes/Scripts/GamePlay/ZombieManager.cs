@@ -60,6 +60,7 @@ public class ZombieManager : MonoBehaviour {
     {
         if (pivot_position == 0)
             Zombie.GetComponent<SpriteRenderer>().sortingLayerName = "Play Area";
+		Zombie.GetComponent<ZombieController> ().set_pivot_row (pivot_position);
         Zombie.GetComponent<SpriteRenderer>().sortingOrder = pivot_points - pivot_position;
     }
 

@@ -3,49 +3,29 @@ using System.Collections;
 
 public class Weapon : MonoBehaviour 
 {
-	protected Animator anim;  
 	public float m_speed;
-	protected GameManager m_game_manager;
-	// Use this for initialization
-	protected virtual void Awake ()
-	{
-		anim = GetComponent<Animator>(); // This script must be attached to the sprite to work.	
-		m_game_manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-	}
-	
-	// Update is called once per frame
-	protected virtual void Update () 
-	{	
-	}
+	protected int pivot_row;
 
 	public virtual void Fire(Vector3 dir)
 	{
-        transform.right = dir;
-        GetComponent<Rigidbody2D>().velocity = dir * m_speed;
+		GetComponent<Rigidbody2D>().velocity = dir * m_speed;
 	}
 	protected virtual void  OnTriggerEnter2D (Collider2D c) 
 	{
-        if (c.gameObject.tag == "Zombie" || c.gameObject.tag == "ZombieLarge")
-        {
-            ZombieController temp = c.GetComponent<ZombieController>();
-            if (temp.health == 1)
-            {
-                c.GetComponent<Animator>().Play("Shot");
-                c.GetComponent<PolygonCollider2D>().enabled = false;
-                GameManager.s_Inst.removeZombie(c.gameObject);
-                
-            } else
-            {
-                c.GetComponent<Animator>().Play("Health_Shot");
-                temp.zombie_speed -= 0.2f;
-                temp.health -= 1;
-            }
-        }
-        DestroyBullet();
+		DestroyBullet();
 	}
 
 	public void DestroyBullet(){
         Destroy(gameObject);
 	}
-	
+
+	public void set_pivot_row(int x)
+	{
+		pivot_row = x;
+	}
+
+	public int get_pivot_row()
+	{
+		return pivot_row;
+	}	
 }

@@ -520,7 +520,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Tutorial)
+		if (!m_failed_level && (m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Tutorial)
            && SceneManager.GetActiveScene().name != "LevelLoader")
             CheckMouse();
     }
@@ -647,10 +647,7 @@ public class GameManager : MonoBehaviour
         {
                 zombies[dead[j]].GetComponent<Transform>().position += new Vector3(0.8f, 0.4f);
                 zombies[dead[j]].GetComponent<Animator>().Play("Explode");
-                zombies[dead[j]].GetComponent<PolygonCollider2D>().enabled = false;
-                zombies[dead[j]].GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-                zombies.RemoveAt(dead[j]);
-
+				zombies[dead[j]].GetComponent<ZombieController> ().prep_DestoryZombie ();
         }
         
         dead.Clear();
@@ -668,9 +665,7 @@ public class GameManager : MonoBehaviour
 		for (int j = dead.Count - 1; j >= 0; j--) {
 			zombies[dead[j]].GetComponent<Transform>().position += new Vector3(0.8f, 0.4f);
 			zombies[dead[j]].GetComponent<Animator>().Play("Explode");
-			zombies[dead[j]].GetComponent<PolygonCollider2D>().enabled = false;
-			zombies[dead[j]].GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-			zombies.RemoveAt(dead[j]);
+			zombies[dead[j]].GetComponent<ZombieController> ().prep_DestoryZombie ();
 		}
 		dead.Clear ();
 	}
@@ -818,14 +813,11 @@ public class GameManager : MonoBehaviour
     {
         if (!m_level_complete)
         {
-            /*	if(Appl	ication.loadedLevelName == gameObject.GetComponent<StageUnlocker>().m_highest_level){
-                    PlayerPrefs.SetInt("FailedCount",(PlayerPrefs.GetInt("FailedCount",0) + 1));
-                }*/
-			GameObject.Find ("DeathScreen").GetComponent<Animator>().Play("GroundExplosion");
-			GameObject.Find ("Zombie Endpoint").SetActive (false);
-			yield return new WaitForSeconds (2);
-            m_failed_level = true;
-            GetComponent<AudioSource>().clip = m_failed_clip;
+			m_failed_level = true;
+			GameObject.Find ("DeathScreen").GetComponent<Animator>().Play("GroundExplosion");	
+			yield return new WaitForSeconds (8);
+
+			 GetComponent<AudioSource>().clip = m_failed_clip;
             GetComponent<AudioSource>().Play();
             AudioSource[] audios = GameObject.Find("RenderCamera").GetComponents<AudioSource>();
             foreach (AudioSource a in audios)
@@ -836,6 +828,13 @@ public class GameManager : MonoBehaviour
             GUIMANAGER.MoveLevelFailedIn();
         }
     }
+
+	public void reactivate_zombies()
+	{
+		foreach (GameObject zombie in zombies) {
+			zombie.GetComponent<ZombieController> ().zombie_move_again();
+		}
+	}
 
     #region Touch Controls for shooting the ball.
     void CheckTouches()

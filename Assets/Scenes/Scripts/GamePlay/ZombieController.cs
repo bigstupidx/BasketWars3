@@ -7,6 +7,8 @@ public class ZombieController : MonoBehaviour
     public bool at_endpoint = false;
     public int health;
 
+	private int pivot_row;
+
     // Use this for initialization
     void Start()
     {
@@ -15,8 +17,16 @@ public class ZombieController : MonoBehaviour
 
     public void DestroyZombie()
     {
-        Destroy(gameObject);
-    }
+		Destroy (gameObject);
+	}
+
+	public void prep_DestoryZombie()
+	{
+		GetComponent<PolygonCollider2D>().enabled = false;
+		GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
+		StopCoroutine (OnZombieReachBase ());
+		GameManager.s_Inst.removeZombie(gameObject);
+	}
 
     void OnTriggerEnter2D(Collider2D c)
     {
@@ -27,13 +37,28 @@ public class ZombieController : MonoBehaviour
         }
     }
 
+	public void zombie_move_again()
+	{
+		GetComponent<Rigidbody2D>().velocity = new Vector2(-0.1f*zombie_speed, 0);
+	}
+
     public IEnumerator OnZombieReachBase()
     {
-        GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         while (GameManager.s_Inst.m_lives > 0)
         {
-            GameManager.s_Inst.RemoveLife(health);
             yield return new WaitForSeconds(1f);
+			GameManager.s_Inst.RemoveLife(health);
         }
     }
+
+	public void set_pivot_row(int x)
+	{
+		pivot_row = x;
+	}
+
+	public int get_pivot_row()
+	{
+		return pivot_row;
+	}
 }

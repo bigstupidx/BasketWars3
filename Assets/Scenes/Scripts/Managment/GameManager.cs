@@ -219,6 +219,7 @@ public class GameManager : MonoBehaviour
 	private Transform hoopTrans;
     private GUIEnableDisable GUIMANAGER;
     public int soldier_position = 2;
+	public SoldierController.WeaponType Solider_weapon = SoldierController.WeaponType.Pistol;
  	private Vector3 pos;
     public GameObject mine;
     // Use this for initialization

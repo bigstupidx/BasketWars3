@@ -27,6 +27,10 @@ public class SoldierController: MonoBehaviour
 	public WeaponType m_current_weapon;
     public Sprite final_weapon_state;
 
+	void Awake() {
+		m_current_weapon = GameManager.s_Inst.Solider_weapon;
+	}
+
 	void Start (){
 		m_animator.Play("Idle");
 		DisableHeadAndArm();

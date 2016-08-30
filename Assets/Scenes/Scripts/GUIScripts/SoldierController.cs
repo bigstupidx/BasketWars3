@@ -29,6 +29,16 @@ public class SoldierController: MonoBehaviour
 
 	void Awake() {
 		m_current_weapon = GameManager.s_Inst.Solider_weapon;
+		if (m_current_weapon == WeaponType.Pistol) {
+			m_bullet_spawn_point = transform.Find ("Pivot/british_pistol03_gun/bullet spawn").transform;
+			m_gun_spark = transform.Find ("Pivot/british_pistol03_gun/british_pistol03_spark").GetComponent<Animator> ();
+		} else if (m_current_weapon == WeaponType.Shotgun) {
+			m_bullet_spawn_point = transform.Find ("PivotShotgun/british_Shotgun03_gun/Shotgun_spawn").transform;
+			m_gun_spark = transform.Find ("PivotShotgun/british_Shotgun03_gun/british_pistol03_spark").GetComponent<Animator> ();
+		} else if (m_current_weapon == WeaponType.Rocket) {
+			m_bullet_spawn_point = transform.Find ("PivotRocket/british_bazooka03_gun/Rocket spawn").transform;
+			m_gun_spark = transform.Find ("PivotRocket/british_bazooka03_gun/british_pistol03_spark").GetComponent<Animator> ();
+		}
 	}
 
 	void Start (){
@@ -55,22 +65,28 @@ public class SoldierController: MonoBehaviour
             m_animator.Play("Animation Shooting Cancel");
         }
 
-		GameObject go = null;
 
         //Actual Shooting
 		if (m_current_weapon == WeaponType.Pistol) {
-			go = (GameObject)Instantiate (m_pistol_bullet, m_bullet_spawn_point.position, Quaternion.identity);
-		} else if (m_current_weapon == WeaponType.Shotgun) {
-			go = (GameObject)Instantiate (m_shotgun_bullet, m_bullet_spawn_point.position, Quaternion.identity);
-		} 
-
-
-		if (go != null) {
-			Weapon temp = go.GetComponent<Weapon> ();
-			temp.Fire (m_bullet_spawn_point.right);
-			temp.set_pivot_row (GameManager.s_Inst.soldier_position);
+			GameObject go = (GameObject)Instantiate (m_pistol_bullet, m_bullet_spawn_point.position, Quaternion.identity);
+			make_bullet (go, m_bullet_spawn_point.right);
 			m_gun_spark.Play ("SoldierGunSpark");
+		} else if (m_current_weapon == WeaponType.Shotgun) {
+			for (int x = -1; x < 2; x++) {
+				GameObject go = (GameObject)Instantiate (m_shotgun_bullet, m_bullet_spawn_point.position, Quaternion.identity);
+				make_bullet (go, new Vector2 (1, 0.15f * x));
+			}
+			m_gun_spark.Play ("SoldierGunSpark");
+		} else if (m_current_weapon == WeaponType.Rocket) {
+			GameObject go = (GameObject)Instantiate (m_rocket, m_bullet_spawn_point.position, Quaternion.identity);
+			make_bullet (go, m_bullet_spawn_point.right);
 		}
+	}
+
+	private void make_bullet(GameObject go,Vector2 dir) {
+		Weapon temp = go.GetComponent<Weapon> ();
+		temp.Fire (dir);
+		temp.set_pivot_row (GameManager.s_Inst.soldier_position);
 	}
 
 	public void StartThrow(){

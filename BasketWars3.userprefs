@@ -1,9 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/Scripts/Managment/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scenes/Scripts/Weapons/RocketExplosion.cs">
     <Files>
-      <File FileName="Assets/Scenes/Scripts/GUIScripts/PowerUpButton.cs" Line="73" Column="4" />
-      <File FileName="Assets/Scenes/Scripts/Managment/GameManager.cs" Line="810" Column="6" />
+      <File FileName="Assets/Scenes/Scripts/Weapons/RocketExplosion.cs" Line="6" Column="1" />
+      <File FileName="Assets/Scenes/Scripts/Weapons/Weapon.cs" Line="13" Column="42" />
+      <File FileName="Assets/Scenes/Scripts/Weapons/PistolBullet.cs" Line="13" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -16,6 +16,7 @@ public class StageButton : MonoBehaviour
         Bulge,
         MainMenu,
         Reset,
+		Continue,
         Failed
     }
 
@@ -62,26 +63,29 @@ public class StageButton : MonoBehaviour
         string stageName = "";
         if (m_level_manager == null)
             m_level_manager = GameObject.FindGameObjectWithTag("GameManager");
-        if (stage == StageName.Failed)
-        {
-            GameManager.s_Inst.FinishedLevel();
-        }
-        else if (stage == StageName.MainMenu)
-        {
-            if (GameManager.s_Inst.m_waiting_for_stamina_refill)
-            {
-                GameManager.s_Inst.m_waiting_for_stamina_refill = false;
-            }
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_go_to_map = true;
-            }
-            m_level_manager.GetComponent<GameManager>().m_current_game_state = GameManager.GameState.MainMenu;
-            GameManager.s_Inst.m_last_level_name = Application.loadedLevelName;
-            GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-            Application.LoadLevel("LevelLoader");
-            return;
-        }
+		if (stage == StageName.Failed) {
+			GameManager.s_Inst.FinishedLevel ();
+		} else if (stage == StageName.MainMenu) {
+			if (GameManager.s_Inst.m_waiting_for_stamina_refill) {
+				GameManager.s_Inst.m_waiting_for_stamina_refill = false;
+			}
+			m_level_manager.GetComponent<GameManager> ().m_current_game_state = GameManager.GameState.MainMenu;
+			GameManager.s_Inst.m_last_level_name = Application.loadedLevelName;
+			GameManager.s_Inst.m_level_name_to_load = "MainMenu";
+			Application.LoadLevel ("LevelLoader");
+			return;
+		} else if (stage == StageName.Continue) {
+			if (GameManager.s_Inst.m_waiting_for_stamina_refill)
+			{
+				GameManager.s_Inst.m_waiting_for_stamina_refill = false;
+			}
+			GameManager.s_Inst.m_go_to_map = true;
+			m_level_manager.GetComponent<GameManager>().m_current_game_state = GameManager.GameState.MainMenu;
+			GameManager.s_Inst.m_last_level_name = Application.loadedLevelName;
+			GameManager.s_Inst.m_level_name_to_load = "MainMenu";
+			Application.LoadLevel("LevelLoader");
+			return;
+		}
         else if (stage == StageName.Reset)
         {
             if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Tutorial)
@@ -94,8 +98,8 @@ public class StageButton : MonoBehaviour
                 m_level_manager.GetComponent<StaminaGuage>().DecreaseStamina(1);
                 GameManager.s_Inst.SaveIAPItems();
                 GameManager.s_Inst.m_level_name_to_load = Application.loadedLevelName;
-                //GameObject.FindWithTag("StaminaBarRemove").GetComponent<StaminaAnimation>().SetBlip((float)GameManager.s_Inst.GetComponent<StaminaGuage>().m_stamina/(float)GameManager.s_Inst.GetComponent<StaminaGuage>().m_max_stamina);
                 Application.LoadLevel("LevelLoader");
+				return;
             }
             else
             {

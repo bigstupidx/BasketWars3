@@ -223,7 +223,7 @@ public class LevelSelect : MonoBehaviour
         //m_top_right.PlayForward();
         m_shop_and_offers.PlayForward();
         m_charcter_select.PlayForward();
-        if (GameManager.s_Inst.m_current_level_played == GameManager.CurrentLevel.Britain)
+		if (GameManager.s_Inst.m_current_level_played == GameManager.CurrentLevel.Mission_1)
         {
             MoveMission1In();
         }

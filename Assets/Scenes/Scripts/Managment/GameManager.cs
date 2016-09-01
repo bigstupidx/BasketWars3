@@ -378,12 +378,15 @@ public class GameManager : MonoBehaviour
         {
 			GetComponent<StageUnlocker> ().update_mission_star_labels ();
             UpdateLabels();
-            if (m_go_to_map)
-            {
-                GameObject.Find("Anchor - C").GetComponent<LevelSelect>().MoveOutStartToMap();
-                m_go_to_map = false;
-            }
-
+			if (m_go_to_map) {
+				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().MoveMapInFromLevel ();
+				GameObject.Find("Anchor - C").GetComponent<MainMenuEnableDisable>().MoveBattleDetailPanelIn();
+				GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(m_level_name_to_load);
+				m_go_to_map = false;
+			} else {
+				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().MoveOutStartToMap ();
+			}
+			GetComponent<DrawTrajectory>().enabled = false;
         }
         else if (m_current_game_state == GameState.Gameplay)
         {
@@ -391,7 +394,6 @@ public class GameManager : MonoBehaviour
             m_first_loss = true;
             m_balls = GameObject.FindGameObjectsWithTag("Ball");
             GUIMANAGER = GameObject.Find("GUIRoot (2D)").GetComponent<GUIEnableDisable>();
-            //GetComponent<StarManager>().ResetBools();
             UpdateAmmoLabel();
             m_ball_has_been_thrown = false;
             string stage_num = Regex.Match(Application.loadedLevelName, @"\d+").Value;
@@ -664,7 +666,6 @@ public class GameManager : MonoBehaviour
             GetComponent<AudioSource>().clip = m_passed_clip;
             GetComponent<AudioSource>().Play();
             UpdateLevelCompletePanel();
-            //	GetComponent<StageUnlocker>().UnlockNextLevel(Application.loadedLevelName,m_current_stage);
         }
         if (m_current_game_state == GameState.Gameplay && m_current_stage == 11)
         {

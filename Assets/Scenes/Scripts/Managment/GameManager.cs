@@ -52,11 +52,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Vector2 m_drag_range;
     [HideInInspector]
-    public int m_3_star_score;
-    [HideInInspector]
-    public int m_2_star_score;
-    [HideInInspector]
-    public int m_1_star_score;
+    public int m_basket_star_score;
     [HideInInspector]
     public bool m_user_logged_in = false;
     [HideInInspector]
@@ -254,16 +250,13 @@ public class GameManager : MonoBehaviour
         dead = new List<int>();
     }
 
-    /*	public void AddCoins(int coins){
+    	public void AddCoins(int coins){
             SaveLoadManager.m_save_info.m_coins += coins;
             if(m_current_game_state == GameState.MainMenu){
                 UpdateLabels();
             }
             SaveLoadManager.s_inst.SaveFile();
-            AchievementManager.SpoilsOfWar((float)SaveLoadManager.m_save_info.m_coins);
-            AchievementManager.DeepPockets((float)SaveLoadManager.m_save_info.m_coins);
-            AchievementManager.BuddingEntrepreneur((float)SaveLoadManager.m_save_info.m_coins);
-        }*/
+        }
 
     public void RemoveCoins(int coins)
     {
@@ -315,12 +308,10 @@ public class GameManager : MonoBehaviour
     {
         if (GameObject.Find("AmmoCounter") != null)
             GameObject.Find("AmmoCounter").GetComponent<UILabel>().text = m_bullets.ToString();
-        if (GameObject.Find("Coinslabel") != null && SaveLoadManager.s_inst != null)
-            GameObject.Find("Coinslabel").GetComponent<UILabel>().text = string.Format("{0:n0}", SaveLoadManager.m_save_info.m_coins);
-        if (GameObject.Find("SecondaryCoinLabel") != null && SaveLoadManager.s_inst != null)
+		if (GameObject.Find ("Coinslabel") != null && SaveLoadManager.s_inst != null) 
+			GameObject.Find ("Coinslabel").GetComponent<UILabel> ().text = string.Format ("{0:n0}", SaveLoadManager.m_save_info.m_coins);
+         if (GameObject.Find("SecondaryCoinLabel") != null && SaveLoadManager.s_inst != null)
             GameObject.Find("SecondaryCoinLabel").GetComponent<UILabel>().text = string.Format("{0:n0}", SaveLoadManager.m_save_info.m_coins);
-        //if(GameObject.Find("User Details") != null)
-        //GameObject.Find("User Details").GetComponent<UIButton>().onClick.Add(new EventDelegate(gameObject.GetComponent<KiiManager>(),"Logout"));
     }
 
     public void UpdateAmmoLabel()
@@ -385,25 +376,11 @@ public class GameManager : MonoBehaviour
             Time.timeScale = m_game_speed;
         if (m_current_game_state == GameState.MainMenu)
         {
+			GetComponent<StageUnlocker> ().update_mission_star_labels ();
             UpdateLabels();
             if (m_go_to_map)
             {
-                if (PlayerPrefs.GetInt("FailedCount", 0) >= 3)
-                {
-                    GameObject.Find("SkipLevelPrompt").GetComponent<TweenPosition>().PlayForward();
-                    GameObject.Find("CrateBGPanel").GetComponent<HandleTweens>().PlayForward();
-                    PlayerPrefs.SetInt("FailedCount", 0);
-                }
-                //GameObject.Find("Anchor - C").GetComponent<LevelSelect>().MoveOutStartToMap();
-                /*				if(!m_last_level_name.Contains("11")){ // if the level was not a boss fight lets load back into the battle map.
-                                    if(m_last_level_name.Contains("Britain"))
-                                        GameObject.Find("Anchor - C").GetComponent<LevelSelect>().MoveBritainIn();
-                                    if(m_last_level_name.Contains("Stalingrad"))
-                                        GameObject.Find("Anchor - C").GetComponent<LevelSelect>().MoveStalingradIn();
-                                    if(m_last_level_name.Contains("Kursk"))
-                                        GameObject.Find("Anchor - C").GetComponent<LevelSelect>().MoveKurskIn();
-                                }//else we go back to the main map. */
-
+                GameObject.Find("Anchor - C").GetComponent<LevelSelect>().MoveOutStartToMap();
                 m_go_to_map = false;
             }
 
@@ -528,52 +505,7 @@ public class GameManager : MonoBehaviour
 
     public void FinishedLevel()
     {
-        if (m_current_game_state == GameState.Gameplay)
-        {
-            if (!Application.loadedLevelName.Contains("11"))
-            {
-                //int stars = gameObject.GetComponent<StarManager>().CalcStars();
-                /*if(stars == 0 && m_first_loss){
-					m_first_loss = false;
-					m_is_paused = true;
-					GameObject.Find("2nd Chance").GetComponent<TweenPosition>().PlayForward();
-					GameObject.Find("BlackoutPanel").GetComponent<BlackoutPanel>().MoveIn();
-					//Trigger 15s bonus;
-				}else{ */
-                //	SetHighScore();
-                //	if(stars > 0)
-                PassedLevel();
-                //	else
-                //	FailedLevel();
-                //}
-            }
-            else
-            {
-                if (m_boss_life <= 0)
-                {
-                    PassedLevel();
-                }
-                else
-                {
-                    if (m_first_loss)
-                    {
-                        m_first_loss = false;
-                        m_is_paused = true;
-                        GameObject.Find("2nd Chance").GetComponent<TweenPosition>().PlayForward();
-                        GameObject.Find("BlackoutPanel").GetComponent<BlackoutPanel>().MoveIn();
-                    }
-                    else
-                    {
-                        FailedLevel();
-                    }
-                }
-            }
-        }
-        if (m_current_game_state == GameState.Bonus_Level)
-        {
-            // Do the level finish stuff;
-            PassedLevel();
-        }
+    	PassedLevel();      
     }
 
     public void MadeBasket()
@@ -731,10 +663,6 @@ public class GameManager : MonoBehaviour
             }
             GetComponent<AudioSource>().clip = m_passed_clip;
             GetComponent<AudioSource>().Play();
-            //if(m_baskets_made > GetHighScore(Application.loadedLevelName))
-            //LeaderboardManager.s_inst.SubmitScore(m_baskets_made,Application.loadedLevelName);
-            //else
-            //LeaderboardManager.s_inst.RetrieveScoresWithName(Application.loadedLevelName);
             UpdateLevelCompletePanel();
             //	GetComponent<StageUnlocker>().UnlockNextLevel(Application.loadedLevelName,m_current_stage);
         }
@@ -1302,10 +1230,24 @@ public class GameManager : MonoBehaviour
             {
                 m_character_xp[m_character_chosen] -= m_character_xp_max[m_current_rank[m_character_chosen]];
                 m_current_rank[m_character_chosen]++;
-                AddReward();
+               // AddReward();
             }
+			SaveRankAndXP ();
         }
     }
+
+	public void SaveRankAndXP()
+	{
+		String ranks = m_current_rank[0].ToString();
+		String xp = m_character_xp [0].ToString ();
+		for (int i = 1; i < m_current_rank.Length; i++) {
+			ranks += ',' + m_current_rank [i].ToString ();
+			xp += ',' + m_character_xp [i].ToString ();
+		}
+		SaveLoadManager.m_save_info.m_rank_per_character = ranks;
+		SaveLoadManager.m_save_info.m_rank_xp_per_character = xp;
+		SaveLoadManager.s_inst.SaveFile ();
+	}
 
     public void AddReward()
     {
@@ -1327,40 +1269,34 @@ public class GameManager : MonoBehaviour
         {
             GUIMANAGER.MoveLevelCompleteIn();
             m_level_complete = true;
-            /*			if(Application.loadedLevelName == gameObject.GetComponent<StageUnlocker>().m_highest_level)
-                            PlayerPrefs.SetInt("FailedCount",0); */
-            //Check the star count
-            int stars = 0; //gameObject.GetComponent<StarManager>().CalcStars();
-            if (m_baskets_made >= m_3_star_score)
-            {
-                //AchievementManager.SlamDunk();
-            }
-            //if(m_first_shot)
-            //AchievementManager.Swish();
-            //Update left half of the level Complete panel
+            int stars = CalcStars();
+         
             GameObject level_complete = GameObject.Find("LevelComplete");
             UILabel coin_reward = GameObject.Find("Reward Counter").GetComponent<UILabel>();
             UIProgressBar xp_bar = level_complete.transform.FindChild("RankSection").GetComponent<UIProgressBar>();
-            if (stars == 3)
+			if (stars == 3)
             {
                 AddXP(m_3_star_xp);
-                //AddCoins(m_3_star_coins);
+                AddCoins(m_3_star_coins);
                 coin_reward.text = "+" + m_3_star_coins;
             }
             else if (stars == 2)
             {
                 AddXP(m_2_star_xp);
-                //AddCoins(m_2_star_coins);
+                AddCoins(m_2_star_coins);
                 coin_reward.text = "+" + m_2_star_coins;
             }
             else if (stars == 1)
             {
                 AddXP(m_1_star_xp);
-                //AddCoins(m_1_star_coins);
+                AddCoins(m_1_star_coins);
                 coin_reward.text = "+" + m_1_star_coins;
             }
             xp_bar.value = m_character_xp[m_character_chosen] / m_character_xp_max[m_current_rank[m_character_chosen]];
-            //gameObject.GetComponent<StarManager>().SetStars(Application.loadedLevelName,stars);
+
+
+			GetComponent<StageUnlocker> ().update_level (
+				Convert.ToInt32 (Regex.Match (m_level_name_to_load, @"\d+").Value), stars); 
 
             //Update left half of the level Complete panel
             UILabel high_score = level_complete.transform.FindChild("High Score").GetChild(0).GetComponent<UILabel>();
@@ -1372,21 +1308,25 @@ public class GameManager : MonoBehaviour
             {
                 for (int i = 0; i < stars; i++)
                 {
+					star.transform.GetChild(i).gameObject.SetActive(true);	
                     star.transform.GetChild(i).GetComponent<TweenAlpha>().PlayForward();
                     star.transform.GetChild(i).GetComponent<TweenScale>().PlayForward();
                     star.transform.GetChild(i).GetComponent<TweenRotation>().PlayForward();
                 }
             }
         }
-        else if (m_current_game_state == GameState.Bonus_Level)
-        {
-            m_level_complete = true;
-            MoveInMenu("LevelComplete");
-            GameObject.Find("CurrentScoreLabel").GetComponent<UILabel>().text = string.Format("{0:n0}", m_bonus_score);
-            GameObject.Find("HighScoreLabel").GetComponent<UILabel>().text = string.Format("{0:n0}", GetHighScore(Application.loadedLevelName));
-            //gameObject.GetComponent<StageUnlocker>().UpdateAllLevels();
-        }
     }
+
+	public int CalcStars()
+	{
+		// 1 star for winning, 1 star for no life loss, 1 star for x baskets_made;
+		int stars = 1;
+		if (m_lives == m_max_lives)
+			++stars;
+		if (m_baskets_made >= m_basket_star_score)
+			++stars;
+		return stars;
+	}
 
     public void LoadTutorial()
     {

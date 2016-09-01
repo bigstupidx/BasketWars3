@@ -77,7 +77,6 @@ public class StageButton : MonoBehaviour
                 GameManager.s_Inst.m_go_to_map = true;
             }
             m_level_manager.GetComponent<GameManager>().m_current_game_state = GameManager.GameState.MainMenu;
-            GameManager.s_Inst.SaveIAPItems();
             GameManager.s_Inst.m_last_level_name = Application.loadedLevelName;
             GameManager.s_Inst.m_level_name_to_load = "MainMenu";
             Application.LoadLevel("LevelLoader");

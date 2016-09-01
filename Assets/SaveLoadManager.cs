@@ -35,10 +35,10 @@ public class SaveLoadManager : MonoBehaviour {
 	void Awake () {
 		if(s_inst == null){
 			s_inst = GameObject.Find("GameManagment").GetComponent<SaveLoadManager>();
+			m_save_file_path =	Application.persistentDataPath + "/Save1.bwf";
+			LoadSaveFile();
+			GameManager.s_Inst.UpdateLabels();
 		}
-		m_save_file_path =	Application.persistentDataPath + "/Save1.bwf";
-		LoadSaveFile();
-        GameManager.s_Inst.UpdateLabels();
 	}
 	
 	void InitNewSaveData(){
@@ -62,7 +62,7 @@ public class SaveLoadManager : MonoBehaviour {
 	}
 
 	public void LoadSaveFile(){
-      /*  if (File.Exists(m_save_file_path)){ //do we have a save?
+        if (File.Exists(m_save_file_path)){ //do we have a save?
 			BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(m_save_file_path,FileMode.Open);
 			m_save_info = (SaveInfo)bf.Deserialize(file);
@@ -71,7 +71,7 @@ public class SaveLoadManager : MonoBehaviour {
 		}else{ //create a new file */
 			InitNewSaveData();
 			SaveFile();
-	//	}
+		}
 		GameManager.s_Inst.LoadRanksAndXP(m_save_info.m_rank_per_character,m_save_info.m_rank_xp_per_character);
 		PowerupEquipper.Init();
 		StageUnlocker stage_unlocker = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>();

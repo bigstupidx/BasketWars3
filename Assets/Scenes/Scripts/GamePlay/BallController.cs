@@ -155,7 +155,6 @@ public class BallController : MonoBehaviour
 	{
         if (m_is_in_flight)
 		{
-			m_is_in_flight = false;
 			m_animator.Play(m_character_name + "Idle");
 		}
 		if(c.gameObject.tag == "Wall"){
@@ -205,7 +204,7 @@ public class BallController : MonoBehaviour
 
     public void MoveBallToPivot()
     {
-        if (!m_is_in_flight)
+		if (!m_is_in_flight)
             transform.position = m_ball_spawn_point.position;
     }
 }

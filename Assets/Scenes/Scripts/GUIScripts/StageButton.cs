@@ -128,7 +128,6 @@ public class StageButton : MonoBehaviour
 
             case 11:
                 loadName = stageName + "11";
-                GameManager.m_boss_life = 3;
                 break;
             case 12:
                 loadName = stageName + "12";
@@ -137,12 +136,10 @@ public class StageButton : MonoBehaviour
                 loadName = stageName + "13";
                 break;
         }
-        if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11)
-        {
-            GameObject.Find("Anchor - C").GetComponent<MainMenuEnableDisable>().MoveBattleDetailPanelIn();
-            GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(loadName);
-        }
-        else
+		if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11) {
+			GameObject.Find ("Anchor - C").GetComponent<MainMenuEnableDisable> ().MoveBattleDetailPanelIn ();
+			GameObject.Find ("BattleStartButton").GetComponent<BattleStartButton> ().SetLevelToLoad (loadName);
+		} else
         {
             GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().DecreaseStamina(1);
             GameManager.s_Inst.m_current_game_state = GameManager.GameState.Gameplay;

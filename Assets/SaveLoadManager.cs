@@ -48,7 +48,7 @@ public class SaveLoadManager : MonoBehaviour {
 		m_save_info.m_armor_powerup = 10;
 		m_save_info.m_focus_powerup = 0;
 		m_save_info.m_ace_powerup = 10;
-        m_save_info.m_mission_1_progress = 1397; //0;
+		m_save_info.m_mission_1_progress = 4194303; //0;
 		m_save_info.m_stalingrad_progress = 0;
 		m_save_info.m_kursk_progress = 0;
 		m_save_info.m_times_played = 0;

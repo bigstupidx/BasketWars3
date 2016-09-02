@@ -155,7 +155,8 @@ public class GameManager : MonoBehaviour
         Gameplay,
         Credits,
         Demo,
-        Bonus_Level
+        Bonus_Level,
+		Boss
     }
     public GameState m_current_game_state;
     public enum Powerup
@@ -381,7 +382,7 @@ public class GameManager : MonoBehaviour
 			}
 			GetComponent<DrawTrajectory>().enabled = false;
         }
-        else if (m_current_game_state == GameState.Gameplay)
+		else if (m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Boss)
         {
             m_baskets_made = 0;
             m_first_loss = true;
@@ -481,7 +482,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (!m_failed_level && (m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Tutorial)
+		if (!m_failed_level && (m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Boss)
            && SceneManager.GetActiveScene().name != "LevelLoader")
             CheckMouse();
     }

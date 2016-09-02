@@ -7,6 +7,7 @@ public class MainMenuEnableDisable : MonoBehaviour {
     public void MoveBattleDetailPanelIn()
     {
         NGUITools.SetActive(Battle_detail, true);
+		Battle_detail.transform.GetChild (1).gameObject.GetComponent<TweenAlpha> ().PlayForward ();
     }
 
     public void MoveBattleDetailPanelOut()

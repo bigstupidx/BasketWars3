@@ -291,14 +291,6 @@ public class GameManager : MonoBehaviour
             return;
     }
 
-    /*public void UpdateWeapons(KiiObject obj){
-		pistol_owned = (bool)obj["Pistol_owned"];
-		grenade_owned = (bool)obj["Grenade_owned"];
-		machine_gun_owned = (bool)obj["Machine_gun_owned"];
-		rifle_owned = (bool)obj["Rifle_owned"];
-		m_current_weapon = (int)obj["Equipped_Weapon"];
-	}*/
-
     public void SaveIAPItems()
     {
         SaveLoadManager.s_inst.SaveFile();
@@ -378,13 +370,16 @@ public class GameManager : MonoBehaviour
         {
 			GetComponent<StageUnlocker> ().update_mission_star_labels ();
             UpdateLabels();
+			GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().MoveOutStartToMap ();
 			if (m_go_to_map) {
-				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().MoveMapInFromLevel ();
+				String next = m_last_level_name;
+				if (next [next.Length - 1] < '9')
+					next = next.Substring(0,next.Length -1) + (char)(next[next.Length - 1] + 1);
+				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().MoveMission1In ();
 				GameObject.Find("Anchor - C").GetComponent<MainMenuEnableDisable>().MoveBattleDetailPanelIn();
-				GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(m_level_name_to_load);
+				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().disableMapButtons ();
+				GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(next);
 				m_go_to_map = false;
-			} else {
-				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().MoveOutStartToMap ();
 			}
 			GetComponent<DrawTrajectory>().enabled = false;
         }
@@ -401,18 +396,6 @@ public class GameManager : MonoBehaviour
             {
                 //StageButton stage_button = GameObject.Find("NextButton").GetComponent<StageButton>();
                 m_current_stage = int.Parse(stage_num);
-                /*			if(m_current_stage <= 10){
-                                if(Application.loadedLevelName.Contains("Britain"))
-                                    stage_button.stage = StageButton.StageName.Britain;
-                                else if(Application.loadedLevelName.Contains("Stalingrad"))
-                                    stage_button.stage = StageButton.StageName.Stalingrad;
-                                stage_button.stageLevel = (m_current_stage+1);
-                            }*/
-                if (m_current_stage == 11)
-                {
-                    //	GameObject.Find("NextButton").GetComponent<StageButton>().stage = StageButton.StageName.MainMenu;
-                    m_boss_life = 3;
-                }
             }
             m_level_complete = false;
             m_is_paused = false;
@@ -1270,6 +1253,7 @@ public class GameManager : MonoBehaviour
         {
             GUIMANAGER.MoveLevelCompleteIn();
             m_level_complete = true;
+			m_last_level_name = m_level_name_to_load;
             int stars = CalcStars();
          
             GameObject level_complete = GameObject.Find("LevelComplete");

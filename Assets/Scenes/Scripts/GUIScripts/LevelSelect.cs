@@ -40,10 +40,10 @@ public class LevelSelect : MonoBehaviour
 
     public bool m_is_on_map = false;
 
-
     public enum LevelNames
     {
         Britain,
+		Mission_1,
         Stalingrad,
         Kursk,
         Normandy,
@@ -51,7 +51,7 @@ public class LevelSelect : MonoBehaviour
         Bulge,
         Mode_Select,
     }
-    LevelNames m_level_to_load;
+    public LevelNames m_level_to_load;
 
     public void Start()
     {
@@ -93,9 +93,21 @@ public class LevelSelect : MonoBehaviour
 
     //Mode Select
 
+	public void disableMapButtons()
+	{
+		foreach (BoxCollider but in m_top_mid.transform.GetComponentsInChildren(typeof(BoxCollider)))
+			but.enabled = false;
+		if (m_level_to_load == LevelNames.Mission_1)
+		{
+			m_misson_1.GetComponent<MapController>().disableButtons();
+		}
+	}
+
     public void ReEnableMapButtons()
     {
-        if (m_level_to_load == LevelNames.Britain)
+		foreach (BoxCollider but in m_top_mid.transform.GetComponentsInChildren(typeof(BoxCollider)))
+			but.enabled = true;
+		if (m_level_to_load == LevelNames.Mission_1)
         {
             m_misson_1.GetComponent<MapController>().enableButtons();
         }
@@ -223,7 +235,7 @@ public class LevelSelect : MonoBehaviour
         //m_top_right.PlayForward();
         m_shop_and_offers.PlayForward();
         m_charcter_select.PlayForward();
-        if (GameManager.s_Inst.m_current_level_played == GameManager.CurrentLevel.Britain)
+		if (GameManager.s_Inst.m_current_level_played == GameManager.CurrentLevel.Mission_1)
         {
             MoveMission1In();
         }
@@ -265,6 +277,7 @@ public class LevelSelect : MonoBehaviour
     #region Move Functions
     public void MoveMission1In()
     {
+		m_level_to_load = LevelNames.Mission_1;
         m_misson_1.transform.GetChild(0).localPosition = new Vector3(0, -180, 0);
         m_misson_1.transform.GetChild(0).GetComponent<TweenAlpha>().PlayForward();
         m_map_panel.GetComponent<TweenAlpha>().PlayForward();
@@ -273,7 +286,6 @@ public class LevelSelect : MonoBehaviour
     public void MoveBritainOut()
     {
         m_misson_1.transform.GetChild(0).GetComponent<TweenAlpha>().PlayReverse();
-        //BackButtonStack.PopStack();
         m_map_panel.gameObject.GetComponent<TweenPosition>().onFinishedForward.Clear();
     }
 

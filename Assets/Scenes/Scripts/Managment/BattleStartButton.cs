@@ -24,8 +24,9 @@ public class BattleStartButton : MonoBehaviour
     {
         SaveLoadManager.s_inst.SaveFile();
         GameManager.s_Inst.m_level_name_to_load = m_level_name;
-        int level_num = Convert.ToInt32(Regex.Match(m_level_name, @"\d+").Value);
-        if (level_num < 12)
+		int level_num = Convert.ToInt32(m_level_name.Substring(m_level_name.Length - 2));
+		Debug.Log (m_level_name);
+        if (level_num < 11)
         {
             if (GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().m_stamina > 0)
             {
@@ -39,30 +40,16 @@ public class BattleStartButton : MonoBehaviour
                 GameObject.Find("CrateBGPanel").GetComponent<HandleTweens>().PlayForward();
             }
         }
-        else
+		else if (level_num == 11)
         {
-            if (level_num == 12)
-            {
-                if (SaveLoadManager.m_save_info.m_coins >= 50)
-                    GameManager.s_Inst.RemoveCoins(50);
-                else
-                {
-                    GameObject.Find("MessageFailed").GetComponent<TweenPosition>().PlayForward();
-                    return;
-                }
-            }
-            else if (level_num == 13)
-            {
-                if (SaveLoadManager.m_save_info.m_coins >= 100)
-                    GameManager.s_Inst.RemoveCoins(100);
-                else
-                {
-                    GameObject.Find("MessageFailed").GetComponent<TweenPosition>().PlayForward();
-                    return;
-                }
-            }
-            GameManager.s_Inst.m_current_game_state = GameManager.GameState.Bonus_Level;
-            SceneManager.LoadScene("LevelLoader");
+			if (GameManager.s_Inst.gameObject.GetComponent<StaminaGuage> ().m_stamina > 1) {
+				GameManager.s_Inst.gameObject.GetComponent<StaminaGuage> ().DecreaseStamina (2);
+				GameManager.s_Inst.m_current_game_state = GameManager.GameState.Boss;
+				SceneManager.LoadScene ("LevelLoader");
+			} else {
+				GameObject.Find ("Stamina Panel").GetComponent<TweenPosition> ().PlayForward ();
+				GameObject.Find ("CrateBGPanel").GetComponent<HandleTweens> ().PlayForward ();
+			}
         }
     }
 

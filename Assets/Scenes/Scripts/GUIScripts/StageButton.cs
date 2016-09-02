@@ -16,40 +16,13 @@ public class StageButton : MonoBehaviour
         Bulge,
         MainMenu,
         Reset,
-        Failed
+		Continue
     }
 
     public StageName stage;
     public int stageLevel = 1;
     public GameObject m_stars;
     GameObject m_level_manager;
-
-    // Use this for initialization
-    void Awake()
-    {
-        m_level_manager = GameObject.Find("GameManagment");
-        if (Application.loadedLevelName == "MainMenu")
-        {
-            if (m_stars == null)
-            {
-                if (transform.FindChild("Stars") != null)
-                {
-                    m_stars = transform.FindChild("Stars").gameObject;
-                }
-                else
-                {
-                    Debug.Log("Stars were not found on " + gameObject.name);
-                };
-
-            }
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     void OnLevelWasLoaded()
     {
@@ -62,41 +35,41 @@ public class StageButton : MonoBehaviour
         string stageName = "";
         if (m_level_manager == null)
             m_level_manager = GameObject.FindGameObjectWithTag("GameManager");
-        if (stage == StageName.Failed)
-        {
-            GameManager.s_Inst.FinishedLevel();
-        }
-        else if (stage == StageName.MainMenu)
-        {
-            if (GameManager.s_Inst.m_waiting_for_stamina_refill)
-            {
-                GameManager.s_Inst.m_waiting_for_stamina_refill = false;
-            }
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_go_to_map = true;
-            }
-            m_level_manager.GetComponent<GameManager>().m_current_game_state = GameManager.GameState.MainMenu;
-            GameManager.s_Inst.SaveIAPItems();
-            GameManager.s_Inst.m_last_level_name = Application.loadedLevelName;
-            GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-            Application.LoadLevel("LevelLoader");
-            return;
-        }
+		 if (stage == StageName.MainMenu) {
+			if (GameManager.s_Inst.m_waiting_for_stamina_refill) {
+				GameManager.s_Inst.m_waiting_for_stamina_refill = false;
+			}
+			m_level_manager.GetComponent<GameManager> ().m_current_game_state = GameManager.GameState.MainMenu;
+			GameManager.s_Inst.m_last_level_name = SceneManager.GetActiveScene().name;
+			GameManager.s_Inst.m_level_name_to_load = "MainMenu";
+			SceneManager.LoadScene("LevelLoader");
+			return;
+		} else if (stage == StageName.Continue) {
+			if (GameManager.s_Inst.m_waiting_for_stamina_refill)
+			{
+				GameManager.s_Inst.m_waiting_for_stamina_refill = false;
+			}
+			GameManager.s_Inst.m_go_to_map = true;
+			m_level_manager.GetComponent<GameManager>().m_current_game_state = GameManager.GameState.MainMenu;
+			GameManager.s_Inst.m_last_level_name = SceneManager.GetActiveScene().name;
+			GameManager.s_Inst.m_level_name_to_load = "MainMenu";
+			SceneManager.LoadScene("LevelLoader");
+			return;
+		}
         else if (stage == StageName.Reset)
         {
             if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Tutorial)
             {
-                Application.LoadLevelAsync(Application.loadedLevel);
+              //  Application.LoadLevelAsync(Application.loadedLevel);
                 return;
             }
             if (m_level_manager.GetComponent<StaminaGuage>().m_stamina > 0)
             {
                 m_level_manager.GetComponent<StaminaGuage>().DecreaseStamina(1);
                 GameManager.s_Inst.SaveIAPItems();
-                GameManager.s_Inst.m_level_name_to_load = Application.loadedLevelName;
-                //GameObject.FindWithTag("StaminaBarRemove").GetComponent<StaminaAnimation>().SetBlip((float)GameManager.s_Inst.GetComponent<StaminaGuage>().m_stamina/(float)GameManager.s_Inst.GetComponent<StaminaGuage>().m_max_stamina);
-                Application.LoadLevel("LevelLoader");
+				GameManager.s_Inst.m_level_name_to_load = SceneManager.GetActiveScene().name;
+				SceneManager.LoadScene("LevelLoader");
+				return;
             }
             else
             {
@@ -107,117 +80,9 @@ public class StageButton : MonoBehaviour
         }
         else if (stage == StageName.Mission_1)
         {
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Mission_1;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-                GameManager.s_Inst.m_current_game_state = GameManager.GameState.MainMenu;
-                GameManager.s_Inst.m_go_to_map = true;
-                GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-                SceneManager.LoadScene("LevelLoader");
-                return;
-            }
-            else
-            {
-                stageName = "Mission_1_";
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Mission_1;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-            }
-        }
-        else if (stage == StageName.Stalingrad)
-        {
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Stalingrad;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-                GameManager.s_Inst.m_current_game_state = GameManager.GameState.MainMenu;
-                GameManager.s_Inst.m_go_to_map = true;
-                GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-                Application.LoadLevel("LevelLoader");
-                return;
-            }
-            else
-            {
-                stageName = "Stalingrad";
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Stalingrad;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-            }
-        }
-        else if (stage == StageName.Kursk)
-        {
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Kursk;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-                GameManager.s_Inst.m_current_game_state = GameManager.GameState.MainMenu;
-                GameManager.s_Inst.m_go_to_map = true;
-                GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-                Application.LoadLevel("LevelLoader");
-                return;
-            }
-            else
-            {
-                stageName = "Kursk";
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Kursk;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-            }
-        }
-        else if (stage == StageName.Normandy)
-        {
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Normandy;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-                GameManager.s_Inst.m_current_game_state = GameManager.GameState.MainMenu;
-                GameManager.s_Inst.m_go_to_map = true;
-                GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-                Application.LoadLevel("LevelLoader");
-                return;
-            }
-            else
-            {
-                stageName = "Normandy";
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Normandy;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-            }
-        }
-        else if (stage == StageName.Midway)
-        {
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Midway;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-                GameManager.s_Inst.m_current_game_state = GameManager.GameState.MainMenu;
-                GameManager.s_Inst.m_go_to_map = true;
-                GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-                Application.LoadLevel("LevelLoader");
-                return;
-            }
-            else
-            {
-                stageName = "Midway";
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Midway;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-            }
-        }
-        else if (stage == StageName.Bulge)
-        {
-            if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay)
-            {
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Bulge;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-                GameManager.s_Inst.m_current_game_state = GameManager.GameState.MainMenu;
-                GameManager.s_Inst.m_go_to_map = true;
-                GameManager.s_Inst.m_level_name_to_load = "MainMenu";
-                Application.LoadLevel("LevelLoader");
-                return;
-            }
-            else
-            {
-                stageName = "Bulge";
-                GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Bulge;
-                PlayerPrefs.SetInt("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
-            }
+			stageName = "Mission_1_";
+            GameManager.s_Inst.m_current_level_played = GameManager.CurrentLevel.Mission_1;
+			PlayerPrefs.SetInt ("LastLevel", (int)GameManager.s_Inst.m_current_level_played);
         }
         switch (stageLevel)
         {
@@ -263,7 +128,6 @@ public class StageButton : MonoBehaviour
 
             case 11:
                 loadName = stageName + "11";
-                GameManager.m_boss_life = 3;
                 break;
             case 12:
                 loadName = stageName + "12";
@@ -272,12 +136,10 @@ public class StageButton : MonoBehaviour
                 loadName = stageName + "13";
                 break;
         }
-        if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11)
-        {
-            GameObject.Find("Anchor - C").GetComponent<MainMenuEnableDisable>().MoveBattleDetailPanelIn();
-            GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(loadName);
-        }
-        else
+		if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.MainMenu && stageLevel <= 11) {
+			GameObject.Find ("Anchor - C").GetComponent<MainMenuEnableDisable> ().MoveBattleDetailPanelIn ();
+			GameObject.Find ("BattleStartButton").GetComponent<BattleStartButton> ().SetLevelToLoad (loadName);
+		} else
         {
             GameManager.s_Inst.gameObject.GetComponent<StaminaGuage>().DecreaseStamina(1);
             GameManager.s_Inst.m_current_game_state = GameManager.GameState.Gameplay;

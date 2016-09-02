@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 	public float m_speed;
 	protected int pivot_row;
 
-	public virtual void Fire(Vector3 dir)
+	public virtual void Fire(Vector2 dir)
 	{
 		GetComponent<Rigidbody2D>().velocity = dir * m_speed;
 	}

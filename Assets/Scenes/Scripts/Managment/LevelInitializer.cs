@@ -15,9 +15,7 @@ public class LevelInitializer : MonoBehaviour
 	public Vector2 m_4_3_mortar_dir;
 
 	public int m_lives_given;
-	public int m_3_star_score;
-	public int m_2_star_score;
-	public int m_1_star_score;
+	public int m_star_baskets_made;
 	public int m_ammo_given;
     public int m_max_ammo;
 	public int m_3_star_coins;
@@ -51,23 +49,24 @@ public class LevelInitializer : MonoBehaviour
 			GameManager.s_Inst.GrenadeThrowDirection = new Vector3(m_4_3_grenade_dir.x,m_4_3_grenade_dir.y,0);
 			GameManager.s_Inst.MortarShootDirection = new Vector3(m_4_3_mortar_dir.x,m_4_3_mortar_dir.y,0);
 		}
-		GameManager.s_Inst.m_3_star_score = m_3_star_score;
-		GameManager.s_Inst.m_2_star_score = m_2_star_score;
-		GameManager.s_Inst.m_1_star_score = m_1_star_score;
-		if(GameObject.Find("StarLivesNumber") != null)
-			GameObject.Find("StarLivesNumber").GetComponent<UILabel>().text = m_2_star_score.ToString();
+		GameManager.s_Inst.m_basket_star_score = m_star_baskets_made;
+
 		GameManager.s_Inst.m_bullets = m_ammo_given;
         GameManager.s_Inst.max_m_bullets = m_max_ammo;
         GameManager.s_Inst.UpdateAmmoLabel();
+
         GameManager.s_Inst.m_lives = m_lives_given;
         GameManager.s_Inst.m_max_lives = m_lives_given;
         GameManager.s_Inst.UpdateLivesLabel();
+
 		GameManager.s_Inst.m_3_star_coins = m_3_star_coins;
 		GameManager.s_Inst.m_2_star_coins = m_2_star_coins;
 		GameManager.s_Inst.m_1_star_coins = m_1_star_coins;
+
 		GameManager.s_Inst.m_3_star_xp = m_3_star_xp;
 		GameManager.s_Inst.m_2_star_xp = m_2_star_xp;
 		GameManager.s_Inst.m_1_star_xp = m_1_star_xp;
+
 		GameManager.s_Inst.SetCameraRect();
 		DrawTrajectory.showPathCount = m_throw_line_dots;
 	}
@@ -104,8 +103,7 @@ public class LevelInitializer : MonoBehaviour
 	[ContextMenu("Revert to Default Values")]
 	public void RevertToDefaultValues(){
 		m_lives_given = 5;
-		m_3_star_score = 5;
-		m_2_star_score = 4;
+		m_star_baskets_made = 5;
 		m_ammo_given = 5;
 		m_3_star_coins = 0;
 		m_2_star_coins = 0;

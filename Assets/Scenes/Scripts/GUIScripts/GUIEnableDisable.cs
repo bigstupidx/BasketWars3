@@ -14,26 +14,26 @@ public class GUIEnableDisable : MonoBehaviour {
 		UIButton what = transform.Find("Camera/ShootGunButton").GetComponent<UIButton>();
 		EventDelegate.Set( what.onClick, GameManager.s_Inst.SoldierFire);  
 
-		//set Pivot Points
-		ZombieManager x = GameObject.Find("ZombieManager").GetComponent<ZombieManager>();
-		if (x.pivot_points == 1) {
-			foreach (GameObject pivot_point in pivot_points)
-				pivot_point.SetActive (false);
-			GameManager.s_Inst.soldier_position = 1;
+		if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Gameplay) {
+			//set Pivot Points for normal mode
+			ZombieManager x = GameObject.Find ("ZombieManager").GetComponent<ZombieManager> ();
+			if (x.pivot_points == 1) {
+				foreach (GameObject pivot_point in pivot_points)
+					pivot_point.SetActive (false);
+				GameManager.s_Inst.soldier_position = 1;
+			}
+			x.transform.position.Set (x.transform.position.x, GameObject.FindGameObjectWithTag ("Player").transform.position.y - GameManager.s_Inst.soldier_position - 1, 0);
+		} else if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Boss) {
+			BossController boss = GameObject.FindGameObjectWithTag ("Boss").GetComponent<BossController> ();
+			float i = GameObject.FindGameObjectWithTag ("Player").transform.position.y -0.4f; 
+			boss.set_row (new Vector2 (17, i), new Vector2 (17, i + 1), new Vector2 (17, i + 2));
 		}
-
-		x.transform.position.Set (x.transform.position.x, GameObject.FindGameObjectWithTag ("Player").transform.position.y - GameManager.s_Inst.soldier_position - 1, 0);
-
 
         NGUITools.SetActive(level_complete, false);
         NGUITools.SetActive(pause_menu, false);
         NGUITools.SetActive(failed_level, false);
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 
     public void MovePauseMenuIn()
     {

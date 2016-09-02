@@ -105,16 +105,22 @@ public class StageUnlocker : MonoBehaviour
         }
     }
 
+	public void update_level(int level_to_update,int stars)
+	{
+		if (m_mission1_star_count [level_to_update - 1] < stars) {
+			m_mission1_star_count [level_to_update - 1] = stars;
+			SaveLoadManager.m_save_info.m_mission_1_progress = UpdateLevels(m_mission1_star_count, m_mission1_stage_progress);
+			SaveLoadManager.s_inst.SaveFile(); 
+		}
+	}
+
     public void UpdateAllLevels()
     {
-  /*      SaveLoadManager.m_save_info.m_mission_1_progress = UpdateLevels(m_britain_star_count, m_britain_stage_progress);
-        SaveLoadManager.m_save_info.m_stalingrad_progress = UpdateLevels(m_stalingrad_star_count, m_stalingrad_stage_progress);
-        SaveLoadManager.m_save_info.m_kursk_progress = UpdateLevels(m_kursk_star_count, m_kursk_stage_progress);
-        //m_normandy_stage_progress = UpdateLevels(m_normandy_star_count, m_normandy_stage_progress);
-        SaveLoadManager.s_inst.SaveFile(); */
+		SaveLoadManager.m_save_info.m_mission_1_progress = UpdateLevels(m_mission1_star_count, m_mission1_stage_progress);
+        SaveLoadManager.s_inst.SaveFile(); 
     }
 
-    int UpdateLevels(int[] stars, int level)
+    private int UpdateLevels(int[] stars, int level)
     {
         for (int i = 0; i < 11; i++)
         {
@@ -123,35 +129,15 @@ public class StageUnlocker : MonoBehaviour
         return level;
     }
 
+	public void update_mission_star_labels() {
+		if (m_mission1_stars_label == null)
+			m_mission1_stars_label = GameObject.Find ("Mission_1").transform.GetChild (0).FindChild ("CurrentBattleStars").gameObject;
+		m_mission1_stars_label.GetComponent<UILabel>().text = m_total_stars_earned_mission1.ToString();
+	}
+
     void SaveLevelInfo()
     {
         SaveLoadManager.s_inst.SaveFile();
-    }
-
-    void OnLevelWasLoaded()
-    {
-    /*    if (m_times_loaded > 0)
-        {
-            if (Application.loadedLevelName == "MainMenu")
-            {
-                if (gameObject.GetComponent<GameManager>() == GameManager.s_Inst)
-                {
-                    m_britain_button = GameObject.Find("Britain");
-                    m_stalingrad_button = GameObject.Find("Stalingrad");
-                    m_kursk_button = GameObject.Find("Kursk");
-                    m_normandy_button = GameObject.Find("Normandy");
-                    if (m_britain_stage_progress != -1)
-                        Init(m_britain_stage_progress, m_stalingrad_stage_progress, m_kursk_stage_progress, m_normandy_stage_progress);
-                }
-            }
-        }
-        else
-        {
-            if (Application.loadedLevelName == "MainMenu")
-            {
-                m_times_loaded++;
-            }
-        } */
     }
 
     public void UnlockNextLevel(string levelname, int stage)
@@ -163,7 +149,7 @@ public class StageUnlocker : MonoBehaviour
             return;
         }
         //otherwise lets unlock the next stage
-        if (levelname.Contains("Britain"))
+        if (levelname.Contains("Mission_1"))
         {
             if (m_mission1_current_stage <= stage)
             { //Check to make sure we actually need to unlock the next stage.

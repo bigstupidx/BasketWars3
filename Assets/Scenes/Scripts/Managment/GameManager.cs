@@ -298,8 +298,6 @@ public class GameManager : MonoBehaviour
 
     public void UpdateLabels()
     {
-        if (GameObject.Find("AmmoCounter") != null)
-            GameObject.Find("AmmoCounter").GetComponent<UILabel>().text = m_bullets.ToString();
 		if (GameObject.Find ("Coinslabel") != null && SaveLoadManager.s_inst != null) 
 			GameObject.Find ("Coinslabel").GetComponent<UILabel> ().text = string.Format ("{0:n0}", SaveLoadManager.m_save_info.m_coins);
          if (GameObject.Find("SecondaryCoinLabel") != null && SaveLoadManager.s_inst != null)
@@ -639,7 +637,7 @@ public class GameManager : MonoBehaviour
 
     public void PassedLevel()
     {
-        if (m_current_game_state == GameState.Gameplay && m_current_stage != 11)
+        if (m_current_game_state == GameState.Gameplay)
         {
             AudioSource[] audios = GameObject.Find("RenderCamera").GetComponents<AudioSource>();
             foreach (AudioSource a in audios)
@@ -649,35 +647,6 @@ public class GameManager : MonoBehaviour
             GetComponent<AudioSource>().clip = m_passed_clip;
             GetComponent<AudioSource>().Play();
             UpdateLevelCompletePanel();
-        }
-        if (m_current_game_state == GameState.Gameplay && m_current_stage == 11)
-        {
-            if (Application.loadedLevelName.Contains("Britain"))
-            {
-                GameObject.Find("Boss_Grenader_0001").GetComponent<BossGrenader>().RemoveHealth();
-            }
-            else if (Application.loadedLevelName.Contains("Stalingrad"))
-            {
-                GameObject.Find("armored_car_base").GetComponent<BossArmedCar>().RemoveHealth();
-            }
-            else if (Application.loadedLevelName.Contains("Kursk"))
-            {
-                GameObject.Find("tank_boss_base").GetComponent<BossTank>().RemoveHealth();
-            }
-            //else if(Application.loadedLevelName.Contains("Normandy")){
-            //GameObject.Find("bunker_cannon_pivot").GetComponent<BossBunker>().RemoveHealth();
-            //}
-            if (m_boss_life <= 0)
-            {
-                if (Application.loadedLevelName.Contains("Britain"))
-                    m_beat_britain = true;
-                GameObject.Find("RenderCamera").GetComponent<AudioSource>().Stop();
-                GetComponent<AudioSource>().clip = m_passed_clip;
-                GetComponent<AudioSource>().Play();
-                UpdateLevelCompletePanel();
-                //GetComponent<StageUnlocker>().UnlockNextLevel(Application.loadedLevelName,m_current_stage);
-                SaveIAPItems();
-            }
         }
         else if (m_current_game_state == GameState.Tutorial)
         {
@@ -730,7 +699,7 @@ public class GameManager : MonoBehaviour
 			GameObject.Find ("DeathScreen").GetComponent<Animator>().Play("GroundExplosion");	
 			yield return new WaitForSeconds (8);
 
-			 GetComponent<AudioSource>().clip = m_failed_clip;
+			GetComponent<AudioSource>().clip = m_failed_clip;
             GetComponent<AudioSource>().Play();
             AudioSource[] audios = GameObject.Find("RenderCamera").GetComponents<AudioSource>();
             foreach (AudioSource a in audios)

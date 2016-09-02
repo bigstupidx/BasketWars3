@@ -49,7 +49,7 @@ public class BattleDetailPanel : MonoBehaviour
             m_texture_box.spriteName = m_image_name[stageLevel];
         if (m_texture_box2.enabled)
             m_texture_box2.spriteName = m_image_name[stageLevel];
-        int stars_num = 0; //GameManager.s_Inst.GetComponent<StarManager>().GetStars(level);
+		int stars_num = stage_unlocker.GetStars (level);
         for (int i = 0; i < 3; i++)
         {
             if (i < stars_num)
@@ -114,7 +114,6 @@ public class BattleDetailPanel : MonoBehaviour
             else
                 m_char_select.UnlockLaunchButton();
         }
-        char[] temp = m_level_string.ToCharArray();
         m_level_string = m_level_string.Substring(0, m_level_string.Length - 2) + ((m_level_num < 10) ? "0" : "") + m_level_num.ToString();
     }
 

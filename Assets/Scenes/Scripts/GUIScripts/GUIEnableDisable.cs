@@ -29,11 +29,7 @@ public class GUIEnableDisable : MonoBehaviour {
         NGUITools.SetActive(pause_menu, false);
         NGUITools.SetActive(failed_level, false);
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 
     public void MovePauseMenuIn()
     {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic; 
 using System.Runtime.Serialization.Formatters.Binary; 
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class SaveLoadManager : MonoBehaviour {
 
@@ -37,7 +38,6 @@ public class SaveLoadManager : MonoBehaviour {
 			s_inst = GameObject.Find("GameManagment").GetComponent<SaveLoadManager>();
 			m_save_file_path =	Application.persistentDataPath + "/Save1.bwf";
 			LoadSaveFile();
-			GameManager.s_Inst.UpdateLabels();
 		}
 	}
 	
@@ -72,6 +72,10 @@ public class SaveLoadManager : MonoBehaviour {
 			InitNewSaveData();
 			SaveFile();
 		}
+		update_game_fields ();
+    }
+
+	private void update_game_fields(){
 		GameManager.s_Inst.LoadRanksAndXP(m_save_info.m_rank_per_character,m_save_info.m_rank_xp_per_character);
 		PowerupEquipper.Init();
 		StageUnlocker stage_unlocker = GameManager.s_Inst.gameObject.GetComponent<StageUnlocker>();
@@ -79,7 +83,8 @@ public class SaveLoadManager : MonoBehaviour {
 		GameManager.s_Inst.m_britain_high_scores = m_save_info.m_britain_high_scores;
 		GameManager.s_Inst.m_stalingrad_high_scores = m_save_info.m_stalingrad_high_scores;
 		GameManager.s_Inst.m_kursk_high_scores = m_save_info.m_kursk_high_scores;
-    }
+		GameManager.s_Inst.UpdateLabels();
+	}
 
     public void SaveFile(){
 		BinaryFormatter bf = new BinaryFormatter();
@@ -88,11 +93,9 @@ public class SaveLoadManager : MonoBehaviour {
 		file.Close();
 	}
 
-	public void UnlockAll(){
-		m_save_info.m_mission_1_progress = 4194303;
-		m_save_info.m_stalingrad_progress = 4194303;
-		m_save_info.m_kursk_progress = 4194303;
-		SaveFile();
-		Application.LoadLevelAsync(Application.loadedLevelName);
+	public void Reset(){
+		InitNewSaveData ();
+		SaveFile ();
+		update_game_fields ();
 	}
 }

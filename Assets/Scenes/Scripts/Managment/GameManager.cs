@@ -593,7 +593,8 @@ public class GameManager : MonoBehaviour
         }
 
         //if there's a blinking mine
-        if(GameObject.Find("MineLight").GetComponent<SpriteRenderer>().sprite.name == "bullseye_lights_green")
+        
+        if(GameObject.Find("MineLight") != null && GameObject.Find("MineLight").GetComponent<SpriteRenderer>().sprite.name == "bullseye_lights_green")
         {
             //explodeZombies();
             dropMine();
@@ -631,16 +632,30 @@ public class GameManager : MonoBehaviour
         {
             zombieKill = 5;
         }
+
+        List<KeyValuePair<double, int>> zombieProximity = new List<KeyValuePair<double, int>>();
+
+        for (int j = 0; j < zombies.Count; j++)
+        {
+            double dist = Vector3.Distance(zombies[j].transform.position, m_soldier.transform.position);
+            zombieProximity.Add(new KeyValuePair<double, int>(dist, j));
+        }
+
+        zombieProximity.Sort((x, y) => x.Value.CompareTo(y.Value));
+
+        
+
         for (int i = 0; i < zombieKill; i++)
         {
-            if (zombies[i].GetComponent<ZombieController>().health == 1)
+            print(zombies[zombieProximity[i].Value]);
+            if (zombies[zombieProximity[i].Value].GetComponent<ZombieController>().health == 1)
             {
-                dead.Add(i);
+                dead.Add(zombieProximity[i].Value);
                 count++;
             }
             else
             {
-                zombies[i].GetComponent<ZombieController>().health -= 1;
+                zombies[zombieProximity[i].Value].GetComponent<ZombieController>().health -= 1;
             }
         }
         for (int j = dead.Count-1; j >= 0; j--)

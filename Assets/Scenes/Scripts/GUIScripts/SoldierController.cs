@@ -53,7 +53,7 @@ public class SoldierController: MonoBehaviour
 
 	public void ShootGun(){
         //Check Bullets
-        if (GameManager.s_Inst.m_bullets <= 0)
+        if (GameManager.s_Inst.m_bullets < 1)
             return;
         --GameManager.s_Inst.m_bullets;
         GameManager.s_Inst.UpdateAmmoLabel();

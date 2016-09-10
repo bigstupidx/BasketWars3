@@ -67,10 +67,10 @@ public class GameManager : MonoBehaviour
     public static int m_character_chosen = -1;
     //public int m_characters_unlocked = 3;
     [HideInInspector]
-    public int m_bullets;
-	public int max_m_bullets;
-    public int m_lives;
-    public int m_max_lives;
+    public float m_bullets;
+	public short max_m_bullets;
+    public float m_lives;
+    public short m_max_lives;
 	public int m_armor = 0;
     public static int m_baskets_made = 0;
     [HideInInspector]
@@ -308,7 +308,7 @@ public class GameManager : MonoBehaviour
     public void UpdateAmmoLabel()
     {
         if (GameObject.Find("Ammo Left") != null)
-            GameObject.Find("Ammo Left").GetComponent<UILabel>().text = m_bullets.ToString() + "/" + max_m_bullets.ToString();
+			GameObject.Find("Ammo Left").GetComponent<UILabel>().text = Mathf.Floor(m_bullets).ToString() + "/" + max_m_bullets.ToString();
         if (GameObject.Find("AmmoLeftBar") != null)
             GameObject.Find("AmmoLeftBar").GetComponent<UIProgressBar>().value = (float)m_bullets / (float)max_m_bullets;
     }
@@ -496,11 +496,10 @@ public class GameManager : MonoBehaviour
     {
         m_baskets_made++;
         explodeZombies();
-        add_bullet();
-        add_bullet();
+        add_bullet(3);
         
         //Level 3, moving hoop
-        if (Application.loadedLevel == 4 && Application.loadedLevel != null)
+    /*    if (Application.loadedLevel == 4 && Application.loadedLevel != null)
         {
             hoop = GameObject.FindGameObjectWithTag("Hoop");
 
@@ -515,7 +514,7 @@ public class GameManager : MonoBehaviour
         {
             //explodeZombies();
             dropMine();
-        }
+        }*/
     }
 
     public void dropMine()
@@ -528,18 +527,39 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void add_bullet()
+	public void add_bullet(float x)
     {
         if (m_bullets < max_m_bullets)
         {
-            m_bullets++;
-            UpdateAmmoLabel();
+			m_bullets += x;
+			if (m_bullets > max_m_bullets)
+				m_bullets = max_m_bullets;
+			UpdateAmmoLabel();
         }
     }
 
+	public bool dealDamageZombie(ZombieController zombie, short dmg) {
+		if (zombie.health - dmg <= 0) {
+			zombie.prep_DestoryZombie ();
+			return true;
+		} else {
+			zombie.health -= dmg;
+			return false;
+		}
+	}
+
     public void explodeZombies()
     {
-        int count = 0;
+		//5 dmg to all zombies in same plane as soldier
+		for(int i=zombies.Count-1; i >= 0; --i) {
+			ZombieController temp = zombies[i].GetComponent<ZombieController> ();
+			if (temp.get_pivot_row () + 1 == soldier_position) {
+				if (dealDamageZombie (temp, 5)) {
+					temp.GetComponent<Animator> ().Play ("Explode");
+				}
+			}
+		}
+       /* int count = 0;	
         int zombieKill = 0;
         if (zombies.Count < 6)
         {
@@ -564,7 +584,6 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < zombieKill; i++)
         {
-            print(zombies[zombieProximity[i].Value]);
             if (zombies[zombieProximity[i].Value].GetComponent<ZombieController>().health == 1)
             {
                 dead.Add(zombieProximity[i].Value);
@@ -574,7 +593,7 @@ public class GameManager : MonoBehaviour
             {
                 zombies[zombieProximity[i].Value].GetComponent<ZombieController>().health -= 1;
             }
-        }
+        } 
         for (int j = dead.Count-1; j >= 0; j--)
         {
                 zombies[dead[j]].GetComponent<Transform>().position += new Vector3(0.8f, 0.4f);
@@ -582,7 +601,7 @@ public class GameManager : MonoBehaviour
 				zombies[dead[j]].GetComponent<ZombieController> ().prep_DestoryZombie ();
         }
         
-        dead.Clear();
+        dead.Clear(); */
 
     }
 
@@ -1289,9 +1308,9 @@ public class GameManager : MonoBehaviour
 
 	public int CalcStars()
 	{
-		// 1 star for winning, 1 star for no life loss, 1 star for x baskets_made;
+		// 1 star for winning, 1 star for 90%+ life, 1 star for x baskets_made;
 		int stars = 1;
-		if (m_lives == m_max_lives)
+		if (m_lives >= m_max_lives*0.9f)
 			++stars;
 		if (m_baskets_made >= m_basket_star_score)
 			++stars;

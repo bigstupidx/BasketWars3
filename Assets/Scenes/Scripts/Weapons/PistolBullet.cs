@@ -9,17 +9,12 @@ public class PistolBullet : Weapon
 		{
 			ZombieController temp = c.GetComponent<ZombieController>();
 			if (temp.get_pivot_row () + 1 == pivot_row) {
-				if (temp.health == 1) {
-					c.GetComponent<Animator> ().Play ("Shot");
-					temp.prep_DestoryZombie ();
-
-				} else {
-					c.GetComponent<Animator> ().Play ("Health_Shot");
-					temp.zombie_speed -= 0.2f;
-					temp.health -= 1;
-				}
-				DestroyBullet ();
+				if (GameManager.s_Inst.dealDamageZombie (temp, 1)) {
+					temp.GetComponent<Animator> ().Play ("Shot");
+				} else
+					temp.GetComponent<Animator> ().Play ("ShotBack");
 			}
+			DestroyBullet();
 		} else 
 			DestroyBullet();
 	}

@@ -5,7 +5,8 @@ public class ZombieController : MonoBehaviour
 {
     public float zombie_speed;
     public bool at_endpoint = false;
-    public int health;
+    public short health;
+	private short damage;
 
 	private int pivot_row;
 
@@ -48,7 +49,7 @@ public class ZombieController : MonoBehaviour
         while (GameManager.s_Inst.m_lives > 0)
         {
             yield return new WaitForSeconds(1f);
-			GameManager.s_Inst.RemoveLife(health);
+			GameManager.s_Inst.RemoveLife(damage);
         }
     }
 
@@ -57,8 +58,17 @@ public class ZombieController : MonoBehaviour
 		pivot_row = x;
 	}
 
+	public void set_zombie_dmg(short x)
+	{
+		damage = x;
+	}
+
 	public int get_pivot_row()
 	{
 		return pivot_row;
+	}
+
+	public void zombie_shot_back() {
+		transform.position = new Vector2 (transform.position.x + 0.8f, transform.position.y);
 	}
 }

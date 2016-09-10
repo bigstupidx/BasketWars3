@@ -3,22 +3,8 @@ using System.Collections;
 
 public class BulletController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        StartCoroutine(BulletEverySecond());
-	}
-	
 	// Update is called once per frame
 	void Update () {
-	
+		GameManager.s_Inst.add_bullet (Time.deltaTime / 4);
 	}
-
-    public IEnumerator BulletEverySecond()
-    {
-        while (true)
-        {
-            GameManager.s_Inst.add_bullet();
-            yield return new WaitForSeconds(4f);
-        }
-    }
 }

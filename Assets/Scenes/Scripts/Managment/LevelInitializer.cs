@@ -7,23 +7,23 @@ public class LevelInitializer : MonoBehaviour
 	public float m_16_9_camera_size;
 	public Vector2 m_4_3_camera_position;
 	public float m_4_3_camera_size;
-	public Vector2 m_16_9_throw_force;
-	public Vector2 m_4_3_throw_force;
-	public Vector2 m_16_9_grenade_dir;
-	public Vector2 m_4_3_grenade_dir;
-	public Vector2 m_16_9_mortar_dir;
-	public Vector2 m_4_3_mortar_dir;
 
-	public int m_lives_given;
 	public int m_star_baskets_made;
-	public int m_ammo_given;
-    public int m_max_ammo;
 	public int m_3_star_coins;
 	public int m_2_star_coins;
 	public int m_1_star_coins;
 	public int m_3_star_xp;
 	public int m_2_star_xp;
 	public int m_1_star_xp;
+
+	public short waves; 
+	public short[] zombies_spawn_wave;
+	public float[] zombie_speeds;
+	public int[] zombie_speed_rates;
+
+	public short small_zombie_health;
+	public short small_zombie_dmg;
+
 	public int m_throw_line_dots = 11;
 
 	float m_4_by_3 = 0.666f;
@@ -35,28 +35,20 @@ public class LevelInitializer : MonoBehaviour
             Debug.Log("16/9 Ratio screen");
 			GameObject.Find("RenderCamera").transform.position = new Vector3(m_16_9_camera_position.x, m_16_9_camera_position.y,-10);
 			GameObject.Find("RenderCamera").GetComponent<Camera>().orthographicSize = m_16_9_camera_size;
-			GameManager.s_Inst.m_max_force_y = m_16_9_throw_force.y;
-			GameManager.s_Inst.m_max_force_x = m_16_9_throw_force.x;
-			GameManager.s_Inst.GrenadeThrowDirection = new Vector3(m_16_9_grenade_dir.x,m_16_9_grenade_dir.y,0);
-			GameManager.s_Inst.MortarShootDirection = new Vector3(m_16_9_mortar_dir.x,m_16_9_mortar_dir.y,0);
 		}
 		else if(ratio <= m_4_by_3 + 0.05f && ratio >= m_4_by_3 - 0.05f){
             Debug.Log("4/3 Ratio screen");
 			GameObject.Find("RenderCamera").transform.position = new Vector3(m_4_3_camera_position.x, m_4_3_camera_position.y,-10);
-			GameObject.Find("RenderCamera").GetComponent<Camera>().orthographicSize = m_4_3_camera_size;			
-			GameManager.s_Inst.m_max_force_y = m_4_3_throw_force.y;
-			GameManager.s_Inst.m_max_force_x = m_4_3_throw_force.x;
-			GameManager.s_Inst.GrenadeThrowDirection = new Vector3(m_4_3_grenade_dir.x,m_4_3_grenade_dir.y,0);
-			GameManager.s_Inst.MortarShootDirection = new Vector3(m_4_3_mortar_dir.x,m_4_3_mortar_dir.y,0);
+			GameObject.Find("RenderCamera").GetComponent<Camera>().orthographicSize = m_4_3_camera_size;
 		}
 		GameManager.s_Inst.m_basket_star_score = m_star_baskets_made;
 
-		GameManager.s_Inst.m_bullets = m_ammo_given;
-        GameManager.s_Inst.max_m_bullets = m_max_ammo;
+		GameManager.s_Inst.m_bullets = 0;
+        GameManager.s_Inst.max_m_bullets = 10;
         GameManager.s_Inst.UpdateAmmoLabel();
 
-        GameManager.s_Inst.m_lives = m_lives_given;
-        GameManager.s_Inst.m_max_lives = m_lives_given;
+        GameManager.s_Inst.m_lives = 100;
+        GameManager.s_Inst.m_max_lives = 100;
         GameManager.s_Inst.UpdateLivesLabel();
 
 		GameManager.s_Inst.m_3_star_coins = m_3_star_coins;
@@ -102,13 +94,9 @@ public class LevelInitializer : MonoBehaviour
 
 	[ContextMenu("Revert to Default Values")]
 	public void RevertToDefaultValues(){
-		m_lives_given = 5;
 		m_star_baskets_made = 5;
-		m_ammo_given = 5;
 		m_3_star_coins = 0;
 		m_2_star_coins = 0;
 		m_1_star_coins = 0;
-		m_4_3_throw_force = new Vector2(1600,1475);
-		m_16_9_throw_force = new Vector2(1600,1475);
 	}
 }

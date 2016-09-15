@@ -22,7 +22,7 @@ public class GUIEnableDisable : MonoBehaviour {
 					pivot_point.SetActive (false);
 				GameManager.s_Inst.soldier_position = 1;
 			}
-			x.transform.position.Set (x.transform.position.x, GameObject.FindGameObjectWithTag ("Player").transform.position.y - GameManager.s_Inst.soldier_position - 1, 0);
+			x.gameObject.transform.position = new Vector2 (x.gameObject.transform.position.x, GameObject.FindGameObjectWithTag ("Player").transform.position.y);
 		} else if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Boss) {
 			BossController boss = GameObject.FindGameObjectWithTag ("Boss").GetComponent<BossController> ();
 			float i = GameObject.FindGameObjectWithTag ("Player").transform.position.y -0.4f; 

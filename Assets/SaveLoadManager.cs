@@ -43,12 +43,12 @@ public class SaveLoadManager : MonoBehaviour {
 	
 	void InitNewSaveData(){
 		m_save_info.m_characters = 3;
-		m_save_info.m_coins = 10000; //0;
+		m_save_info.m_coins = 0; //0;
 		m_save_info.m_nuke_powerup = 2;
 		m_save_info.m_armor_powerup = 10;
 		m_save_info.m_focus_powerup = 0;
 		m_save_info.m_ace_powerup = 10;
-		m_save_info.m_mission_1_progress = 4194303; //0;
+		m_save_info.m_mission_1_progress = 0; //0;
 		m_save_info.m_stalingrad_progress = 0;
 		m_save_info.m_kursk_progress = 0;
 		m_save_info.m_times_played = 0;
@@ -62,7 +62,7 @@ public class SaveLoadManager : MonoBehaviour {
 	}
 
 	public void LoadSaveFile(){
-        if (File.Exists(m_save_file_path)){ //do we have a save?
+      /*  if (File.Exists(m_save_file_path)){ //do we have a save?
 			BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(m_save_file_path,FileMode.Open);
 			m_save_info = (SaveInfo)bf.Deserialize(file);
@@ -71,7 +71,7 @@ public class SaveLoadManager : MonoBehaviour {
 		}else{ //create a new file */
 			InitNewSaveData();
 			SaveFile();
-		}
+		//}
 		update_game_fields ();
     }
 

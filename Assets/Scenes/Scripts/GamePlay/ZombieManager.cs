@@ -8,7 +8,7 @@ public class ZombieManager : MonoBehaviour {
     public GameObject large_zombie;
 
     private GameManager game_manager;
-	private LevelInitializer level_init;
+	public LevelInitializer level_init;
 
     private short wave_number;
 	private short total_waves;
@@ -29,7 +29,6 @@ public class ZombieManager : MonoBehaviour {
     void Start()
     {
         game_manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-		level_init = GameObject.FindGameObjectWithTag ("LevelInit").GetComponent<LevelInitializer> ();
 		total_waves = level_init.waves;
 		small_zombie_dmg = level_init.small_zombie_dmg;
 		small_zombie_health = level_init.small_zombie_health;
@@ -79,6 +78,15 @@ public class ZombieManager : MonoBehaviour {
 
 		if (level_init.zombie_speeds.Length == 1)
 			temp.zombie_speed = level_init.zombie_speeds [0];
+		else {
+			int randomSpeedNum = UnityEngine.Random.Range(0,100);
+			for (int i = 0; i < level_init.zombie_speeds.Length; ++i) {
+				if (randomSpeedNum < level_init.zombie_speed_rates [i]) {
+					temp.zombie_speed = level_init.zombie_speeds [i];
+					return;
+				}
+			}
+		}
     }
 
     private int CompareNames(GameObject a, GameObject b)
@@ -96,11 +104,12 @@ public class ZombieManager : MonoBehaviour {
 			for (current_zombies = 0; current_zombies < level_init.zombies_spawn_wave[wave_number-1]; current_zombies++)
             {
                 Create_zombie(small_zombie);
-                yield return new WaitForSeconds(zombie_timer);
+				yield return new WaitForSeconds(zombie_timer + UnityEngine.Random.Range(0,10)*.08f);
             }
-			while (!game_manager.noZombie())
-				yield return new WaitForSeconds(0.4f);
-            yield return new WaitForSeconds(3.4f);
+			while (!game_manager.noZombie ())
+				yield return new WaitForFixedUpdate ();
+			if (wave_number != total_waves)
+				yield return new WaitForSeconds(3.4f);
             current_zombies = 0;
         }
         game_manager.FinishedLevel();

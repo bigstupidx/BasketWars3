@@ -41,7 +41,8 @@ public class LevelInitializer : MonoBehaviour
 			GameObject.Find("RenderCamera").transform.position = new Vector3(m_4_3_camera_position.x, m_4_3_camera_position.y,-10);
 			GameObject.Find("RenderCamera").GetComponent<Camera>().orthographicSize = m_4_3_camera_size;
 		}
-		GameManager.s_Inst.m_basket_star_score = m_star_baskets_made;
+
+		GameManager.s_Inst.set_BasketLabel (m_star_baskets_made);
 
 		GameManager.s_Inst.m_bullets = 0;
         GameManager.s_Inst.max_m_bullets = 10;

@@ -215,6 +215,7 @@ public class GameManager : MonoBehaviour
 	private GameObject hoop;
 	private Transform hoopTrans;
     private GUIEnableDisable GUIMANAGER;
+	private UILabel BasketsLabel;
     public int soldier_position = 2;
 	public SoldierController.WeaponType Solider_weapon = SoldierController.WeaponType.Pistol;
  	private Vector3 pos;
@@ -497,6 +498,7 @@ public class GameManager : MonoBehaviour
         m_baskets_made++;
         explodeZombies();
         add_bullet(3);
+		BasketsLabel.text = m_baskets_made.ToString () + "/" + m_basket_star_score.ToString();
         
         //Level 3, moving hoop
     /*    if (Application.loadedLevel == 4 && Application.loadedLevel != null)
@@ -751,6 +753,12 @@ public class GameManager : MonoBehaviour
 		foreach (GameObject zombie in zombies) {
 			zombie.GetComponent<ZombieController> ().zombie_move_again();
 		}
+	}
+
+	public void set_BasketLabel (int x) {
+		m_basket_star_score = x;
+		BasketsLabel = GameObject.Find ("#Baskets Label").GetComponent<UILabel> ();
+		BasketsLabel.text = m_baskets_made.ToString () + "/" + m_basket_star_score.ToString();
 	}
 
     #region Touch Controls for shooting the ball.
@@ -1284,8 +1292,7 @@ public class GameManager : MonoBehaviour
             xp_bar.value = m_character_xp[m_character_chosen] / m_character_xp_max[m_current_rank[m_character_chosen]];
 
 
-			GetComponent<StageUnlocker> ().update_level (
-				Convert.ToInt32 (Regex.Match (m_level_name_to_load, @"\d+").Value), stars); 
+			GetComponent<StageUnlocker> ().update_level (Convert.ToInt32(m_level_name_to_load.Substring(m_level_name_to_load.Length - 2)), stars); 
 
             //Update left half of the level Complete panel
             UILabel high_score = level_complete.transform.FindChild("High Score").GetChild(0).GetComponent<UILabel>();

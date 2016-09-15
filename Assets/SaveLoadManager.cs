@@ -42,13 +42,13 @@ public class SaveLoadManager : MonoBehaviour {
 	}
 	
 	void InitNewSaveData(){
-		m_save_info.m_characters = 3;
+		m_save_info.m_characters = 1;
 		m_save_info.m_coins = 0; //0;
 		m_save_info.m_nuke_powerup = 2;
 		m_save_info.m_armor_powerup = 10;
 		m_save_info.m_focus_powerup = 0;
 		m_save_info.m_ace_powerup = 10;
-		m_save_info.m_mission_1_progress = 0; //0;
+		m_save_info.m_mission_1_progress = 85; //0;
 		m_save_info.m_stalingrad_progress = 0;
 		m_save_info.m_kursk_progress = 0;
 		m_save_info.m_times_played = 0;

@@ -8,6 +8,8 @@ public class ZombieController : MonoBehaviour
     public short health;
 	private short damage;
 
+	private IEnumerator co_routine_base;
+
 	private int pivot_row;
 
     // Use this for initialization
@@ -25,7 +27,8 @@ public class ZombieController : MonoBehaviour
 	{
 		GetComponent<PolygonCollider2D>().enabled = false;
 		GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
-		StopCoroutine (OnZombieReachBase ());
+		if (co_routine_base != null)
+			StopCoroutine (co_routine_base);
 		GameManager.s_Inst.removeZombie(gameObject);
 	}
 
@@ -34,13 +37,18 @@ public class ZombieController : MonoBehaviour
         if (!at_endpoint && c.gameObject.tag == "Finish" && c.transform.position.y - transform.position.y < 0.09)
         {
             at_endpoint = true;
-            StartCoroutine(OnZombieReachBase());
+			co_routine_base = OnZombieReachBase ();
+			StartCoroutine(co_routine_base);
         }
     }
 
 	public void zombie_move_again()
 	{
-		GetComponent<Rigidbody2D>().velocity = new Vector2(-0.1f*zombie_speed, 0);
+		if (at_endpoint) {
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (-0.1f * zombie_speed, 0);
+			at_endpoint = false;
+			StopCoroutine (co_routine_base);
+		}
 	}
 
     public IEnumerator OnZombieReachBase()
@@ -69,6 +77,7 @@ public class ZombieController : MonoBehaviour
 	}
 
 	public void zombie_shot_back() {
-		transform.position = new Vector2 (transform.position.x + 0.8f, transform.position.y);
+		transform.position = new Vector2 (transform.position.x + 2, transform.position.y);
+		zombie_move_again ();
 	}
 }

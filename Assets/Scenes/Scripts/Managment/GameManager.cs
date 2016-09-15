@@ -220,6 +220,7 @@ public class GameManager : MonoBehaviour
 	public SoldierController.WeaponType Solider_weapon = SoldierController.WeaponType.Pistol;
  	private Vector3 pos;
     public GameObject mine;
+	private float failed_time = 0;
     // Use this for initialization
     void Awake()
     {
@@ -344,7 +345,7 @@ public class GameManager : MonoBehaviour
 
         if (m_lives <= 0)
         {
-			StartCoroutine(FailedLevel());
+			FailedLevel ();
         }
         else
         {
@@ -377,7 +378,7 @@ public class GameManager : MonoBehaviour
 					next = next.Substring(0,next.Length -1) + (char)(next[next.Length - 1] + 1);
 				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().MoveMission1In ();
 				GameObject.Find("Anchor - C").GetComponent<MainMenuEnableDisable>().MoveBattleDetailPanelIn();
-				GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().disableMapButtons ();
+				//GameObject.Find ("Anchor - C").GetComponent<LevelSelect> ().disableMapButtons ();
 				GameObject.Find("BattleStartButton").GetComponent<BattleStartButton>().SetLevelToLoad(next);
 				m_go_to_map = false;
 			}
@@ -386,6 +387,7 @@ public class GameManager : MonoBehaviour
 		else if (m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Boss)
         {
             m_baskets_made = 0;
+			failed_time = 0;
             m_first_loss = true;
             m_balls = GameObject.FindGameObjectsWithTag("Ball");
             GUIMANAGER = GameObject.Find("GUIRoot (2D)").GetComponent<GUIEnableDisable>();
@@ -394,7 +396,6 @@ public class GameManager : MonoBehaviour
             string stage_num = Regex.Match(Application.loadedLevelName, @"\d+").Value;
             if (stage_num.Length > 0)
             {
-                //StageButton stage_button = GameObject.Find("NextButton").GetComponent<StageButton>();
                 m_current_stage = int.Parse(stage_num);
             }
             m_level_complete = false;
@@ -403,10 +404,9 @@ public class GameManager : MonoBehaviour
                 m_soldier = GameObject.FindGameObjectWithTag("Player").GetComponent<SoldierController>();
             if (GameObject.Find("TapPoint") != null)
                 m_tap_point = GameObject.Find("TapPoint").transform;
-            if (gameObject.GetComponent<DrawTrajectory>().enabled == false)
-            {
-                gameObject.GetComponent<DrawTrajectory>().enabled = true;
-            }
+            gameObject.GetComponent<DrawTrajectory>().enabled = true;
+			gameObject.GetComponent<DrawTrajectory>().ball = GameObject.Find ("BallSpawnPoint");
+			DrawTrajectory.drawPath = false;
             m_menus.Clear();
             GameObject[] menus = GameObject.FindGameObjectsWithTag("MenuPanels");
             foreach (GameObject g in menus)
@@ -486,6 +486,20 @@ public class GameManager : MonoBehaviour
 		if (!m_failed_level && (m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Boss)
            && SceneManager.GetActiveScene().name != "LevelLoader")
             CheckMouse();
+		else if (m_failed_level && (m_current_game_state == GameState.Gameplay || m_current_game_state == GameState.Boss)
+		    && SceneManager.GetActiveScene ().name != "LevelLoader") {
+			failed_time += Time.deltaTime;
+			if (failed_time > 7f) {
+				GetComponent<AudioSource> ().clip = m_failed_clip;
+				GetComponent<AudioSource> ().Play ();
+				AudioSource[] audios = GameObject.Find ("RenderCamera").GetComponents<AudioSource> ();
+				foreach (AudioSource a in audios) {
+					a.Stop ();
+				}
+				Time.timeScale = 0;
+				GUIMANAGER.MoveLevelFailedIn ();
+			}
+		}
     }
 
     public void FinishedLevel()
@@ -683,6 +697,7 @@ public class GameManager : MonoBehaviour
             }
             GetComponent<AudioSource>().clip = m_passed_clip;
             GetComponent<AudioSource>().Play();
+			DrawTrajectory.drawPath = false;
             UpdateLevelCompletePanel();
         }
         else if (m_current_game_state == GameState.Tutorial)
@@ -728,23 +743,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-	public IEnumerator FailedLevel()
+	public void FailedLevel()
     {
         if (!m_level_complete)
         {
 			m_failed_level = true;
 			GameObject.Find ("DeathScreen").GetComponent<Animator>().Play("GroundExplosion");	
-			yield return new WaitForSeconds (8);
-
-			GetComponent<AudioSource>().clip = m_failed_clip;
-            GetComponent<AudioSource>().Play();
-            AudioSource[] audios = GameObject.Find("RenderCamera").GetComponents<AudioSource>();
-            foreach (AudioSource a in audios)
-            {
-                a.Stop();
-            }
-            Time.timeScale = 0;
-            GUIMANAGER.MoveLevelFailedIn();
         }
     }
 
@@ -841,6 +845,8 @@ public class GameManager : MonoBehaviour
         int i = 0;
         foreach (GameObject b in m_balls)
         {
+			if (b == null)
+				return;
             if (!b.GetComponent<BallController>().m_is_in_air)
             {
                 freeball = true;

@@ -18,11 +18,16 @@ public class GUIEnableDisable : MonoBehaviour {
 			//set Pivot Points for normal mode
 			ZombieManager x = GameObject.Find ("ZombieManager").GetComponent<ZombieManager> ();
 			if (x.pivot_points == 1) {
-				foreach (GameObject pivot_point in pivot_points)
-					pivot_point.SetActive (false);
+				foreach (GameObject p in pivot_points)
+					p.SetActive (false);
 				GameManager.s_Inst.soldier_position = 1;
+				x.gameObject.transform.position = new Vector2 (x.gameObject.transform.position.x, GameObject.FindGameObjectWithTag ("Player").transform.position.y);
+			} else if (x.pivot_points == 2) {
+				pivot_points [1].SetActive (false);
+				GameManager.s_Inst.soldier_position = 2;
+				x.gameObject.transform.position = new Vector2 (x.gameObject.transform.position.x, GameObject.FindGameObjectWithTag ("Player").transform.position.y -1);
 			}
-			x.gameObject.transform.position = new Vector2 (x.gameObject.transform.position.x, GameObject.FindGameObjectWithTag ("Player").transform.position.y);
+			
 		} else if (GameManager.s_Inst.m_current_game_state == GameManager.GameState.Boss) {
 			BossController boss = GameObject.FindGameObjectWithTag ("Boss").GetComponent<BossController> ();
 			float i = GameObject.FindGameObjectWithTag ("Player").transform.position.y -0.4f; 

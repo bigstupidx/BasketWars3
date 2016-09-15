@@ -8,6 +8,7 @@ public class BattleDetailPanel : MonoBehaviour
     public UISprite m_texture_box;
     public UISprite m_texture_box2;
     public GameObject stars;
+	public BattleStartButton start_button;
     public UILabel m_stage_name;
     public string m_boss_name;
     public int m_level_num;
@@ -66,6 +67,7 @@ public class BattleDetailPanel : MonoBehaviour
             m_level_num = 1;
         SetLabels();
         SetPanelContents(m_level_string);
+		start_button.SetLevelName (m_level_string); 
     }
 
     public void LastLevel()
@@ -75,6 +77,7 @@ public class BattleDetailPanel : MonoBehaviour
             m_level_num = 11;
         SetLabels();
         SetPanelContents(m_level_string);
+		start_button.SetLevelName (m_level_string); 
     }
 
     public void SetLabels()

@@ -24,6 +24,8 @@ public class ZombieManager : MonoBehaviour {
     public int pivot_points;
     public float zombie_timer;
 
+	private int current_pivot_position = 0;
+
 
     // Use this for initialization
     void Start()
@@ -49,14 +51,12 @@ public class ZombieManager : MonoBehaviour {
 
     private void Create_zombie(GameObject type )
     {
-        for (int i = 0; i < pivot_points; i++)
-        {
-            GameObject go;
-            go = (GameObject)Instantiate(type, transform.position + new Vector3(i*0.4f,i), Quaternion.identity);
-            game_manager.addZombie(go);
-            sorting_order_zombie(go, i);
-			set_zombie(go);
-        }
+		current_pivot_position = (current_pivot_position + 1) % pivot_points;
+    	GameObject go;
+		go = (GameObject)Instantiate(type, transform.position + new Vector3(current_pivot_position*0.4f,current_pivot_position), Quaternion.identity);
+      	game_manager.addZombie(go);
+		sorting_order_zombie(go, current_pivot_position);
+		set_zombie(go);
     }
 
     private void sorting_order_zombie(GameObject Zombie, int pivot_position)

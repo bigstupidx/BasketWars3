@@ -107,7 +107,6 @@ public class StageUnlocker : MonoBehaviour
 
 	public void update_level(int level_to_update,int stars)
 	{
-		Debug.Log (level_to_update);
 		if (m_mission1_star_count [level_to_update - 1] < stars) {
 			m_total_stars_earned_mission1 += stars - m_mission1_star_count [level_to_update - 1];
 			if (m_mission1_star_count[level_to_update - 1] == 0)

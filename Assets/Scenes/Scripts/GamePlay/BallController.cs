@@ -204,7 +204,9 @@ public class BallController : MonoBehaviour
 
     public void MoveBallToPivot()
     {
-		if (!m_is_in_flight)
-            transform.position = m_ball_spawn_point.position;
+		if (!m_is_in_flight) {
+			transform.position = m_ball_spawn_point.position;
+			m_start_pos = m_ball_spawn_point.position;
+		}
     }
 }

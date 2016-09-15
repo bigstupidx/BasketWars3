@@ -27,13 +27,16 @@ public class DrawTrajectory : MonoBehaviour {
 
 	float vx;
 	float vy;
+
+	public GameObject ball;
+
 	// Use this for initialization
 	void Start () {
 		_inst = this;
 		drawPath = false;
 		vx = m_shoot_direction.x;
 		vy = m_shoot_direction.y;
-		GameObject ball = GameObject.Find("BallSpawnPoint");
+		ball = GameObject.Find("BallSpawnPoint");
 		if(ball != null)
 			ballPosition = ball.transform.position;
 		
@@ -66,14 +69,12 @@ public class DrawTrajectory : MonoBehaviour {
 		for (int i = 0 ; i < pathPoint.Length ; i++) 
 		{
 			pathPoint[i].position = new Vector3(-100,-100,100);
-			//previousPathPoint[i].position = new Vector3(-100,-100,100);			                      
 		}
 	}
 
 	// Update is called once per frame
 	void Update () {		
 		if (drawPath) {
-			GameObject ball = GameObject.Find("BallSpawnPoint");
 		    ballPosition = ball.transform.position;
 			transform.position = new Vector3(transform.position.x, transform.position.y, -1.0f);
 			

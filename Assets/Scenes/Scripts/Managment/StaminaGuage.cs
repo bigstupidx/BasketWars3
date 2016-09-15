@@ -241,9 +241,12 @@ public class StaminaGuage : MonoBehaviour
 					m_timer_sprite.color = new Color(1,1,1,0);
 				}
 			}
-    
-			m_stamaina_slider = GameObject.Find("StaminaBar").GetComponent<UIProgressBar>();
-			m_stamina_counter = m_stamaina_slider.transform.FindChild("Label").GetComponent<UILabel>();
+    		
+			GameObject temp1 = GameObject.Find ("StaminaBar");
+			if (temp1 != null) {
+				m_stamaina_slider = temp1.GetComponent<UIProgressBar> ();
+				m_stamina_counter = m_stamaina_slider.transform.FindChild("Label").GetComponent<UILabel>();
+			}
 			if(m_stamina_counter != null && m_timer_sprite != null){
 				m_stamina_counter.text = "";
 				m_timer_sprite.color = new Color(1,1,1,0);
